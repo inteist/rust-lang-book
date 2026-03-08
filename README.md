@@ -1,6 +1,6 @@
 # The Rust Programming Language
 
-![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
+![Build Status](https://github.com/inteist/rust-lang-book/workflows/CI/badge.svg)
 
 This repository contains the source of "The Rust Programming Language" book.
 
@@ -17,9 +17,9 @@ releases are updated less frequently.
 [beta]: https://doc.rust-lang.org/beta/book/
 [nightly]: https://doc.rust-lang.org/nightly/book/
 
-See the [releases] to download just the code of all the code listings that appear in the book.
+See the [releases] to download the generated epub
 
-[releases]: https://github.com/rust-lang/book/releases
+[releases]: https://github.com/inteist/rust-lang-book/releases
 
 ## Requirements
 
@@ -29,7 +29,7 @@ rust-lang/rust uses in [this file][rust-mdbook]. To get it:
 [mdBook]: https://github.com/rust-lang/mdBook
 [rust-mdbook]: https://github.com/rust-lang/rust/blob/HEAD/src/tools/rustbook/Cargo.toml
 
-```bash
+```zsh
 $ cargo install mdbook --locked --version <version_num>
 ```
 
@@ -37,7 +37,7 @@ $ cargo install mdbook --locked --version <version_num>
 
 To build the book, type:
 
-```bash
+```zsh
 $ mdbook build
 ```
 
@@ -46,7 +46,7 @@ your web browser.
 
 _Firefox:_
 
-```bash
+```zsh
 $ firefox book/index.html                       # Linux
 $ open -a "Firefox" book/index.html             # OS X
 $ Start-Process "firefox.exe" .\book\index.html # Windows (PowerShell)
@@ -55,7 +55,7 @@ $ start firefox.exe .\book\index.html           # Windows (Cmd)
 
 _Chrome:_
 
-```bash
+```zsh
 $ google-chrome book/index.html                 # Linux
 $ open -a "Google Chrome" book/index.html       # OS X
 $ Start-Process "chrome.exe" .\book\index.html  # Windows (PowerShell)
@@ -64,10 +64,41 @@ $ start chrome.exe .\book\index.html            # Windows (Cmd)
 
 To run the tests:
 
-```bash
+```zsh
 $ cd packages/trpl
 $ mdbook test --library-path packages/trpl/target/debug/deps
 ```
+
+## EPUB generation
+
+To build an EPUB from the current book sources, it is best to use an **all in one** shell script run:
+
+```zsh
+$ ./tools/generate-epub.sh
+```
+
+This script will:
+
+1. Build mdBook HTML output into `tmp/epub-html`
+2. Build the `mdbook_epub` generator
+3. Generate `dist/the-rust-programming-language.epub`
+4. Validate ZIP integrity of the generated EPUB
+
+If you want to run the generator directly (without the wrapper script), use:
+
+```zsh
+$ cargo run -p rust-book-tools --bin mdbook_epub -- \
+	--book-dir tmp/epub-html \
+	--summary src/SUMMARY.md \
+	--book-toml book.toml \
+	--output dist/the-rust-programming-language.epub \
+	--validate
+```
+
+### TODOs
+- [ ] Make sure the name and metadata have correct information 
+- [ ] Add generated EPUB to releases (dependent on the above)
+
 
 ## Contributing
 
