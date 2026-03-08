@@ -95,6 +95,11 @@ $ ./tools/generate-epub.sh --codeblock-font-size 0.8
 This is useful for improving readability on smaller screens, such as e-readers, where the default font size may be too large for code blocks. Adjust the value as needed to find the optimal font size for your device. This is **the beauty of open source **- you can customize things to match exactly what you need!
 
 
+Comparison of default generation vs. with `--codeblock-font-size 0.7` on a "typical" sized e-reader screen:
+
+![Code block font size demonstration](misc/codeblock-font-size-demonstration-0.7.png)
+
+
 
 If you want to run the generator directly (without the wrapper script), use:
 
