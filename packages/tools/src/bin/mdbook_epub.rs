@@ -799,6 +799,11 @@ fn default_epub_css(codeblock_font_size: f64) -> String {
     column-width: auto !important;
 }}
 
+:root {{
+    --rust-title-color: rgb(224, 51, 33);
+    --rust-accent-color: rgb(246, 67, 0);
+}}
+
 article.chapter {{
     margin: 0;
     max-width: none;
@@ -809,12 +814,24 @@ article.chapter {{
 }}
 
 h1, h2, h3, h4, h5, h6 {{
-    color: rgb(246, 67, 0);
+    color: var(--rust-title-color);
 }}
 
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {{
     color: inherit;
     text-decoration: none;
+}}
+
+a {{
+    color: var(--rust-accent-color);
+}}
+
+ul, ol {{
+    color: var(--rust-accent-color);
+}}
+
+li {{
+    color: inherit;
 }}
 
 pre,
@@ -853,6 +870,27 @@ svg {{
   max-width: 100%;
   height: auto;
     break-inside: avoid;
+}}
+
+blockquote {{
+    border-inline-start: 0.25em solid var(--rust-accent-color);
+    margin: 1.5em 0;
+    padding-inline-start: 1em;
+    color: #555;
+}}
+
+hr {{
+    border: none;
+    border-block-start: 1px solid var(--rust-accent-color);
+    margin: 2em 0;
+}}
+
+strong, b {{
+    color: var(--rust-accent-color);
+}}
+
+em, i {{
+    color: inherit;
 }}
 "#,
         codeblock_font_size
