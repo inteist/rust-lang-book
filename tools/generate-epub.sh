@@ -29,7 +29,8 @@ echo "[3/4] Generating EPUB"
         --summary "${ROOT_DIR}/src/SUMMARY.md" \
         --book-toml "${ROOT_DIR}/book.toml" \
         --output "${EPUB_PATH}" \
-        --validate
+        --validate \
+        "$@"
 )
 
 echo "[4/4] Verifying ZIP integrity"

@@ -25,7 +25,7 @@ use crate::svg::render_svg_to_png;
 const USAGE: &str = "
 Build an EPUB from mdBook HTML output.
 Usage:
-  mdbook_epub --book-dir <dir> --summary <summary> --book-toml <book_toml> --output <epub_path> [--validate]
+    mdbook_epub --book-dir <dir> --summary <summary> --book-toml <book_toml> --output <epub_path> [--validate] [--codeblock-font-size <float>]
   mdbook_epub --validate-only --output <epub_path>
   mdbook_epub (-h | --help)
 Options:
@@ -33,10 +33,14 @@ Options:
   --summary <summary>       Path to SUMMARY.md used to drive chapter order.
   --book-toml <book_toml>   Path to book.toml for title/authors metadata.
   --output <epub_path>      Target EPUB path.
+    --codeblock-font-size <float>
+                                                        Relative code-block font size (em) compared to body text.
   --validate                Validate generated EPUB after writing.
   --validate-only           Validate an existing EPUB and exit.
   -h --help                 Show this screen.
 ";
+
+const DEFAULT_CODEBLOCK_FONT_SIZE: f64 = 1.0;
 
 #[derive(Debug)]
 struct Args {
@@ -44,6 +48,7 @@ struct Args {
     summary: Option<String>,
     book_toml: Option<String>,
     output: Option<String>,
+    codeblock_font_size: f64,
     validate: bool,
     validate_only: bool,
 }
@@ -122,7 +127,14 @@ fn main() -> Result<(), String> {
         })?;
     }
 
-    write_epub(&output, &metadata, &chapters, &asset_items, &asset_data)?;
+    write_epub(
+        &output,
+        &metadata,
+        &chapters,
+        &asset_items,
+        &asset_data,
+        args.codeblock_font_size,
+    )?;
 
     if args.validate {
         validate_epub(&output)?;
@@ -139,16 +151,21 @@ fn main() -> Result<(), String> {
 }
 
 fn parse_args() -> Result<Args, String> {
+    let argv: Vec<String> = env::args().skip(1).collect();
+    parse_args_from(&argv)
+}
+
+fn parse_args_from(argv: &[String]) -> Result<Args, String> {
     let mut args = Args {
         book_dir: None,
         summary: None,
         book_toml: None,
         output: None,
+        codeblock_font_size: DEFAULT_CODEBLOCK_FONT_SIZE,
         validate: false,
         validate_only: false,
     };
 
-    let argv: Vec<String> = env::args().skip(1).collect();
     if argv.is_empty() {
         return Err(USAGE.to_string());
     }
@@ -193,6 +210,28 @@ fn parse_args() -> Result<Args, String> {
             }
             "--validate-only" => {
                 args.validate_only = true;
+            }
+            "--codeblock-font-size" => {
+                i += 1;
+                let Some(value) = argv.get(i) else {
+                    return Err(
+                        "--codeblock-font-size requires a value".to_string()
+                    );
+                };
+
+                let parsed = value.parse::<f64>().map_err(|_| {
+                    format!(
+                        "Invalid --codeblock-font-size value: {value}. Expected a floating-point number"
+                    )
+                })?;
+
+                if !parsed.is_finite() || parsed <= 0.0 {
+                    return Err(format!(
+                        "Invalid --codeblock-font-size value: {value}. Expected a finite value greater than 0"
+                    ));
+                }
+
+                args.codeblock_font_size = parsed;
             }
             other => {
                 return Err(format!("Unknown argument: {other}\n\n{USAGE}"));
@@ -420,6 +459,7 @@ fn write_epub(
     chapters: &[Chapter],
     assets: &[ManifestItem],
     asset_data: &BTreeMap<String, Vec<u8>>,
+    codeblock_font_size: f64,
 ) -> Result<(), String> {
     let file = fs::File::create(output)
         .map_err(|e| format!("Failed to create {}: {e}", output.display()))?;
@@ -441,7 +481,7 @@ fn write_epub(
         .map_err(|e| format!("Failed writing container.xml: {e}"))?;
 
     let css_path = "styles/epub.css";
-    let css = default_epub_css();
+    let css = default_epub_css(codeblock_font_size);
     zip.start_file(format!("OEBPS/{css_path}"), deflated)
         .map_err(|e| format!("Failed to write css entry: {e}"))?;
     zip.write_all(css.as_bytes())
@@ -748,62 +788,66 @@ fn chapter_xhtml(
     )
 }
 
-fn default_epub_css() -> &'static str {
-    r#"body {
+fn default_epub_css(codeblock_font_size: f64) -> String {
+    format!(
+        r#"body {{
     margin: 0;
     padding: 1rem;
     font-family: Georgia, "Times New Roman", serif;
     line-height: 1.55;
     column-count: 1 !important;
     column-width: auto !important;
-}
+}}
 
-article.chapter {
+article.chapter {{
     margin: 0;
     max-width: none;
     width: auto;
     padding: 0;
     column-count: 1 !important;
     column-width: auto !important;
-}
+}}
 
 pre,
-code {
+code {{
   font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
-}
+    font-size: {:.4}em;
+}}
 
-pre {
+pre {{
     white-space: pre;
     overflow-x: auto;
   padding: 0.75rem;
     border: 1px solid #d7d7d7;
   border-radius: 0.25rem;
     background: #f8f8f8;
-}
+}}
 
-pre code {
+pre code {{
     display: block;
-}
+}}
 
-.header {
+.header {{
     text-decoration: none;
-}
+}}
 
-.boring {
+.boring {{
     opacity: 0.65;
-}
+}}
 
-.table-wrapper {
+.table-wrapper {{
     overflow-x: auto;
-}
+}}
 
 img,
-svg {
+svg {{
   max-width: 100%;
   height: auto;
     break-inside: avoid;
-}
-"#
+}}
+"#,
+        codeblock_font_size
+    )
 }
 
 fn preferred_highlight_theme() -> Result<Theme, String> {
@@ -1085,8 +1129,9 @@ fn xml_escape(input: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::{
-        build_chapter_path_map, extract_main_content, highlight_code_blocks,
-        language_from_code_attrs, media_type_for_path, parse_summary,
+        DEFAULT_CODEBLOCK_FONT_SIZE, build_chapter_path_map, default_epub_css,
+        extract_main_content, highlight_code_blocks, language_from_code_attrs,
+        media_type_for_path, parse_args_from, parse_summary,
         preferred_highlight_theme, render_svg_to_png, rewrite_content_urls,
         rewrite_href_url, rewrite_src_url,
     };
@@ -1248,12 +1293,71 @@ mod tests {
         let input = r#"<p><a href="ch04-01-what-is-ownership.html#the-string-type">x</a><img src="img/trpl04-02.svg"/></p>"#;
         let output = rewrite_content_urls(input, &map);
 
-        assert!(
-            output.contains(
-                "href=\"016_ch04_01_what_is_ownership_html.xhtml#the-string-type\""
-            )
-        );
+        assert!(output.contains(
+            "href=\"016_ch04_01_what_is_ownership_html.xhtml#the-string-type\""
+        ));
         assert!(output.contains("src=\"../book/img/trpl04-02.png\""));
+    }
+
+    #[test]
+    fn default_codeblock_font_size_is_used_when_unspecified() {
+        let argv = vec![
+            "--book-dir".to_string(),
+            "tmp/book".to_string(),
+            "--summary".to_string(),
+            "src/SUMMARY.md".to_string(),
+            "--book-toml".to_string(),
+            "book.toml".to_string(),
+            "--output".to_string(),
+            "dist/book.epub".to_string(),
+        ];
+
+        let args = parse_args_from(&argv).expect("args parse");
+        assert_eq!(args.codeblock_font_size, DEFAULT_CODEBLOCK_FONT_SIZE);
+    }
+
+    #[test]
+    fn parses_codeblock_font_size_argument() {
+        let argv = vec![
+            "--book-dir".to_string(),
+            "tmp/book".to_string(),
+            "--summary".to_string(),
+            "src/SUMMARY.md".to_string(),
+            "--book-toml".to_string(),
+            "book.toml".to_string(),
+            "--output".to_string(),
+            "dist/book.epub".to_string(),
+            "--codeblock-font-size".to_string(),
+            "0.875".to_string(),
+        ];
+
+        let args = parse_args_from(&argv).expect("args parse");
+        assert!((args.codeblock_font_size - 0.875).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn rejects_non_positive_codeblock_font_size() {
+        let argv = vec![
+            "--book-dir".to_string(),
+            "tmp/book".to_string(),
+            "--summary".to_string(),
+            "src/SUMMARY.md".to_string(),
+            "--book-toml".to_string(),
+            "book.toml".to_string(),
+            "--output".to_string(),
+            "dist/book.epub".to_string(),
+            "--codeblock-font-size".to_string(),
+            "0".to_string(),
+        ];
+
+        let err = parse_args_from(&argv).expect_err("args should fail");
+        assert!(err.contains("greater than 0"));
+    }
+
+    #[test]
+    fn epub_css_contains_configured_codeblock_font_size() {
+        let css = default_epub_css(0.92);
+        assert!(css.contains("font-size: 0.9200em;"));
     }
 
     fn temp_path(label: &str) -> std::path::PathBuf {
@@ -1273,7 +1377,9 @@ mod tests {
 
         match frame.color_type {
             png::ColorType::Rgba => data.chunks_exact(4).any(|px| px[3] != 0),
-            png::ColorType::Rgb => data.chunks_exact(3).any(|px| px != [0, 0, 0]),
+            png::ColorType::Rgb => {
+                data.chunks_exact(3).any(|px| px != [0, 0, 0])
+            }
             png::ColorType::GrayscaleAlpha => {
                 data.chunks_exact(2).any(|px| px[1] != 0)
             }
