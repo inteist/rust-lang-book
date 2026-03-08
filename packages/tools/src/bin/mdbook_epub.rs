@@ -6,6 +6,7 @@ use std::path::{Path, PathBuf};
 
 use html_escape::decode_html_entities;
 use regex::{Captures, Regex};
+use resvg::{tiny_skia, usvg};
 use syntect::easy::HighlightLines;
 use syntect::highlighting::{Theme, ThemeSet};
 use syntect::html::{IncludeBackground, styled_line_to_highlighted_html};
@@ -277,6 +278,7 @@ fn build_chapters(
     let mut chapters = Vec::new();
     let syntax_set = SyntaxSet::load_defaults_newlines();
     let theme = preferred_highlight_theme()?;
+    let chapter_path_map = build_chapter_path_map(summary_entries);
 
     for (idx, entry) in summary_entries.iter().enumerate() {
         let source_html = md_to_html(&entry.md_path);
@@ -301,7 +303,8 @@ fn build_chapters(
 
         let highlighted_main =
             highlight_code_blocks(&main, &syntax_set, &theme)?;
-        let rewritten_main = rewrite_local_html_links(&highlighted_main);
+        let rewritten_main =
+            rewrite_content_urls(&highlighted_main, &chapter_path_map);
         let chapter_name =
             format!("{:03}_{}.xhtml", idx + 1, slugify(&source_html));
         let xhtml_path = format!("chapters/{chapter_name}");
@@ -374,6 +377,33 @@ fn collect_assets(
         });
 
         data.insert(href, bytes);
+
+        if ext.eq_ignore_ascii_case("svg") {
+            let png_href = format!("{}.png", rel.trim_end_matches(".svg"));
+            let png_href = format!("book/{png_href}");
+
+            if !seen.contains(&png_href) {
+                let png_bytes = render_svg_to_png(
+                    data.get(&format!("book/{rel}"))
+                        .expect("svg bytes inserted into map"),
+                )
+                .map_err(|e| {
+                    format!(
+                        "Failed converting SVG asset {} to PNG: {e}",
+                        entry.path().display()
+                    )
+                })?;
+
+                seen.insert(png_href.clone());
+                items.push(ManifestItem {
+                    id: format!("asset{}", seen.len()),
+                    href: png_href.clone(),
+                    media_type: "image/png".to_string(),
+                    properties: None,
+                });
+                data.insert(png_href, png_bytes);
+            }
+        }
     }
 
     items.sort_by(|a, b| a.href.cmp(&b.href));
@@ -873,6 +903,19 @@ fn md_to_html(md_path: &str) -> String {
     format!("{}.html", md_path.trim_end_matches(".md"))
 }
 
+fn build_chapter_path_map(
+    summary_entries: &[SummaryEntry],
+) -> BTreeMap<String, String> {
+    let mut map = BTreeMap::new();
+    for (idx, entry) in summary_entries.iter().enumerate() {
+        let source_html = md_to_html(&entry.md_path);
+        let chapter_name =
+            format!("{:03}_{}.xhtml", idx + 1, slugify(&source_html));
+        map.insert(source_html, format!("{chapter_name}"));
+    }
+    map
+}
+
 fn parse_html_title(html: &str) -> Option<String> {
     let title_re = Regex::new(r#"(?s)<title>(?P<title>.*?)</title>"#).ok()?;
     let captured = title_re.captures(html)?;
@@ -887,41 +930,120 @@ fn extract_main_content(html: &str) -> Option<String> {
         .and_then(|caps| caps.name("main").map(|m| m.as_str().to_string()))
 }
 
-fn rewrite_local_html_links(html_fragment: &str) -> String {
+fn rewrite_content_urls(
+    html_fragment: &str,
+    chapter_path_map: &BTreeMap<String, String>,
+) -> String {
     let href_re =
-        Regex::new(r#"href=\"(?P<href>[^\"]+)\""#).expect("valid href regex");
-    href_re
+        Regex::new(r#"href=\"(?P<url>[^\"]+)\""#).expect("valid href regex");
+    let src_re =
+        Regex::new(r#"src=\"(?P<url>[^\"]+)\""#).expect("valid src regex");
+
+    let href_rewritten = href_re
         .replace_all(html_fragment, |caps: &Captures<'_>| {
-            let href = caps.name("href").expect("href capture").as_str();
-            let rewritten = rewrite_one_href(href);
+            let url = caps.name("url").expect("url capture").as_str();
+            let rewritten = rewrite_href_url(url, chapter_path_map);
             format!("href=\"{rewritten}\"")
+        })
+        .to_string();
+
+    src_re
+        .replace_all(&href_rewritten, |caps: &Captures<'_>| {
+            let url = caps.name("url").expect("url capture").as_str();
+            let rewritten = rewrite_src_url(url);
+            format!("src=\"{rewritten}\"")
         })
         .to_string()
 }
 
-fn rewrite_one_href(href: &str) -> String {
-    if href.starts_with("http://")
-        || href.starts_with("https://")
-        || href.starts_with("mailto:")
-        || href.starts_with("#")
-        || href.starts_with("javascript:")
-    {
+fn rewrite_href_url(
+    href: &str,
+    chapter_path_map: &BTreeMap<String, String>,
+) -> String {
+    if is_external_or_anchor_url(href) {
         return href.to_string();
     }
 
-    let (path, suffix) = if let Some((base, frag)) = href.split_once('#') {
-        (base, format!("#{frag}"))
-    } else {
-        (href, String::new())
-    };
+    let (path, suffix) = split_url_path_and_suffix(href);
+    let normalized = normalize_local_path(path);
 
-    if path.ends_with(".html") {
-        let mut rewritten = format!("{}.xhtml", path.trim_end_matches(".html"));
-        rewritten.push_str(&suffix);
-        return rewritten;
+    if normalized.ends_with(".html") {
+        if let Some(mapped) = chapter_path_map.get(&normalized) {
+            return format!("{mapped}{suffix}");
+        }
+        return format!(
+            "{}.xhtml{suffix}",
+            normalized.trim_end_matches(".html")
+        );
     }
 
     href.to_string()
+}
+
+fn rewrite_src_url(src: &str) -> String {
+    if is_external_or_anchor_url(src) {
+        return src.to_string();
+    }
+
+    let (path, suffix) = split_url_path_and_suffix(src);
+    let normalized = normalize_local_path(path);
+
+    let mut rewritten_path = if normalized.ends_with(".svg") {
+        format!("{}.png", normalized.trim_end_matches(".svg"))
+    } else {
+        normalized
+    };
+
+    rewritten_path = format!("../book/{rewritten_path}");
+    format!("{rewritten_path}{suffix}")
+}
+
+fn is_external_or_anchor_url(url: &str) -> bool {
+    url.starts_with("http://")
+        || url.starts_with("https://")
+        || url.starts_with("mailto:")
+        || url.starts_with("#")
+        || url.starts_with("javascript:")
+        || url.starts_with("data:")
+}
+
+fn split_url_path_and_suffix(url: &str) -> (&str, String) {
+    if let Some((base, frag)) = url.split_once('#') {
+        return (base, format!("#{frag}"));
+    }
+    if let Some((base, query)) = url.split_once('?') {
+        return (base, format!("?{query}"));
+    }
+    (url, String::new())
+}
+
+fn normalize_local_path(path: &str) -> String {
+    path.trim_start_matches("./")
+        .trim_start_matches('/')
+        .to_string()
+}
+
+fn render_svg_to_png(svg_bytes: &[u8]) -> Result<Vec<u8>, String> {
+    let options = usvg::Options::default();
+    let tree = usvg::Tree::from_data(svg_bytes, &options)
+        .map_err(|e| format!("Invalid SVG: {e}"))?;
+    let size = tree.size().to_int_size();
+
+    let mut pixmap = tiny_skia::Pixmap::new(size.width(), size.height())
+        .ok_or_else(|| {
+            format!(
+                "Could not create pixmap for {}x{}",
+                size.width(),
+                size.height()
+            )
+        })?;
+
+    let mut pixmap_mut = pixmap.as_mut();
+    resvg::render(&tree, tiny_skia::Transform::identity(), &mut pixmap_mut);
+
+    pixmap
+        .encode_png()
+        .map_err(|e| format!("Failed encoding PNG: {e}"))
 }
 
 fn slugify(input: &str) -> String {
@@ -982,10 +1104,12 @@ fn xml_escape(input: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::{
-        extract_main_content, highlight_code_blocks, language_from_code_attrs,
-        media_type_for_path, parse_summary, preferred_highlight_theme,
-        rewrite_one_href,
+        build_chapter_path_map, extract_main_content, highlight_code_blocks,
+        language_from_code_attrs, media_type_for_path, parse_summary,
+        preferred_highlight_theme, render_svg_to_png, rewrite_content_urls,
+        rewrite_href_url, rewrite_src_url,
     };
+    use std::collections::BTreeMap;
     use std::fs;
     use std::time::{SystemTime, UNIX_EPOCH};
     use syntect::parsing::SyntaxSet;
@@ -1008,19 +1132,66 @@ mod tests {
 
     #[test]
     fn rewrites_html_links_but_keeps_externals() {
+        let mut map = BTreeMap::new();
+        map.insert(
+            "ch01-00-intro.html".to_string(),
+            "001_ch01_00_intro_html.xhtml".to_string(),
+        );
+
         assert_eq!(
-            rewrite_one_href("ch01-00-intro.html"),
-            "ch01-00-intro.xhtml"
+            rewrite_href_url("ch01-00-intro.html", &map),
+            "001_ch01_00_intro_html.xhtml"
         );
         assert_eq!(
-            rewrite_one_href("ch01-00-intro.html#part"),
-            "ch01-00-intro.xhtml#part"
+            rewrite_href_url("ch01-00-intro.html#part", &map),
+            "001_ch01_00_intro_html.xhtml#part"
         );
         assert_eq!(
-            rewrite_one_href("https://doc.rust-lang.org"),
+            rewrite_href_url("https://doc.rust-lang.org", &map),
             "https://doc.rust-lang.org"
         );
-        assert_eq!(rewrite_one_href("#local"), "#local");
+        assert_eq!(rewrite_href_url("#local", &map), "#local");
+    }
+
+    #[test]
+    fn rewrites_local_image_sources_to_book_assets() {
+        assert_eq!(
+            rewrite_src_url("img/trpl04-02.svg"),
+            "../book/img/trpl04-02.png"
+        );
+        assert_eq!(
+            rewrite_src_url("img/trpl21-01.png"),
+            "../book/img/trpl21-01.png"
+        );
+        assert_eq!(
+            rewrite_src_url("https://example.com/image.png"),
+            "https://example.com/image.png"
+        );
+    }
+
+    #[test]
+    fn chapter_path_map_matches_generated_filenames() {
+        let entries = vec![
+            super::SummaryEntry {
+                title: "A".to_string(),
+                md_path: "ch01-01-installation.md".to_string(),
+            },
+            super::SummaryEntry {
+                title: "B".to_string(),
+                md_path: "ch04-01-what-is-ownership.md".to_string(),
+            },
+        ];
+
+        let map = build_chapter_path_map(&entries);
+        assert_eq!(
+            map.get("ch01-01-installation.html").map(String::as_str),
+            Some("001_ch01_01_installation_html.xhtml")
+        );
+        assert_eq!(
+            map.get("ch04-01-what-is-ownership.html")
+                .map(String::as_str),
+            Some("002_ch04_01_what_is_ownership_html.xhtml")
+        );
     }
 
     #[test]
@@ -1065,6 +1236,34 @@ mod tests {
         assert!(out.contains("<pre class=\"playground\"><code>"));
         assert!(out.contains("fn"));
         assert!(!out.contains("class=\"language-rust\""));
+    }
+
+    #[test]
+    fn svg_assets_can_be_rendered_to_png() {
+        let svg = br#"<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><rect width='8' height='8' fill='red'/></svg>"#;
+        let png = render_svg_to_png(svg).expect("svg renders to png");
+
+        assert!(png.len() > 16);
+        assert_eq!(&png[..8], b"\x89PNG\r\n\x1a\n");
+    }
+
+    #[test]
+    fn content_url_rewriter_updates_links_and_sources() {
+        let mut map = BTreeMap::new();
+        map.insert(
+            "ch04-01-what-is-ownership.html".to_string(),
+            "016_ch04_01_what_is_ownership_html.xhtml".to_string(),
+        );
+
+        let input = r#"<p><a href="ch04-01-what-is-ownership.html#the-string-type">x</a><img src="img/trpl04-02.svg"/></p>"#;
+        let output = rewrite_content_urls(input, &map);
+
+        assert!(
+            output.contains(
+                "href=\"016_ch04_01_what_is_ownership_html.xhtml#the-string-type\""
+            )
+        );
+        assert!(output.contains("src=\"../book/img/trpl04-02.png\""));
     }
 
     fn temp_path(label: &str) -> std::path::PathBuf {
