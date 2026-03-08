@@ -846,6 +846,7 @@ dependencies = [
  "flate2",
  "html-escape",
  "lazy_static",
+ "png",
  "regex",
  "resvg",
  "serde",

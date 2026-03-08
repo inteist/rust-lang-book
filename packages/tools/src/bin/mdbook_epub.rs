@@ -4,9 +4,11 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 
+#[path = "mdbook_epub/svg.rs"]
+mod svg;
+
 use html_escape::decode_html_entities;
 use regex::{Captures, Regex};
-use resvg::{tiny_skia, usvg};
 use syntect::easy::HighlightLines;
 use syntect::highlighting::{Theme, ThemeSet};
 use syntect::html::{IncludeBackground, styled_line_to_highlighted_html};
@@ -17,6 +19,8 @@ use toml::Value;
 use walkdir::WalkDir;
 use zip::write::FileOptions;
 use zip::{CompressionMethod, ZipArchive, ZipWriter};
+
+use crate::svg::render_svg_to_png;
 
 const USAGE: &str = "
 Build an EPUB from mdBook HTML output.
@@ -1023,29 +1027,6 @@ fn normalize_local_path(path: &str) -> String {
         .to_string()
 }
 
-fn render_svg_to_png(svg_bytes: &[u8]) -> Result<Vec<u8>, String> {
-    let options = usvg::Options::default();
-    let tree = usvg::Tree::from_data(svg_bytes, &options)
-        .map_err(|e| format!("Invalid SVG: {e}"))?;
-    let size = tree.size().to_int_size();
-
-    let mut pixmap = tiny_skia::Pixmap::new(size.width(), size.height())
-        .ok_or_else(|| {
-            format!(
-                "Could not create pixmap for {}x{}",
-                size.width(),
-                size.height()
-            )
-        })?;
-
-    let mut pixmap_mut = pixmap.as_mut();
-    resvg::render(&tree, tiny_skia::Transform::identity(), &mut pixmap_mut);
-
-    pixmap
-        .encode_png()
-        .map_err(|e| format!("Failed encoding PNG: {e}"))
-}
-
 fn slugify(input: &str) -> String {
     let mut out = String::with_capacity(input.len());
     for ch in input.chars() {
@@ -1111,6 +1092,7 @@ mod tests {
     };
     use std::collections::BTreeMap;
     use std::fs;
+    use std::io::Cursor;
     use std::time::{SystemTime, UNIX_EPOCH};
     use syntect::parsing::SyntaxSet;
 
@@ -1248,6 +1230,14 @@ mod tests {
     }
 
     #[test]
+    fn text_only_svg_renders_visible_pixels() {
+        let svg = br#"<svg xmlns='http://www.w3.org/2000/svg' width='220' height='90'><text x='8' y='64' font-size='64' fill='black'>s1</text></svg>"#;
+        let png = render_svg_to_png(svg).expect("text svg renders to png");
+
+        assert!(png_has_visible_pixels(&png));
+    }
+
+    #[test]
     fn content_url_rewriter_updates_links_and_sources() {
         let mut map = BTreeMap::new();
         map.insert(
@@ -1272,5 +1262,23 @@ mod tests {
             .expect("clock before unix epoch")
             .as_nanos();
         std::env::temp_dir().join(format!("{label}_{nanos}.md"))
+    }
+
+    fn png_has_visible_pixels(png_bytes: &[u8]) -> bool {
+        let decoder = png::Decoder::new(Cursor::new(png_bytes));
+        let mut reader = decoder.read_info().expect("decode png header");
+        let mut buf = vec![0; reader.output_buffer_size()];
+        let frame = reader.next_frame(&mut buf).expect("decode png pixels");
+        let data = &buf[..frame.buffer_size()];
+
+        match frame.color_type {
+            png::ColorType::Rgba => data.chunks_exact(4).any(|px| px[3] != 0),
+            png::ColorType::Rgb => data.chunks_exact(3).any(|px| px != [0, 0, 0]),
+            png::ColorType::GrayscaleAlpha => {
+                data.chunks_exact(2).any(|px| px[1] != 0)
+            }
+            png::ColorType::Grayscale => data.iter().any(|v| *v != 0),
+            png::ColorType::Indexed => data.iter().any(|v| *v != 0),
+        }
     }
 }

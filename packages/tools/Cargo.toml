@@ -61,3 +61,4 @@ syntect = { version = "5.2", default-features = false, features = [
 ] }
 time = { version = "0.3", features = ["formatting"] }
 resvg = "0.44"
+png = "0.17"
