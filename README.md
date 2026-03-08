@@ -77,6 +77,7 @@ To build an EPUB from the current book sources, it is best to use an **all in on
 $ ./tools/generate-epub.sh
 ```
 
+
 This script will:
 
 1. Build mdBook HTML output into `tmp/epub-html`
@@ -84,16 +85,30 @@ This script will:
 3. Generate `dist/the-rust-programming-language.epub`
 4. Validate ZIP integrity of the generated EPUB
 
+
+**Note** this for adds optional `--codeblock-font-size` parameter to the generator, which can be used to adjust the font size of code blocks in the generated EPUB. For example, to set the code block font size to 0.9 times the normal text size, you can run:
+
+```zsh
+$ ./tools/generate-epub.sh --codeblock-font-size 0.8
+```
+
+This is useful for improving readability on smaller screens, such as e-readers, where the default font size may be too large for code blocks. Adjust the value as needed to find the optimal font size for your device. This is **the beauty of open source **- you can customize things to match exactly what you need!
+
+
+
 If you want to run the generator directly (without the wrapper script), use:
 
 ```zsh
+# Generator sample command
 $ cargo run -p rust-book-tools --bin mdbook_epub -- \
 	--book-dir tmp/epub-html \
 	--summary src/SUMMARY.md \
 	--book-toml book.toml \
 	--output dist/the-rust-programming-language.epub \
 	--validate
+    --codeblock-font-size 0.9
 ```
+
 
 ### TODOs
 - [ ] Make sure the name and metadata have correct information 
