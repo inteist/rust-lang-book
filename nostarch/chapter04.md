@@ -122,7 +122,7 @@ As a first example of ownership, we’ll look at the scope of some variables. A
 following variable:
 
 ```
-let s = "hello";
+    let s = "hello";
 ```
 
 The variable `s` refers to a string literal, where the value of the string is
