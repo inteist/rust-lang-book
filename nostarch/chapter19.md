@@ -65,8 +65,8 @@ For example, here’s the `match` expression from Listing 6-5 that matches on an
 
 ```
 match x {
-    None => None,
-    Some(i) => Some(i + 1),
+  None => None,
+  Some(i) => Some(i + 1),
 }
 ```
 
@@ -121,7 +121,7 @@ To see the pattern-matching aspect of `let` more clearly, consider Listing
 
 
 ```
-    let (x, y, z) = (1, 2, 3);
+let (x, y, z) = (1, 2, 3);
 ```
 
 Listing 19-1: Using a pattern to destructure a tuple and create three variables at once
@@ -139,7 +139,7 @@ elements into two variables, which won’t work.
 
 
 ```
-    let (x, y) = (1, 2, 3);
+let (x, y) = (1, 2, 3);
 ```
 
 Listing 19-2: Incorrectly constructing a pattern whose variables don’t match the number of elements in the tuple
@@ -158,7 +158,7 @@ error[E0308]: mismatched types
   |         expected a tuple with 3 elements, found one with 2 elements
   |
   = note: expected tuple `({integer}, {integer}, {integer})`
-             found tuple `(_, _)`
+       found tuple `(_, _)`
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `patterns` (bin "patterns") due to 1 previous error
@@ -191,23 +191,23 @@ src/main.rs
 
 ```
 fn main() {
-    let favorite_color: Option<&str> = None;
-    let is_tuesday = false;
-    let age: Result<u8, _> = "34".parse();
+  let favorite_color: Option<&str> = None;
+  let is_tuesday = false;
+  let age: Result<u8, _> = "34".parse();
 
-    if let Some(color) = favorite_color {
-        println!("Using your favorite color, {color}, as the background");
-    } else if is_tuesday {
-        println!("Tuesday is green day!");
-    } else if let Ok(age) = age {
-        if age > 30 {
-            println!("Using purple as the background color");
-        } else {
-            println!("Using orange as the background color");
-        }
+  if let Some(color) = favorite_color {
+    println!("Using your favorite color, {color}, as the background");
+  } else if is_tuesday {
+    println!("Tuesday is green day!");
+  } else if let Ok(age) = age {
+    if age > 30 {
+      println!("Using purple as the background color");
     } else {
-        println!("Using blue as the background color");
+      println!("Using orange as the background color");
     }
+  } else {
+    println!("Using blue as the background color");
+  }
 }
 ```
 
@@ -243,16 +243,16 @@ but in this case checking a `Result` instead of an `Option`.
 
 
 ```
-    let (tx, rx) = std::sync::mpsc::channel();
-    std::thread::spawn(move || {
-        for val in [1, 2, 3] {
-            tx.send(val).unwrap();
-        }
-    });
+let (tx, rx) = std::sync::mpsc::channel();
+std::thread::spawn(move || {
+  for val in [1, 2, 3] {
+    tx.send(val).unwrap();
+  }
+});
 
-    while let Ok(value) = rx.recv() {
-        println!("{value}");
-    }
+while let Ok(value) = rx.recv() {
+  println!("{value}");
+}
 ```
 
 Listing 19-4: Using a `while let` loop to print values for as long as `rx.recv()` returns `Ok`
@@ -274,11 +274,11 @@ apart, a tuple as part of the `for` loop.
 
 
 ```
-    let v = vec!['a', 'b', 'c'];
+let v = vec!['a', 'b', 'c'];
 
-    for (index, value) in v.iter().enumerate() {
-        println!("{value} is at index {index}");
-    }
+for (index, value) in v.iter().enumerate() {
+  println!("{value} is at index {index}");
+}
 ```
 
 Listing 19-5: Using a pattern in a `for` loop to destructure a tuple
@@ -288,8 +288,8 @@ The code in Listing 19-5 will print the following:
 ```
 $ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.52s
-     Running `target/debug/patterns`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.52s
+   Running `target/debug/patterns`
 a is at index 0
 b is at index 1
 c is at index 2
@@ -309,7 +309,7 @@ declares a function named `foo` that takes one parameter named `x` of type
 
 ```
 fn foo(x: i32) {
-    // code goes here
+  // code goes here
 }
 ```
 
@@ -323,12 +323,12 @@ src/main.rs
 
 ```
 fn print_coordinates(&(x, y): &(i32, i32)) {
-    println!("Current location: ({x}, {y})");
+  println!("Current location: ({x}, {y})");
 }
 
 fn main() {
-    let point = (3, 5);
-    print_coordinates(&point);
+  let point = (3, 5);
+  print_coordinates(&point);
 }
 ```
 
@@ -376,7 +376,7 @@ pattern. As you might expect, this code will not compile.
 
 
 ```
-    let Some(x) = some_option_value;
+let Some(x) = some_option_value;
 ```
 
 Listing 19-8: Attempting to use a refutable pattern with `let`
@@ -413,15 +413,15 @@ pattern `Some(x)`, Rust rightfully produces a compiler error.
 
 If we have a refutable pattern where an irrefutable pattern is needed, we can
 fix it by changing the code that uses the pattern: Instead of using `let`, we
-can use `let else`. Then, if the pattern doesn’t match, the code will just skip
-the code in the curly brackets, giving it a way to continue validly. Listing
-19-9 shows how to fix the code in Listing 19-8.
+can use `let...else`. Then, if the pattern doesn’t match, the code in the curly
+brackets will handle the value. Listing 19-9 shows how to fix the code in
+Listing 19-8.
 
 
 ```
-    let Some(x) = some_option_value else {
-        return;
-    };
+let Some(x) = some_option_value else {
+  return;
+};
 ```
 
 Listing 19-9: Using `let...else` and a block with refutable patterns instead of `let`
@@ -433,9 +433,9 @@ cannot use an irrefutable pattern without receiving a warning. If we give
 
 
 ```
-    let x = 5 else {
-        return;
-    };
+let x = 5 else {
+  return;
+};
 ```
 
 Listing 19-10: Attempting to use an irrefutable pattern with `let...else`
@@ -457,8 +457,8 @@ warning: irrefutable `let...else` pattern
   = note: `#[warn(irrefutable_let_patterns)]` on by default
 
 warning: `patterns` (bin "patterns") generated 1 warning
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.39s
-     Running `target/debug/patterns`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.39s
+   Running `target/debug/patterns`
 ```
 
 For this reason, match arms must use refutable patterns, except for the last
@@ -482,14 +482,14 @@ As you saw in Chapter 6, you can match patterns against literals directly. The
 following code gives some examples:
 
 ```
-    let x = 1;
+let x = 1;
 
-    match x {
-        1 => println!("one"),
-        2 => println!("two"),
-        3 => println!("three"),
-        _ => println!("anything"),
-    }
+match x {
+  1 => println!("one"),
+  2 => println!("two"),
+  3 => println!("three"),
+  _ => println!("anything"),
+}
 ```
 
 This code prints `one` because the value in `x` is `1`. This syntax is useful
@@ -512,16 +512,16 @@ what the code will print before running this code or reading further.
 src/main.rs
 
 ```
-    let x = Some(5);
-    let y = 10;
+let x = Some(5);
+let y = 10;
 
-    match x {
-        Some(50) => println!("Got 50"),
-        Some(y) => println!("Matched, y = {y}"),
-        _ => println!("Default case, x = {x:?}"),
-    }
+match x {
+  Some(50) => println!("Got 50"),
+  Some(y) => println!("Matched, y = {y}"),
+  _ => println!("Default case, x = {x:?}"),
+}
 
-    println!("at the end: x = {x:?}, y = {y}");
+println!("at the end: x = {x:?}, y = {y}");
 ```
 
 Listing 19-11: A `match` expression with an arm that introduces a new variable which shadows an existing variable `y`
@@ -566,13 +566,13 @@ meaning if the value of `x` matches either of the values in that arm, that
 arm’s code will run:
 
 ```
-    let x = 1;
+let x = 1;
 
-    match x {
-        1 | 2 => println!("one or two"),
-        3 => println!("three"),
-        _ => println!("anything"),
-    }
+match x {
+  1 | 2 => println!("one or two"),
+  3 => println!("three"),
+  _ => println!("anything"),
+}
 ```
 
 This code prints `one or two`.
@@ -584,12 +584,12 @@ following code, when a pattern matches any of the values within the given
 range, that arm will execute:
 
 ```
-    let x = 5;
+let x = 5;
 
-    match x {
-        1..=5 => println!("one through five"),
-        _ => println!("something else"),
-    }
+match x {
+  1..=5 => println!("one through five"),
+  _ => println!("something else"),
+}
 ```
 
 If `x` is `1`, `2`, `3`, `4`, or `5`, the first arm will match. This syntax is
@@ -604,13 +604,13 @@ numeric values, ranges are only allowed with numeric or `char` values.
 Here is an example using ranges of `char` values:
 
 ```
-    let x = 'c';
+let x = 'c';
 
-    match x {
-        'a'..='j' => println!("early ASCII letter"),
-        'k'..='z' => println!("late ASCII letter"),
-        _ => println!("something else"),
-    }
+match x {
+  'a'..='j' => println!("early ASCII letter"),
+  'k'..='z' => println!("late ASCII letter"),
+  _ => println!("something else"),
+}
 ```
 
 Rust can tell that `'c'` is within the first pattern’s range and prints `early ASCII letter`.
@@ -633,16 +633,16 @@ src/main.rs
 
 ```
 struct Point {
-    x: i32,
-    y: i32,
+  x: i32,
+  y: i32,
 }
 
 fn main() {
-    let p = Point { x: 0, y: 7 };
+  let p = Point { x: 0, y: 7 };
 
-    let Point { x: a, y: b } = p;
-    assert_eq!(0, a);
-    assert_eq!(7, b);
+  let Point { x: a, y: b } = p;
+  assert_eq!(0, a);
+  assert_eq!(7, b);
 }
 ```
 
@@ -664,16 +664,16 @@ src/main.rs
 
 ```
 struct Point {
-    x: i32,
-    y: i32,
+  x: i32,
+  y: i32,
 }
 
 fn main() {
-    let p = Point { x: 0, y: 7 };
+  let p = Point { x: 0, y: 7 };
 
-    let Point { x, y } = p;
-    assert_eq!(0, x);
-    assert_eq!(7, y);
+  let Point { x, y } = p;
+  assert_eq!(0, x);
+  assert_eq!(7, y);
 }
 ```
 
@@ -696,15 +696,15 @@ src/main.rs
 
 ```
 fn main() {
-    let p = Point { x: 0, y: 7 };
+  let p = Point { x: 0, y: 7 };
 
-    match p {
-        Point { x, y: 0 } => println!("On the x axis at {x}"),
-        Point { x: 0, y } => println!("On the y axis at {y}"),
-        Point { x, y } => {
-            println!("On neither axis: ({x}, {y})");
-        }
+  match p {
+    Point { x, y: 0 } => println!("On the x axis at {x}"),
+    Point { x: 0, y } => println!("On the y axis at {y}"),
+    Point { x, y } => {
+      println!("On neither axis: ({x}, {y})");
     }
+  }
 }
 ```
 
@@ -723,7 +723,7 @@ In this example, the value `p` matches the second arm by virtue of `x`
 containing a `0`, so this code will print `On the y axis at 7`.
 
 Remember that a `match` expression stops checking arms once it has found the
-first matching pattern, so even though `Point { x: 0, y: 0}` is on the `x` axis
+first matching pattern, so even though `Point { x: 0, y: 0 }` is on the `x` axis
 and the `y` axis, this code would only print `On the x axis at 0`.
 
 <!-- Old headings. Do not remove or links may break. -->
@@ -742,29 +742,29 @@ src/main.rs
 
 ```
 enum Message {
-    Quit,
-    Move { x: i32, y: i32 },
-    Write(String),
-    ChangeColor(i32, i32, i32),
+  Quit,
+  Move { x: i32, y: i32 },
+  Write(String),
+  ChangeColor(i32, i32, i32),
 }
 
 fn main() {
-    let msg = Message::ChangeColor(0, 160, 255);
+  let msg = Message::ChangeColor(0, 160, 255);
 
-    match msg {
-        Message::Quit => {
-            println!("The Quit variant has no data to destructure.");
-        }
-        Message::Move { x, y } => {
-            println!("Move in the x direction {x} and in the y direction {y}");
-        }
-        Message::Write(text) => {
-            println!("Text message: {text}");
-        }
-        Message::ChangeColor(r, g, b) => {
-            println!("Change color to red {r}, green {g}, and blue {b}");
-        }
+  match msg {
+    Message::Quit => {
+      println!("The Quit variant has no data to destructure.");
     }
+    Message::Move { x, y } => {
+      println!("Move in the x direction {x} and in the y direction {y}");
+    }
+    Message::Write(text) => {
+      println!("Text message: {text}");
+    }
+    Message::ChangeColor(r, g, b) => {
+      println!("Change color to red {r}, green {g}, and blue {b}");
+    }
+  }
 }
 ```
 
@@ -803,29 +803,29 @@ message, as shown in Listing 19-16.
 
 ```
 enum Color {
-    Rgb(i32, i32, i32),
-    Hsv(i32, i32, i32),
+  Rgb(i32, i32, i32),
+  Hsv(i32, i32, i32),
 }
 
 enum Message {
-    Quit,
-    Move { x: i32, y: i32 },
-    Write(String),
-    ChangeColor(Color),
+  Quit,
+  Move { x: i32, y: i32 },
+  Write(String),
+  ChangeColor(Color),
 }
 
 fn main() {
-    let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
+  let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
 
-    match msg {
-        Message::ChangeColor(Color::Rgb(r, g, b)) => {
-            println!("Change color to red {r}, green {g}, and blue {b}");
-        }
-        Message::ChangeColor(Color::Hsv(h, s, v)) => {
-            println!("Change color to hue {h}, saturation {s}, value {v}");
-        }
-        _ => (),
+  match msg {
+    Message::ChangeColor(Color::Rgb(r, g, b)) => {
+      println!("Change color to red {r}, green {g}, and blue {b}");
     }
+    Message::ChangeColor(Color::Hsv(h, s, v)) => {
+      println!("Change color to hue {h}, saturation {s}, value {v}");
+    }
+    _ => (),
+  }
 }
 ```
 
@@ -849,7 +849,7 @@ The following example shows a complicated destructure where we nest structs and
 tuples inside a tuple and destructure all the primitive values out:
 
 ```
-    let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
+let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
 ```
 
 This code lets us break complex types into their component parts so that we can
@@ -883,11 +883,11 @@ src/main.rs
 
 ```
 fn foo(_: i32, y: i32) {
-    println!("This code only uses the y parameter: {y}");
+  println!("This code only uses the y parameter: {y}");
 }
 
 fn main() {
-    foo(3, 4);
+  foo(3, 4);
 }
 ```
 
@@ -919,19 +919,19 @@ setting but can unset the setting and give it a value if it is currently unset.
 
 
 ```
-    let mut setting_value = Some(5);
-    let new_setting_value = Some(10);
+let mut setting_value = Some(5);
+let new_setting_value = Some(10);
 
-    match (setting_value, new_setting_value) {
-        (Some(_), Some(_)) => {
-            println!("Can't overwrite an existing customized value");
-        }
-        _ => {
-            setting_value = new_setting_value;
-        }
-    }
+match (setting_value, new_setting_value) {
+  (Some(_), Some(_)) => {
+    println!("Can't overwrite an existing customized value");
+  }
+  _ => {
+    setting_value = new_setting_value;
+  }
+}
 
-    println!("setting is {setting_value:?}");
+println!("setting is {setting_value:?}");
 ```
 
 Listing 19-18: Using an underscore within patterns that match `Some` variants when we don’t need to use the value inside the `Some`
@@ -953,13 +953,13 @@ fourth values in a tuple of five items.
 
 
 ```
-    let numbers = (2, 4, 8, 16, 32);
+let numbers = (2, 4, 8, 16, 32);
 
-    match numbers {
-        (first, _, third, _, fifth) => {
-            println!("Some numbers: {first}, {third}, {fifth}");
-        }
-    }
+match numbers {
+  (first, _, third, _, fifth) => {
+    println!("Some numbers: {first}, {third}, {fifth}");
+  }
+}
 ```
 
 Listing 19-19: Ignoring multiple parts of a tuple
@@ -985,8 +985,8 @@ src/main.rs
 
 ```
 fn main() {
-    let _x = 5;
-    let y = 10;
+  let _x = 5;
+  let y = 10;
 }
 ```
 
@@ -1002,13 +1002,13 @@ distinction matters, Listing 19-21 will provide us with an error.
 
 
 ```
-    let s = Some(String::from("Hello!"));
+let s = Some(String::from("Hello!"));
 
-    if let Some(_s) = s {
-        println!("found a string");
-    }
+if let Some(_s) = s {
+  println!("found a string");
+}
 
-    println!("{s:?}");
+println!("{s:?}");
 ```
 
 Listing 19-21: An unused variable starting with an underscore still binds the value, which might take ownership of the value.
@@ -1020,13 +1020,13 @@ because `s` doesn’t get moved into `_`.
 
 
 ```
-    let s = Some(String::from("Hello!"));
+let s = Some(String::from("Hello!"));
 
-    if let Some(_) = s {
-        println!("found a string");
-    }
+if let Some(_) = s {
+  println!("found a string");
+}
 
-    println!("{s:?}");
+println!("{s:?}");
 ```
 
 Listing 19-22: Using an underscore does not bind the value.
@@ -1047,17 +1047,17 @@ the values in the `y` and `z` fields.
 
 
 ```
-    struct Point {
-        x: i32,
-        y: i32,
-        z: i32,
-    }
+struct Point {
+  x: i32,
+  y: i32,
+  z: i32,
+}
 
-    let origin = Point { x: 0, y: 0, z: 0 };
+let origin = Point { x: 0, y: 0, z: 0 };
 
-    match origin {
-        Point { x, .. } => println!("x is {x}"),
-    }
+match origin {
+  Point { x, .. } => println!("x is {x}"),
+}
 ```
 
 Listing 19-23: Ignoring all fields of a `Point` except for `x` by using `..`
@@ -1074,13 +1074,13 @@ src/main.rs
 
 ```
 fn main() {
-    let numbers = (2, 4, 8, 16, 32);
+  let numbers = (2, 4, 8, 16, 32);
 
-    match numbers {
-        (first, .., last) => {
-            println!("Some numbers: {first}, {last}");
-        }
+  match numbers {
+    (first, .., last) => {
+      println!("Some numbers: {first}, {last}");
     }
+  }
 }
 ```
 
@@ -1098,13 +1098,13 @@ src/main.rs
 
 ```
 fn main() {
-    let numbers = (2, 4, 8, 16, 32);
+  let numbers = (2, 4, 8, 16, 32);
 
-    match numbers {
-        (.., second, ..) => {
-            println!("Some numbers: {second}")
-        },
-    }
+  match numbers {
+    (.., second, ..) => {
+      println!("Some numbers: {second}")
+    },
+  }
 }
 ```
 
@@ -1152,13 +1152,13 @@ guard of `if x % 2 == 0` (which will be `true` if the number is even).
 
 
 ```
-    let num = Some(4);
+let num = Some(4);
 
-    match num {
-        Some(x) if x % 2 == 0 => println!("The number {x} is even"),
-        Some(x) => println!("The number {x} is odd"),
-        None => (),
-    }
+match num {
+  Some(x) if x % 2 == 0 => println!("The number {x} is even"),
+  Some(x) => println!("The number {x} is odd"),
+  None => (),
+}
 ```
 
 Listing 19-26: Adding a match guard to a pattern
@@ -1189,16 +1189,16 @@ src/main.rs
 
 ```
 fn main() {
-    let x = Some(5);
-    let y = 10;
+  let x = Some(5);
+  let y = 10;
 
-    match x {
-        Some(50) => println!("Got 50"),
-        Some(n) if n == y => println!("Matched, n = {n}"),
-        _ => println!("Default case, x = {x:?}"),
-    }
+  match x {
+    Some(50) => println!("Got 50"),
+    Some(n) if n == y => println!("Matched, n = {n}"),
+    _ => println!("Default case, x = {x:?}"),
+  }
 
-    println!("at the end: x = {x:?}, y = {y}");
+  println!("at the end: x = {x:?}, y = {y}");
 }
 ```
 
@@ -1225,13 +1225,13 @@ applies to `6`.
 
 
 ```
-    let x = 4;
-    let y = false;
+let x = 4;
+let y = false;
 
-    match x {
-        4 | 5 | 6 if y => println!("yes"),
-        _ => println!("no"),
-    }
+match x {
+  4 | 5 | 6 if y => println!("yes"),
+  _ => println!("no"),
+}
 ```
 
 Listing 19-28: Combining multiple patterns with a match guard
@@ -1274,21 +1274,21 @@ associated with the arm.
 
 
 ```
-    enum Message {
-        Hello { id: i32 },
-    }
+enum Message {
+  Hello { id: i32 },
+}
 
-    let msg = Message::Hello { id: 5 };
+let msg = Message::Hello { id: 5 };
 
-    match msg {
-        Message::Hello { id: id @ 3..=7 } => {
-            println!("Found an id in range: {id}")
-        }
-        Message::Hello { id: 10..=12 } => {
-            println!("Found an id in another range")
-        }
-        Message::Hello { id } => println!("Found some other id: {id}"),
-    }
+match msg {
+  Message::Hello { id: id @ 3..=7 } => {
+    println!("Found an id in range: {id}")
+  }
+  Message::Hello { id: 10..=12 } => {
+    println!("Found an id in another range")
+  }
+  Message::Hello { id } => println!("Found some other id: {id}"),
+}
 ```
 
 Listing 19-29: Using `@` to bind to a value in a pattern while also testing it

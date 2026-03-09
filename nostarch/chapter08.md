@@ -45,7 +45,7 @@ Listing 8-1.
 
 
 ```
-    let v: Vec<i32> = Vec::new();
+let v: Vec<i32> = Vec::new();
 ```
 
 Listing 8-1: Creating a new, empty vector to hold values of type `i32`
@@ -69,7 +69,7 @@ Types” section of Chapter 3.
 
 
 ```
-    let v = vec![1, 2, 3];
+let v = vec![1, 2, 3];
 ```
 
 Listing 8-2: Creating a new vector containing values
@@ -85,12 +85,12 @@ as shown in Listing 8-3.
 
 
 ```
-    let mut v = Vec::new();
+let mut v = Vec::new();
 
-    v.push(5);
-    v.push(6);
-    v.push(7);
-    v.push(8);
+v.push(5);
+v.push(6);
+v.push(7);
+v.push(8);
 ```
 
 Listing 8-3: Using the `push` method to add values to a vector
@@ -111,16 +111,16 @@ syntax and the `get` method.
 
 
 ```
-    let v = vec![1, 2, 3, 4, 5];
+let v = vec![1, 2, 3, 4, 5];
 
-    let third: &i32 = &v[2];
-    println!("The third element is {third}");
+let third: &i32 = &v[2];
+println!("The third element is {third}");
 
-    let third: Option<&i32> = v.get(2);
-    match third {
-        Some(third) => println!("The third element is {third}"),
-        None => println!("There is no third element."),
-    }
+let third: Option<&i32> = v.get(2);
+match third {
+  Some(third) => println!("The third element is {third}"),
+  None => println!("There is no third element."),
+}
 ```
 
 Listing 8-4: Using indexing syntax and using the `get` method to access an item in a vector
@@ -139,10 +139,10 @@ technique, as shown in Listing 8-5.
 
 
 ```
-    let v = vec![1, 2, 3, 4, 5];
+let v = vec![1, 2, 3, 4, 5];
 
-    let does_not_exist = &v[100];
-    let does_not_exist = v.get(100);
+let does_not_exist = &v[100];
+let does_not_exist = v.get(100);
 ```
 
 Listing 8-5: Attempting to access the element at index 100 in a vector containing five elements
@@ -174,13 +174,13 @@ the function.
 
 
 ```
-    let mut v = vec![1, 2, 3, 4, 5];
+let mut v = vec![1, 2, 3, 4, 5];
 
-    let first = &v[0];
+let first = &v[0];
 
-    v.push(6);
+v.push(6);
 
-    println!("The first element is: {first}");
+println!("The first element is: {first}");
 ```
 
 Listing 8-6: Attempting to add an element to a vector while holding a reference to an item
@@ -200,7 +200,7 @@ error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immuta
   |     ^^^^^^^^^ mutable borrow occurs here
 7 |
 8 |     println!("The first element is: {first}");
-  |                                     ------- immutable borrow later used here
+  |                                      ----- immutable borrow later used here
 
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `collections` (bin "collections") due to 1 previous error
@@ -228,10 +228,10 @@ to use a `for` loop to get immutable references to each element in a vector of
 
 
 ```
-    let v = vec![100, 32, 57];
-    for i in &v {
-        println!("{i}");
-    }
+let v = vec![100, 32, 57];
+for i in &v {
+  println!("{i}");
+}
 ```
 
 Listing 8-7: Printing each element in a vector by iterating over the elements using a `for` loop
@@ -242,10 +242,10 @@ will add `50` to each element.
 
 
 ```
-    let mut v = vec![100, 32, 57];
-    for i in &mut v {
-        *i += 50;
-    }
+let mut v = vec![100, 32, 57];
+for i in &mut v {
+  *i += 50;
+}
 ```
 
 Listing 8-8: Iterating over mutable references to elements in a vector
@@ -279,17 +279,17 @@ hold different types. We’ve demonstrated this in Listing 8-9.
 
 
 ```
-    enum SpreadsheetCell {
-        Int(i32),
-        Float(f64),
-        Text(String),
-    }
+enum SpreadsheetCell {
+  Int(i32),
+  Float(f64),
+  Text(String),
+}
 
-    let row = vec![
-        SpreadsheetCell::Int(3),
-        SpreadsheetCell::Text(String::from("blue")),
-        SpreadsheetCell::Float(10.12),
-    ];
+let row = vec![
+  SpreadsheetCell::Int(3),
+  SpreadsheetCell::Text(String::from("blue")),
+  SpreadsheetCell::Float(10.12),
+];
 ```
 
 Listing 8-9: Defining an enum to store values of different types in one vector
@@ -318,11 +318,12 @@ annotated in Listing 8-10.
 
 
 ```
-    {
-        let v = vec![1, 2, 3, 4];
+{
+  let v = vec![1, 2, 3, 4];
 
-        // do stuff with v
-    } // <- v goes out of scope and is freed here
+  // do stuff with v
+// <- v goes out of scope and is freed here
+}
 ```
 
 Listing 8-10: Showing where the vector and its elements are dropped
@@ -383,7 +384,7 @@ function to create an instance, shown in Listing 8-11.
 
 
 ```
-    let mut s = String::new();
+let mut s = String::new();
 ```
 
 Listing 8-11: Creating a new, empty `String`
@@ -396,12 +397,12 @@ two examples.
 
 
 ```
-    let data = "initial contents";
+let data = "initial contents";
 
-    let s = data.to_string();
+let s = data.to_string();
 
-    // The method also works on a literal directly:
-    let s = "initial contents".to_string();
+// The method also works on a literal directly:
+let s = "initial contents".to_string();
 ```
 
 Listing 8-12: Using the `to_string` method to create a `String` from a string literal
@@ -414,7 +415,7 @@ that uses `to_string`.
 
 
 ```
-    let s = String::from("initial contents");
+let s = String::from("initial contents");
 ```
 
 Listing 8-13: Using the `String::from` function to create a `String` from a string literal
@@ -430,17 +431,17 @@ data in them, as shown in Listing 8-14.
 
 
 ```
-    let hello = String::from("السلام عليكم");
-    let hello = String::from("Dobrý den");
-    let hello = String::from("Hello");
-    let hello = String::from("שלום");
-    let hello = String::from("नमस्ते");
-    let hello = String::from("こんにちは");
-    let hello = String::from("안녕하세요");
-    let hello = String::from("你好");
-    let hello = String::from("Olá");
-    let hello = String::from("Здравствуйте");
-    let hello = String::from("Hola");
+let hello = String::from("السلام عليكم");
+let hello = String::from("Dobrý den");
+let hello = String::from("Hello");
+let hello = String::from("שלום");
+let hello = String::from("नमस्ते");
+let hello = String::from("こんにちは");
+let hello = String::from("안녕하세요");
+let hello = String::from("你好");
+let hello = String::from("Olá");
+let hello = String::from("Здравствуйте");
+let hello = String::from("Hola");
 ```
 
 Listing 8-14: Storing greetings in different languages in strings
@@ -464,8 +465,8 @@ as shown in Listing 8-15.
 
 
 ```
-    let mut s = String::from("foo");
-    s.push_str("bar");
+let mut s = String::from("foo");
+s.push_str("bar");
 ```
 
 Listing 8-15: Appending a string slice to a `String` using the `push_str` method
@@ -477,10 +478,10 @@ parameter. For example, in the code in Listing 8-16, we want to be able to use
 
 
 ```
-    let mut s1 = String::from("foo");
-    let s2 = "bar";
-    s1.push_str(s2);
-    println!("s2 is {s2}");
+let mut s1 = String::from("foo");
+let s2 = "bar";
+s1.push_str(s2);
+println!("s2 is {s2}");
 ```
 
 Listing 8-16: Using a string slice after appending its contents to a `String`
@@ -494,8 +495,8 @@ method.
 
 
 ```
-    let mut s = String::from("lo");
-    s.push('l');
+let mut s = String::from("lo");
+s.push('l');
 ```
 
 Listing 8-17: Adding one character to a `String` value using `push`
@@ -513,9 +514,10 @@ the `+` operator, as shown in Listing 8-18.
 
 
 ```
-    let s1 = String::from("Hello, ");
-    let s2 = String::from("world!");
-    let s3 = s1 + &s2; // note s1 has been moved here and can no longer be used
+let s1 = String::from("Hello, ");
+let s2 = String::from("world!");
+// note s1 has been moved here and can no longer be used
+let s3 = s1 + &s2;
 ```
 
 Listing 8-18: Using the `+` operator to combine two `String` values into a new `String` value
@@ -563,11 +565,11 @@ If we need to concatenate multiple strings, the behavior of the `+` operator
 gets unwieldy:
 
 ```
-    let s1 = String::from("tic");
-    let s2 = String::from("tac");
-    let s3 = String::from("toe");
+let s1 = String::from("tic");
+let s2 = String::from("tac");
+let s3 = String::from("toe");
 
-    let s = s1 + "-" + &s2 + "-" + &s3;
+let s = s1 + "-" + &s2 + "-" + &s3;
 ```
 
 At this point, `s` will be `tic-tac-toe`. With all of the `+` and `"`
@@ -575,11 +577,11 @@ characters, it’s difficult to see what’s going on. For combining strings in
 more complicated ways, we can instead use the `format!` macro:
 
 ```
-    let s1 = String::from("tic");
-    let s2 = String::from("tac");
-    let s3 = String::from("toe");
+let s1 = String::from("tic");
+let s2 = String::from("tac");
+let s3 = String::from("toe");
 
-    let s = format!("{s1}-{s2}-{s3}");
+let s = format!("{s1}-{s2}-{s3}");
 ```
 
 This code also sets `s` to `tic-tac-toe`. The `format!` macro works like
@@ -597,8 +599,8 @@ get an error. Consider the invalid code in Listing 8-19.
 
 
 ```
-    let s1 = String::from("hi");
-    let h = s1[0];
+let s1 = String::from("hi");
+let h = s1[0];
 ```
 
 Listing 8-19: Attempting to use indexing syntax with a `String`
@@ -614,11 +616,12 @@ error[E0277]: the type `str` cannot be indexed by `{integer}`
 3 |     let h = s1[0];
   |                ^ string indices are ranges of `usize`
   |
-  = note: you can use `.chars().nth()` or `.bytes().nth()`
-          for more information, see chapter 8 in The Book: <https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings>
   = help: the trait `SliceIndex<str>` is not implemented for `{integer}`
-          but trait `SliceIndex<[_]>` is implemented for `usize`
-  = help: for that trait implementation, expected `[_]`, found `str`
+  = note: you can use `.chars().nth()` or `.bytes().nth()`
+      for more information, see chapter 8 in The Book: <https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings>
+  = help: the following other types implement trait `SliceIndex<T>`:
+      `usize` implements `SliceIndex<ByteStr>`
+      `usize` implements `SliceIndex<[T]>`
   = note: required for `String` to implement `Index<{integer}>`
 
 For more information about this error, try `rustc --explain E0277`.
@@ -634,7 +637,7 @@ A `String` is a wrapper over a `Vec<u8>`. Let’s look at some of our properly
 encoded UTF-8 example strings from Listing 8-14. First, this one:
 
 ```
-    let hello = String::from("Hola");
+let hello = String::from("Hola");
 ```
 
 In this case, `len` will be `4`, which means the vector storing the string
@@ -643,7 +646,7 @@ UTF-8. The following line, however, may surprise you (note that this string
 begins with the capital Cyrillic letter *Ze*, not the number 3):
 
 ```
-    let hello = String::from("Здравствуйте");
+let hello = String::from("Здравствуйте");
 ```
 
 If you were asked how long the string is, you might say 12. In fact, Rust’s
@@ -743,8 +746,8 @@ index were accessed in a vector:
 ```
 $ cargo run
    Compiling collections v0.1.0 (file:///projects/collections)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
-     Running `target/debug/collections`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
+   Running `target/debug/collections`
 
 thread 'main' panicked at src/main.rs:4:19:
 byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`
@@ -767,7 +770,7 @@ type `char`, and you can iterate over the result to access each element:
 
 ```
 for c in "Зд".chars() {
-    println!("{c}");
+  println!("{c}");
 }
 ```
 
@@ -783,7 +786,7 @@ appropriate for your domain:
 
 ```
 for b in "Зд".bytes() {
-    println!("{b}");
+  println!("{b}");
 }
 ```
 
@@ -855,12 +858,12 @@ Yellow team starts with 50.
 
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let mut scores = HashMap::new();
+let mut scores = HashMap::new();
 
-    scores.insert(String::from("Blue"), 10);
-    scores.insert(String::from("Yellow"), 50);
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
 ```
 
 Listing 8-20: Creating a new hash map and inserting some keys and values
@@ -883,15 +886,15 @@ method, as shown in Listing 8-21.
 
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let mut scores = HashMap::new();
+let mut scores = HashMap::new();
 
-    scores.insert(String::from("Blue"), 10);
-    scores.insert(String::from("Yellow"), 50);
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
 
-    let team_name = String::from("Blue");
-    let score = scores.get(&team_name).copied().unwrap_or(0);
+let team_name = String::from("Blue");
+let score = scores.get(&team_name).copied().unwrap_or(0);
 ```
 
 Listing 8-21: Accessing the score for the Blue team stored in the hash map
@@ -907,16 +910,16 @@ We can iterate over each key-value pair in a hash map in a similar manner as we
 do with vectors, using a `for` loop:
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let mut scores = HashMap::new();
+let mut scores = HashMap::new();
 
-    scores.insert(String::from("Blue"), 10);
-    scores.insert(String::from("Yellow"), 50);
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
 
-    for (key, value) in &scores {
-        println!("{key}: {value}");
-    }
+for (key, value) in &scores {
+  println!("{key}: {value}");
+}
 ```
 
 This code will print each pair in an arbitrary order:
@@ -938,15 +941,15 @@ the hash map will be the owner of those values, as demonstrated in Listing 8-22.
 
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let field_name = String::from("Favorite color");
-    let field_value = String::from("Blue");
+let field_name = String::from("Favorite color");
+let field_value = String::from("Blue");
 
-    let mut map = HashMap::new();
-    map.insert(field_name, field_value);
-    // field_name and field_value are invalid at this point, try using them and
-    // see what compiler error you get!
+let mut map = HashMap::new();
+map.insert(field_name, field_value);
+// field_name and field_value are invalid at this point, try using them and
+// see what compiler error you get!
 ```
 
 Listing 8-22: Showing that keys and values are owned by the hash map once they’re inserted
@@ -984,14 +987,14 @@ team’s key both times.
 
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let mut scores = HashMap::new();
+let mut scores = HashMap::new();
 
-    scores.insert(String::from("Blue"), 10);
-    scores.insert(String::from("Blue"), 25);
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Blue"), 25);
 
-    println!("{scores:?}");
+println!("{scores:?}");
 ```
 
 Listing 8-23: Replacing a value stored with a particular key
@@ -1019,15 +1022,15 @@ Blue team. Using the `entry` API, the code looks like Listing 8-24.
 
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let mut scores = HashMap::new();
-    scores.insert(String::from("Blue"), 10);
+let mut scores = HashMap::new();
+scores.insert(String::from("Blue"), 10);
 
-    scores.entry(String::from("Yellow")).or_insert(50);
-    scores.entry(String::from("Blue")).or_insert(50);
+scores.entry(String::from("Yellow")).or_insert(50);
+scores.entry(String::from("Blue")).or_insert(50);
 
-    println!("{scores:?}");
+println!("{scores:?}");
 ```
 
 Listing 8-24: Using the `entry` method to only insert if the key does not already have a value
@@ -1055,18 +1058,18 @@ the value `0`.
 
 
 ```
-    use std::collections::HashMap;
+use std::collections::HashMap;
 
-    let text = "hello world wonderful world";
+let text = "hello world wonderful world";
 
-    let mut map = HashMap::new();
+let mut map = HashMap::new();
 
-    for word in text.split_whitespace() {
-        let count = map.entry(word).or_insert(0);
-        *count += 1;
-    }
+for word in text.split_whitespace() {
+  let count = map.entry(word).or_insert(0);
+  *count += 1;
+}
 
-    println!("{map:?}");
+println!("{map:?}");
 ```
 
 Listing 8-25: Counting occurrences of words using a hash map that stores words and counts

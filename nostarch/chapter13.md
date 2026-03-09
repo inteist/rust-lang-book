@@ -77,55 +77,55 @@ src/main.rs
 ```
 #[derive(Debug, PartialEq, Copy, Clone)]
 enum ShirtColor {
-    Red,
-    Blue,
+  Red,
+  Blue,
 }
 
 struct Inventory {
-    shirts: Vec<ShirtColor>,
+  shirts: Vec<ShirtColor>,
 }
 
 impl Inventory {
-    fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
-        user_preference.unwrap_or_else(|| self.most_stocked())
-    }
+  fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
+    user_preference.unwrap_or_else(|| self.most_stocked())
+  }
 
-    fn most_stocked(&self) -> ShirtColor {
-        let mut num_red = 0;
-        let mut num_blue = 0;
+  fn most_stocked(&self) -> ShirtColor {
+    let mut num_red = 0;
+    let mut num_blue = 0;
 
-        for color in &self.shirts {
-            match color {
-                ShirtColor::Red => num_red += 1,
-                ShirtColor::Blue => num_blue += 1,
-            }
-        }
-        if num_red > num_blue {
-            ShirtColor::Red
-        } else {
-            ShirtColor::Blue
-        }
+    for color in &self.shirts {
+      match color {
+        ShirtColor::Red => num_red += 1,
+        ShirtColor::Blue => num_blue += 1,
+      }
     }
+    if num_red > num_blue {
+      ShirtColor::Red
+    } else {
+      ShirtColor::Blue
+    }
+  }
 }
 
 fn main() {
-    let store = Inventory {
-        shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
-    };
+  let store = Inventory {
+    shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
+  };
 
-    let user_pref1 = Some(ShirtColor::Red);
-    let giveaway1 = store.giveaway(user_pref1);
-    println!(
-        "The user with preference {:?} gets {:?}",
-        user_pref1, giveaway1
-    );
+  let user_pref1 = Some(ShirtColor::Red);
+  let giveaway1 = store.giveaway(user_pref1);
+  println!(
+    "The user with preference {:?} gets {:?}",
+    user_pref1, giveaway1
+  );
 
-    let user_pref2 = None;
-    let giveaway2 = store.giveaway(user_pref2);
-    println!(
-        "The user with preference {:?} gets {:?}",
-        user_pref2, giveaway2
-    );
+  let user_pref2 = None;
+  let giveaway2 = store.giveaway(user_pref2);
+  println!(
+    "The user with preference {:?} gets {:?}",
+    user_pref2, giveaway2
+  );
 }
 ```
 
@@ -160,8 +160,8 @@ Running this code prints the following:
 ```
 $ cargo run
    Compiling shirt-company v0.1.0 (file:///projects/shirt-company)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s
-     Running `target/debug/shirt-company`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s
+   Running `target/debug/shirt-company`
 The user with preference Some(Red) gets Red
 The user with preference None gets Blue
 ```
@@ -205,11 +205,11 @@ argument, as we did in Listing 13-1.
 src/main.rs
 
 ```
-    let expensive_closure = |num: u32| -> u32 {
-        println!("calculating slowly...");
-        thread::sleep(Duration::from_secs(2));
-        num
-    };
+let expensive_closure = |num: u32| -> u32 {
+  println!("calculating slowly...");
+  thread::sleep(Duration::from_secs(2));
+  num
+};
 ```
 
 Listing 13-2: Adding optional type annotations of the parameter and return value types in the closure
@@ -250,10 +250,10 @@ which we’ve done here with `String` the first time. If we then try to call
 src/main.rs
 
 ```
-    let example_closure = |x| x;
+let example_closure = |x| x;
 
-    let s = example_closure(String::from("hello"));
-    let n = example_closure(5);
+let s = example_closure(String::from("hello"));
+let n = example_closure(5);
 ```
 
 Listing 13-3: Attempting to call a closure whose types are inferred with two different types
@@ -267,9 +267,8 @@ error[E0308]: mismatched types
  --> src/main.rs:5:29
   |
 5 |     let n = example_closure(5);
-  |             --------------- ^- help: try using a conversion method: `.to_string()`
-  |             |               |
-  |             |               expected `String`, found integer
+  |             --------------- ^ expected `String`, found integer
+  |             |
   |             arguments to this function are incorrect
   |
 note: expected because the closure was earlier called with an argument of type `String`
@@ -284,6 +283,10 @@ note: closure parameter defined here
   |
 2 |     let example_closure = |x| x;
   |                            ^
+help: try using a conversion method
+  |
+5 |     let n = example_closure(5.to_string());
+  |                              ++++++++++++
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `closure-example` (bin "closure-example") due to 1 previous error
@@ -310,14 +313,14 @@ src/main.rs
 
 ```
 fn main() {
-    let list = vec![1, 2, 3];
-    println!("Before defining closure: {list:?}");
+  let list = vec![1, 2, 3];
+  println!("Before defining closure: {list:?}");
 
-    let only_borrows = || println!("From closure: {list:?}");
+  let only_borrows = || println!("From closure: {list:?}");
 
-    println!("Before calling closure: {list:?}");
-    only_borrows();
-    println!("After calling closure: {list:?}");
+  println!("Before calling closure: {list:?}");
+  only_borrows();
+  println!("After calling closure: {list:?}");
 }
 ```
 
@@ -335,8 +338,8 @@ is called. This code compiles, runs, and prints:
 ```
 $ cargo run
    Compiling closure-example v0.1.0 (file:///projects/closure-example)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
-     Running `target/debug/closure-example`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
+   Running `target/debug/closure-example`
 Before defining closure: [1, 2, 3]
 Before calling closure: [1, 2, 3]
 From closure: [1, 2, 3]
@@ -350,13 +353,13 @@ src/main.rs
 
 ```
 fn main() {
-    let mut list = vec![1, 2, 3];
-    println!("Before defining closure: {list:?}");
+  let mut list = vec![1, 2, 3];
+  println!("Before defining closure: {list:?}");
 
-    let mut borrows_mutably = || list.push(7);
+  let mut borrows_mutably = || list.push(7);
 
-    borrows_mutably();
-    println!("After calling closure: {list:?}");
+  borrows_mutably();
+  println!("After calling closure: {list:?}");
 }
 ```
 
@@ -367,8 +370,8 @@ This code compiles, runs, and prints:
 ```
 $ cargo run
    Compiling closure-example v0.1.0 (file:///projects/closure-example)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
-     Running `target/debug/closure-example`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
+   Running `target/debug/closure-example`
 Before defining closure: [1, 2, 3]
 After calling closure: [1, 2, 3, 7]
 ```
@@ -398,12 +401,12 @@ src/main.rs
 use std::thread;
 
 fn main() {
-    let list = vec![1, 2, 3];
-    println!("Before defining closure: {list:?}");
+  let list = vec![1, 2, 3];
+  println!("Before defining closure: {list:?}");
 
-    thread::spawn(move || println!("From thread: {list:?}"))
-        .join()
-        .unwrap();
+  thread::spawn(move || println!("From thread: {list:?}"))
+    .join()
+    .unwrap();
 }
 ```
 
@@ -467,15 +470,15 @@ we used in Listing 13-1:
 
 ```
 impl<T> Option<T> {
-    pub fn unwrap_or_else<F>(self, f: F) -> T
-    where
-        F: FnOnce() -> T
-    {
-        match self {
-            Some(x) => x,
-            None => f(),
-        }
+  pub fn unwrap_or_else<F>(self, f: F) -> T
+  where
+    F: FnOnce() -> T
+  {
+    match self {
+      Some(x) => x,
+      None => f(),
     }
+  }
 }
 ```
 
@@ -519,19 +522,19 @@ src/main.rs
 ```
 #[derive(Debug)]
 struct Rectangle {
-    width: u32,
-    height: u32,
+  width: u32,
+  height: u32,
 }
 
 fn main() {
-    let mut list = [
-        Rectangle { width: 10, height: 1 },
-        Rectangle { width: 3, height: 5 },
-        Rectangle { width: 7, height: 12 },
-    ];
+  let mut list = [
+    Rectangle { width: 10, height: 1 },
+    Rectangle { width: 3, height: 5 },
+    Rectangle { width: 7, height: 12 },
+  ];
 
-    list.sort_by_key(|r| r.width);
-    println!("{list:#?}");
+  list.sort_by_key(|r| r.width);
+  println!("{list:#?}");
 }
 ```
 
@@ -542,21 +545,21 @@ This code prints:
 ```
 $ cargo run
    Compiling rectangles v0.1.0 (file:///projects/rectangles)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.41s
-     Running `target/debug/rectangles`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.41s
+   Running `target/debug/rectangles`
 [
-    Rectangle {
-        width: 3,
-        height: 5,
-    },
-    Rectangle {
-        width: 7,
-        height: 12,
-    },
-    Rectangle {
-        width: 10,
-        height: 1,
-    },
+  Rectangle {
+    width: 3,
+    height: 5,
+  },
+  Rectangle {
+    width: 7,
+    height: 12,
+  },
+  Rectangle {
+    width: 10,
+    height: 1,
+  },
 ]
 ```
 
@@ -573,25 +576,25 @@ src/main.rs
 ```
 #[derive(Debug)]
 struct Rectangle {
-    width: u32,
-    height: u32,
+  width: u32,
+  height: u32,
 }
 
 fn main() {
-    let mut list = [
-        Rectangle { width: 10, height: 1 },
-        Rectangle { width: 3, height: 5 },
-        Rectangle { width: 7, height: 12 },
-    ];
+  let mut list = [
+    Rectangle { width: 10, height: 1 },
+    Rectangle { width: 3, height: 5 },
+    Rectangle { width: 7, height: 12 },
+  ];
 
-    let mut sort_operations = vec![];
-    let value = String::from("closure called");
+  let mut sort_operations = vec![];
+  let value = String::from("closure called");
 
-    list.sort_by_key(|r| {
-        sort_operations.push(value);
-        r.width
-    });
-    println!("{list:#?}");
+  list.sort_by_key(|r| {
+    sort_operations.push(value);
+    r.width
+  });
+  println!("{list:#?}");
 }
 ```
 
@@ -616,12 +619,14 @@ error[E0507]: cannot move out of `value`, a captured variable in an `FnMut` clos
   --> src/main.rs:18:30
    |
 15 |     let value = String::from("closure called");
-   |         ----- captured outer variable
+   |         -----   ------------------------------ move occurs because `value` has type `String`, which does not implement the `Copy` trait
+   |         |
+   |         captured outer variable
 16 |
 17 |     list.sort_by_key(|r| {
    |                      --- captured by this `FnMut` closure
 18 |         sort_operations.push(value);
-   |                              ^^^^^ move occurs because `value` has type `String`, which does not implement the `Copy` trait
+   |                              ^^^^^ `value` is moved here
    |
 help: consider cloning the value if the performance cost is acceptable
    |
@@ -645,23 +650,23 @@ src/main.rs
 ```
 #[derive(Debug)]
 struct Rectangle {
-    width: u32,
-    height: u32,
+  width: u32,
+  height: u32,
 }
 
 fn main() {
-    let mut list = [
-        Rectangle { width: 10, height: 1 },
-        Rectangle { width: 3, height: 5 },
-        Rectangle { width: 7, height: 12 },
-    ];
+  let mut list = [
+    Rectangle { width: 10, height: 1 },
+    Rectangle { width: 3, height: 5 },
+    Rectangle { width: 7, height: 12 },
+  ];
 
-    let mut num_sort_operations = 0;
-    list.sort_by_key(|r| {
-        num_sort_operations += 1;
-        r.width
-    });
-    println!("{list:#?}, sorted in {num_sort_operations} operations");
+  let mut num_sort_operations = 0;
+  list.sort_by_key(|r| {
+    num_sort_operations += 1;
+    r.width
+  });
+  println!("{list:#?}, sorted in {num_sort_operations} operations");
 }
 ```
 
@@ -688,9 +693,9 @@ useful.
 src/main.rs
 
 ```
-    let v1 = vec![1, 2, 3];
+let v1 = vec![1, 2, 3];
 
-    let v1_iter = v1.iter();
+let v1_iter = v1.iter();
 ```
 
 Listing 13-10: Creating an iterator
@@ -709,13 +714,13 @@ iteration of the loop, which prints out each value.
 src/main.rs
 
 ```
-    let v1 = vec![1, 2, 3];
+let v1 = vec![1, 2, 3];
 
-    let v1_iter = v1.iter();
+let v1_iter = v1.iter();
 
-    for val in v1_iter {
-        println!("Got: {val}");
-    }
+for val in v1_iter {
+  println!("Got: {val}");
+}
 ```
 
 Listing 13-11: Using an iterator in a `for` loop
@@ -738,11 +743,11 @@ standard library. The definition of the trait looks like this:
 
 ```
 pub trait Iterator {
-    type Item;
+  type Item;
 
-    fn next(&mut self) -> Option<Self::Item>;
+  fn next(&mut self) -> Option<Self::Item>;
 
-    // methods with default implementations elided
+  // methods with default implementations elided
 }
 ```
 
@@ -765,17 +770,17 @@ from the vector.
 src/lib.rs
 
 ```
-    #[test]
-    fn iterator_demonstration() {
-        let v1 = vec![1, 2, 3];
+#[test]
+fn iterator_demonstration() {
+  let v1 = vec![1, 2, 3];
 
-        let mut v1_iter = v1.iter();
+  let mut v1_iter = v1.iter();
 
-        assert_eq!(v1_iter.next(), Some(&1));
-        assert_eq!(v1_iter.next(), Some(&2));
-        assert_eq!(v1_iter.next(), Some(&3));
-        assert_eq!(v1_iter.next(), None);
-    }
+  assert_eq!(v1_iter.next(), Some(&1));
+  assert_eq!(v1_iter.next(), Some(&2));
+  assert_eq!(v1_iter.next(), Some(&3));
+  assert_eq!(v1_iter.next(), None);
+}
 ```
 
 Listing 13-12: Calling the `next` method on an iterator
@@ -813,16 +818,16 @@ test illustrating a use of the `sum` method.
 src/lib.rs
 
 ```
-    #[test]
-    fn iterator_sum() {
-        let v1 = vec![1, 2, 3];
+#[test]
+fn iterator_sum() {
+  let v1 = vec![1, 2, 3];
 
-        let v1_iter = v1.iter();
+  let v1_iter = v1.iter();
 
-        let total: i32 = v1_iter.sum();
+  let total: i32 = v1_iter.sum();
 
-        assert_eq!(total, 6);
-    }
+  assert_eq!(total, 6);
+}
 ```
 
 Listing 13-13: Calling the `sum` method to get the total of all items in the iterator
@@ -845,9 +850,9 @@ incremented by 1.
 src/main.rs
 
 ```
-    let v1: Vec<i32> = vec![1, 2, 3];
+let v1: Vec<i32> = vec![1, 2, 3];
 
-    v1.iter().map(|x| x + 1);
+v1.iter().map(|x| x + 1);
 ```
 
 Listing 13-14: Calling the iterator adapter `map` to create a new iterator
@@ -871,8 +876,8 @@ help: use `let _ = ...` to ignore the resulting value
   |     +++++++
 
 warning: `iterators` (bin "iterators") generated 1 warning
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.47s
-     Running `target/debug/iterators`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.47s
+   Running `target/debug/iterators`
 ```
 
 The code in Listing 13-14 doesn’t do anything; the closure we’ve specified
@@ -890,11 +895,11 @@ containing each item from the original vector, incremented by 1.
 src/main.rs
 
 ```
-    let v1: Vec<i32> = vec![1, 2, 3];
+let v1: Vec<i32> = vec![1, 2, 3];
 
-    let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
 
-    assert_eq!(v2, vec![2, 3, 4]);
+assert_eq!(v2, vec![2, 3, 4]);
 ```
 
 Listing 13-15: Calling the `map` method to create a new iterator, and then calling the `collect` method to consume the new iterator and create a vector
@@ -932,51 +937,51 @@ src/lib.rs
 ```
 #[derive(PartialEq, Debug)]
 struct Shoe {
-    size: u32,
-    style: String,
+  size: u32,
+  style: String,
 }
 
 fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
-    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+  shoes.into_iter().filter(|s| s.size == shoe_size).collect()
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn filters_by_size() {
-        let shoes = vec![
-            Shoe {
-                size: 10,
-                style: String::from("sneaker"),
-            },
-            Shoe {
-                size: 13,
-                style: String::from("sandal"),
-            },
-            Shoe {
-                size: 10,
-                style: String::from("boot"),
-            },
-        ];
+  #[test]
+  fn filters_by_size() {
+    let shoes = vec![
+      Shoe {
+        size: 10,
+        style: String::from("sneaker"),
+      },
+      Shoe {
+        size: 13,
+        style: String::from("sandal"),
+      },
+      Shoe {
+        size: 10,
+        style: String::from("boot"),
+      },
+    ];
 
-        let in_my_size = shoes_in_size(shoes, 10);
+    let in_my_size = shoes_in_size(shoes, 10);
 
-        assert_eq!(
-            in_my_size,
-            vec![
-                Shoe {
-                    size: 10,
-                    style: String::from("sneaker")
-                },
-                Shoe {
-                    size: 10,
-                    style: String::from("boot")
-                },
-            ]
-        );
-    }
+    assert_eq!(
+      in_my_size,
+      vec![
+        Shoe {
+          size: 10,
+          style: String::from("sneaker")
+        },
+        Shoe {
+          size: 10,
+          style: String::from("boot")
+        },
+      ]
+    );
+  }
 }
 ```
 
@@ -1018,22 +1023,22 @@ src/main.rs
 
 ```
 impl Config {
-    fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
+fn build(args: &[String]) -> Result<Config, &'static str> {
+  if args.len() < 3 {
+    return Err("not enough arguments");
+  }
 
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+  let query = args[1].clone();
+  let file_path = args[2].clone();
 
-        let ignore_case = env::var("IGNORE_CASE").is_ok();
+  let ignore_case = env::var("IGNORE_CASE").is_ok();
 
-        Ok(Config {
-            query,
-            file_path,
-            ignore_case,
-        })
-    }
+  Ok(Config {
+    query,
+    file_path,
+    ignore_case,
+  })
+}
 }
 ```
 
@@ -1066,14 +1071,14 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let config = Config::build(&args).unwrap_or_else(|err| {
-        eprintln!("Problem parsing arguments: {err}");
-        process::exit(1);
-    });
+  let config = Config::build(&args).unwrap_or_else(|err| {
+    eprintln!("Problem parsing arguments: {err}");
+    process::exit(1);
+  });
 
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -1085,12 +1090,12 @@ src/main.rs
 
 ```
 fn main() {
-    let config = Config::build(env::args()).unwrap_or_else(|err| {
-        eprintln!("Problem parsing arguments: {err}");
-        process::exit(1);
-    });
+  let config = Config::build(env::args()).unwrap_or_else(|err| {
+    eprintln!("Problem parsing arguments: {err}");
+    process::exit(1);
+  });
 
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -1109,10 +1114,10 @@ src/main.rs
 
 ```
 impl Config {
-    fn build(
-        mut args: impl Iterator<Item = String>,
-    ) -> Result<Config, &'static str> {
-        // --snip--
+fn build(
+  mut args: impl Iterator<Item = String>,
+) -> Result<Config, &'static str> {
+  // --snip--
 ```
 
 Listing 13-19: Updating the signature of `Config::build` to expect an iterator
@@ -1145,29 +1150,29 @@ src/main.rs
 
 ```
 impl Config {
-    fn build(
-        mut args: impl Iterator<Item = String>,
-    ) -> Result<Config, &'static str> {
-        args.next();
+fn build(
+  mut args: impl Iterator<Item = String>,
+) -> Result<Config, &'static str> {
+  args.next();
 
-        let query = match args.next() {
-            Some(arg) => arg,
-            None => return Err("Didn't get a query string"),
-        };
+  let query = match args.next() {
+    Some(arg) => arg,
+    None => return Err("Didn't get a query string"),
+  };
 
-        let file_path = match args.next() {
-            Some(arg) => arg,
-            None => return Err("Didn't get a file path"),
-        };
+  let file_path = match args.next() {
+    Some(arg) => arg,
+    None => return Err("Didn't get a file path"),
+  };
 
-        let ignore_case = env::var("IGNORE_CASE").is_ok();
+  let ignore_case = env::var("IGNORE_CASE").is_ok();
 
-        Ok(Config {
-            query,
-            file_path,
-            ignore_case,
-        })
-    }
+  Ok(Config {
+    query,
+    file_path,
+    ignore_case,
+  })
+}
 }
 ```
 
@@ -1194,15 +1199,15 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
+  let mut results = Vec::new();
 
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
+  for line in contents.lines() {
+    if line.contains(query) {
+      results.push(line);
     }
+  }
 
-    results
+  results
 }
 ```
 
@@ -1219,10 +1224,10 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    contents
-        .lines()
-        .filter(|line| line.contains(query))
-        .collect()
+  contents
+    .lines()
+    .filter(|line| line.contains(query))
+    .collect()
 }
 ```
 

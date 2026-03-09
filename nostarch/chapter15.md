@@ -97,8 +97,8 @@ src/main.rs
 
 ```
 fn main() {
-    let b = Box::new(5);
-    println!("b = {b}");
+  let b = Box::new(5);
+  println!("b = {b}");
 }
 ```
 
@@ -174,8 +174,8 @@ src/main.rs
 
 ```
 enum List {
-    Cons(i32, List),
-    Nil,
+  Cons(i32, List),
+  Nil,
 }
 ```
 
@@ -197,7 +197,7 @@ src/main.rs
 use crate::List::{Cons, Nil};
 
 fn main() {
-    let list = Cons(1, Cons(2, Cons(3, Nil)));
+  let list = Cons(1, Cons(2, Cons(3, Nil)));
 }
 ```
 
@@ -258,10 +258,10 @@ definitions in Chapter 6:
 
 ```
 enum Message {
-    Quit,
-    Move { x: i32, y: i32 },
-    Write(String),
-    ChangeColor(i32, i32, i32),
+  Quit,
+  Move { x: i32, y: i32 },
+  Write(String),
+  ChangeColor(i32, i32, i32),
 }
 ```
 
@@ -326,14 +326,14 @@ src/main.rs
 
 ```
 enum List {
-    Cons(i32, Box<List>),
-    Nil,
+  Cons(i32, Box<List>),
+  Nil,
 }
 
 use crate::List::{Cons, Nil};
 
 fn main() {
-    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+  let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 }
 ```
 
@@ -404,11 +404,11 @@ src/main.rs
 
 ```
 fn main() {
-    let x = 5;
-    let y = &x;
+  let x = 5;
+  let y = &x;
 
-    assert_eq!(5, x);
-    assert_eq!(5, *y);
+  assert_eq!(5, x);
+  assert_eq!(5, *y);
 }
 ```
 
@@ -455,11 +455,11 @@ src/main.rs
 
 ```
 fn main() {
-    let x = 5;
-    let y = Box::new(x);
+  let x = 5;
+  let y = Box::new(x);
 
-    assert_eq!(5, x);
-    assert_eq!(5, *y);
+  assert_eq!(5, x);
+  assert_eq!(5, *y);
 }
 ```
 
@@ -494,9 +494,9 @@ src/main.rs
 struct MyBox<T>(T);
 
 impl<T> MyBox<T> {
-    fn new(x: T) -> MyBox<T> {
-        MyBox(x)
-    }
+  fn new(x: T) -> MyBox<T> {
+    MyBox(x)
+  }
 }
 ```
 
@@ -516,11 +516,11 @@ src/main.rs
 
 ```
 fn main() {
-    let x = 5;
-    let y = MyBox::new(x);
+  let x = 5;
+  let y = MyBox::new(x);
 
-    assert_eq!(5, x);
-    assert_eq!(5, *y);
+  assert_eq!(5, x);
+  assert_eq!(5, *y);
 }
 ```
 
@@ -535,7 +535,7 @@ error[E0614]: type `MyBox<{integer}>` cannot be dereferenced
   --> src/main.rs:14:19
    |
 14 |     assert_eq!(5, *y);
-   |                   ^^
+   |                   ^^ can't be dereferenced
 
 For more information about this error, try `rustc --explain E0614`.
 error: could not compile `deref-example` (bin "deref-example") due to 1 previous error
@@ -564,11 +564,11 @@ src/main.rs
 use std::ops::Deref;
 
 impl<T> Deref for MyBox<T> {
-    type Target = T;
+  type Target = T;
 
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
+  fn deref(&self) -> &Self::Target {
+    &self.0
+  }
 }
 ```
 
@@ -647,7 +647,7 @@ src/main.rs
 
 ```
 fn hello(name: &str) {
-    println!("Hello, {name}!");
+  println!("Hello, {name}!");
 }
 ```
 
@@ -661,8 +661,8 @@ src/main.rs
 
 ```
 fn main() {
-    let m = MyBox::new(String::from("Rust"));
-    hello(&m);
+  let m = MyBox::new(String::from("Rust"));
+  hello(&m);
 }
 ```
 
@@ -684,8 +684,8 @@ src/main.rs
 
 ```
 fn main() {
-    let m = MyBox::new(String::from("Rust"));
-    hello(&(*m)[..]);
+  let m = MyBox::new(String::from("Rust"));
+  hello(&(*m)[..]);
 }
 ```
 
@@ -771,23 +771,23 @@ src/main.rs
 
 ```
 struct CustomSmartPointer {
-    data: String,
+  data: String,
 }
 
 impl Drop for CustomSmartPointer {
-    fn drop(&mut self) {
-        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
-    }
+  fn drop(&mut self) {
+    println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+  }
 }
 
 fn main() {
-    let c = CustomSmartPointer {
-        data: String::from("my stuff"),
-    };
-    let d = CustomSmartPointer {
-        data: String::from("other stuff"),
-    };
-    println!("CustomSmartPointers created");
+  let c = CustomSmartPointer {
+    data: String::from("my stuff"),
+  };
+  let d = CustomSmartPointer {
+    data: String::from("other stuff"),
+  };
+  println!("CustomSmartPointers created");
 }
 ```
 
@@ -811,8 +811,8 @@ When we run this program, we’ll see the following output:
 ```
 $ cargo run
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.60s
-     Running `target/debug/drop-example`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.60s
+   Running `target/debug/drop-example`
 CustomSmartPointers created
 Dropping CustomSmartPointer with data `other stuff`!
 Dropping CustomSmartPointer with data `my stuff`!
@@ -846,12 +846,12 @@ src/main.rs
 
 ```
 fn main() {
-    let c = CustomSmartPointer {
-        data: String::from("some data"),
-    };
-    println!("CustomSmartPointer created");
-    c.drop();
-    println!("CustomSmartPointer dropped before the end of main");
+  let c = CustomSmartPointer {
+    data: String::from("some data"),
+  };
+  println!("CustomSmartPointer created");
+  c.drop();
+  println!("CustomSmartPointer dropped before the end of main");
 }
 ```
 
@@ -870,8 +870,9 @@ error[E0040]: explicit use of destructor method
    |
 help: consider using `drop` function
    |
-16 |     drop(c);
-   |     +++++ ~
+16 -     c.drop();
+16 +     drop(c);
+   |
 
 For more information about this error, try `rustc --explain E0040`.
 error: could not compile `drop-example` (bin "drop-example") due to 1 previous error
@@ -900,12 +901,12 @@ src/main.rs
 
 ```
 fn main() {
-    let c = CustomSmartPointer {
-        data: String::from("some data"),
-    };
-    println!("CustomSmartPointer created");
-    drop(c);
-    println!("CustomSmartPointer dropped before the end of main");
+  let c = CustomSmartPointer {
+    data: String::from("some data"),
+  };
+  println!("CustomSmartPointer created");
+  drop(c);
+  println!("CustomSmartPointer dropped before the end of main");
 }
 ```
 
@@ -916,8 +917,8 @@ Running this code will print the following:
 ```
 $ cargo run
    Compiling drop-example v0.1.0 (file:///projects/drop-example)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
-     Running `target/debug/drop-example`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
+   Running `target/debug/drop-example`
 CustomSmartPointer created
 Dropping CustomSmartPointer with data `some data`!
 CustomSmartPointer dropped before the end of main
@@ -1004,16 +1005,16 @@ src/main.rs
 
 ```
 enum List {
-    Cons(i32, Box<List>),
-    Nil,
+  Cons(i32, Box<List>),
+  Nil,
 }
 
 use crate::List::{Cons, Nil};
 
 fn main() {
-    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
-    let b = Cons(3, Box::new(a));
-    let c = Cons(4, Box::new(a));
+  let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+  let b = Cons(3, Box::new(a));
+  let c = Cons(4, Box::new(a));
 }
 ```
 
@@ -1027,12 +1028,21 @@ $ cargo run
 error[E0382]: use of moved value: `a`
   --> src/main.rs:11:30
    |
-9  |     let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+ 9 |     let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
    |         - move occurs because `a` has type `List`, which does not implement the `Copy` trait
 10 |     let b = Cons(3, Box::new(a));
    |                              - value moved here
 11 |     let c = Cons(4, Box::new(a));
    |                              ^ value used here after move
+   |
+note: if `List` implemented `Clone`, you could clone the value
+  --> src/main.rs:1:1
+   |
+ 1 | enum List {
+   | ^^^^^^^^^ consider implementing `Clone` for this type
+...
+10 |     let b = Cons(3, Box::new(a));
+   |                              - you could clone this value
 
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `cons-list` (bin "cons-list") due to 1 previous error
@@ -1063,17 +1073,17 @@ src/main.rs
 
 ```
 enum List {
-    Cons(i32, Rc<List>),
-    Nil,
+  Cons(i32, Rc<List>),
+  Nil,
 }
 
 use crate::List::{Cons, Nil};
 use std::rc::Rc;
 
 fn main() {
-    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
-    let b = Cons(3, Rc::clone(&a));
-    let c = Cons(4, Rc::clone(&a));
+  let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+  let b = Cons(3, Rc::clone(&a));
+  let c = Cons(4, Rc::clone(&a));
 }
 ```
 
@@ -1116,15 +1126,15 @@ src/main.rs
 // --snip--
 
 fn main() {
-    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
-    println!("count after creating a = {}", Rc::strong_count(&a));
-    let b = Cons(3, Rc::clone(&a));
-    println!("count after creating b = {}", Rc::strong_count(&a));
-    {
-        let c = Cons(4, Rc::clone(&a));
-        println!("count after creating c = {}", Rc::strong_count(&a));
-    }
-    println!("count after c goes out of scope = {}", Rc::strong_count(&a));
+  let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+  println!("count after creating a = {}", Rc::strong_count(&a));
+  let b = Cons(3, Rc::clone(&a));
+  println!("count after creating b = {}", Rc::strong_count(&a));
+  {
+    let c = Cons(4, Rc::clone(&a));
+    println!("count after creating c = {}", Rc::strong_count(&a));
+  }
+  println!("count after c goes out of scope = {}", Rc::strong_count(&a));
 }
 ```
 
@@ -1141,8 +1151,8 @@ This code prints the following:
 ```
 $ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.45s
-     Running `target/debug/cons-list`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.45s
+   Running `target/debug/cons-list`
 count after creating a = 1
 count after creating b = 2
 count after creating c = 3
@@ -1261,8 +1271,8 @@ you can’t borrow it mutably. For example, this code won’t compile:
 
 ```
 fn main() {
-    let x = 5;
-    let y = &mut x;
+  let x = 5;
+  let y = &mut x;
 }
 ```
 
@@ -1335,42 +1345,42 @@ src/lib.rs
 
 ```
 pub trait Messenger {
-    fn send(&self, msg: &str);
+  fn send(&self, msg: &str);
 }
 
 pub struct LimitTracker<'a, T: Messenger> {
-    messenger: &'a T,
-    value: usize,
-    max: usize,
+  messenger: &'a T,
+  value: usize,
+  max: usize,
 }
 
 impl<'a, T> LimitTracker<'a, T>
 where
-    T: Messenger,
+  T: Messenger,
 {
-    pub fn new(messenger: &'a T, max: usize) -> LimitTracker<'a, T> {
-        LimitTracker {
-            messenger,
-            value: 0,
-            max,
-        }
+  pub fn new(messenger: &'a T, max: usize) -> LimitTracker<'a, T> {
+    LimitTracker {
+      messenger,
+      value: 0,
+      max,
     }
+  }
 
-    pub fn set_value(&mut self, value: usize) {
-        self.value = value;
+  pub fn set_value(&mut self, value: usize) {
+    self.value = value;
 
-        let percentage_of_max = self.value as f64 / self.max as f64;
+    let percentage_of_max = self.value as f64 / self.max as f64;
 
-        if percentage_of_max >= 1.0 {
-            self.messenger.send("Error: You are over your quota!");
-        } else if percentage_of_max >= 0.9 {
-            self.messenger
-                .send("Urgent warning: You've used up over 90% of your quota!");
-        } else if percentage_of_max >= 0.75 {
-            self.messenger
-                .send("Warning: You've used up over 75% of your quota!");
-        }
+    if percentage_of_max >= 1.0 {
+      self.messenger.send("Error: You are over your quota!");
+    } else if percentage_of_max >= 0.9 {
+      self.messenger
+        .send("Urgent warning: You've used up over 90% of your quota!");
+    } else if percentage_of_max >= 0.75 {
+      self.messenger
+        .send("Warning: You've used up over 75% of your quota!");
     }
+  }
 }
 ```
 
@@ -1399,35 +1409,35 @@ src/lib.rs
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
+use super::*;
 
-    struct MockMessenger {
-        sent_messages: Vec<String>,
-    }
+struct MockMessenger {
+sent_messages: Vec<String>,
+}
 
-    impl MockMessenger {
-        fn new() -> MockMessenger {
-            MockMessenger {
-                sent_messages: vec![],
-            }
-        }
-    }
+impl MockMessenger {
+fn new() -> MockMessenger {
+  MockMessenger {
+    sent_messages: vec![],
+  }
+}
+}
 
-    impl Messenger for MockMessenger {
-        fn send(&self, message: &str) {
-            self.sent_messages.push(String::from(message));
-        }
-    }
+impl Messenger for MockMessenger {
+fn send(&self, message: &str) {
+  self.sent_messages.push(String::from(message));
+}
+}
 
-    #[test]
-    fn it_sends_an_over_75_percent_warning_message() {
-        let mock_messenger = MockMessenger::new();
-        let mut limit_tracker = LimitTracker::new(&mock_messenger, 100);
+#[test]
+fn it_sends_an_over_75_percent_warning_message() {
+let mock_messenger = MockMessenger::new();
+let mut limit_tracker = LimitTracker::new(&mock_messenger, 100);
 
-        limit_tracker.set_value(80);
+limit_tracker.set_value(80);
 
-        assert_eq!(mock_messenger.sent_messages.len(), 1);
-    }
+assert_eq!(mock_messenger.sent_messages.len(), 1);
+}
 }
 ```
 
@@ -1464,8 +1474,8 @@ error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `
    |
 help: consider changing this to be a mutable reference in the `impl` method and the `trait` definition
    |
-2  ~     fn send(&mut self, msg: &str);
-3  | }
+ 2 ~     fn send(&mut self, msg: &str);
+ 3 | }
 ...
 56 |     impl Messenger for MockMessenger {
 57 ~         fn send(&mut self, message: &str) {
@@ -1492,33 +1502,33 @@ src/lib.rs
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use std::cell::RefCell;
+use super::*;
+use std::cell::RefCell;
 
-    struct MockMessenger {
-        sent_messages: RefCell<Vec<String>>,
-    }
+struct MockMessenger {
+sent_messages: RefCell<Vec<String>>,
+}
 
-    impl MockMessenger {
-        fn new() -> MockMessenger {
-            MockMessenger {
-                sent_messages: RefCell::new(vec![]),
-            }
-        }
-    }
+impl MockMessenger {
+fn new() -> MockMessenger {
+  MockMessenger {
+    sent_messages: RefCell::new(vec![]),
+  }
+}
+}
 
-    impl Messenger for MockMessenger {
-        fn send(&self, message: &str) {
-            self.sent_messages.borrow_mut().push(String::from(message));
-        }
-    }
+impl Messenger for MockMessenger {
+fn send(&self, message: &str) {
+  self.sent_messages.borrow_mut().push(String::from(message));
+}
+}
 
-    #[test]
-    fn it_sends_an_over_75_percent_warning_message() {
-        // --snip--
+#[test]
+fn it_sends_an_over_75_percent_warning_message() {
+// --snip--
 
-        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
-    }
+assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
+}
 }
 ```
 
@@ -1571,15 +1581,15 @@ at runtime.
 src/lib.rs
 
 ```
-    impl Messenger for MockMessenger {
-        fn send(&self, message: &str) {
-            let mut one_borrow = self.sent_messages.borrow_mut();
-            let mut two_borrow = self.sent_messages.borrow_mut();
+impl Messenger for MockMessenger {
+fn send(&self, message: &str) {
+let mut one_borrow = self.sent_messages.borrow_mut();
+let mut two_borrow = self.sent_messages.borrow_mut();
 
-            one_borrow.push(String::from(message));
-            two_borrow.push(String::from(message));
-        }
-    }
+one_borrow.push(String::from(message));
+two_borrow.push(String::from(message));
+}
+}
 ```
 
 Listing 15-23: Creating two mutable references in the same scope to see that `RefCell<T>` will panic
@@ -1593,8 +1603,8 @@ which isn’t allowed. When we run the tests for our library, the code in Listin
 ```
 $ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.91s
-     Running unittests src/lib.rs (target/debug/deps/limit_tracker-e599811fa246dbde)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.91s
+   Running unittests src/lib.rs (target/debug/deps/limit_tracker-e599811fa246dbde)
 
 running 1 test
 test tests::it_sends_an_over_75_percent_warning_message ... FAILED
@@ -1604,12 +1614,12 @@ failures:
 ---- tests::it_sends_an_over_75_percent_warning_message stdout ----
 
 thread 'tests::it_sends_an_over_75_percent_warning_message' panicked at src/lib.rs:60:53:
-already borrowed: BorrowMutError
+RefCell already borrowed
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::it_sends_an_over_75_percent_warning_message
+  tests::it_sends_an_over_75_percent_warning_message
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -1655,8 +1665,8 @@ src/main.rs
 ```
 #[derive(Debug)]
 enum List {
-    Cons(Rc<RefCell<i32>>, Rc<List>),
-    Nil,
+  Cons(Rc<RefCell<i32>>, Rc<List>),
+  Nil,
 }
 
 use crate::List::{Cons, Nil};
@@ -1664,18 +1674,18 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 fn main() {
-    let value = Rc::new(RefCell::new(5));
+  let value = Rc::new(RefCell::new(5));
 
-    let a = Rc::new(Cons(Rc::clone(&value), Rc::new(Nil)));
+  let a = Rc::new(Cons(Rc::clone(&value), Rc::new(Nil)));
 
-    let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&a));
-    let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&a));
+  let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&a));
+  let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&a));
 
-    *value.borrow_mut() += 10;
+  *value.borrow_mut() += 10;
 
-    println!("a after = {a:?}");
-    println!("b after = {b:?}");
-    println!("c after = {c:?}");
+  println!("a after = {a:?}");
+  println!("b after = {b:?}");
+  println!("c after = {c:?}");
 }
 ```
 
@@ -1705,8 +1715,8 @@ value of `15` rather than `5`:
 ```
 $ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.63s
-     Running `target/debug/cons-list`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.63s
+   Running `target/debug/cons-list`
 a after = Cons(RefCell { value: 15 }, Nil)
 b after = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
 c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
@@ -1747,17 +1757,17 @@ use std::rc::Rc;
 
 #[derive(Debug)]
 enum List {
-    Cons(i32, RefCell<Rc<List>>),
-    Nil,
+  Cons(i32, RefCell<Rc<List>>),
+  Nil,
 }
 
 impl List {
-    fn tail(&self) -> Option<&RefCell<Rc<List>>> {
-        match self {
-            Cons(_, item) => Some(item),
-            Nil => None,
-        }
+  fn tail(&self) -> Option<&RefCell<Rc<List>>> {
+    match self {
+      Cons(_, item) => Some(item),
+      Nil => None,
     }
+  }
 }
 ```
 
@@ -1780,27 +1790,27 @@ src/main.rs
 
 ```
 fn main() {
-    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+  let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
-    println!("a initial rc count = {}", Rc::strong_count(&a));
-    println!("a next item = {:?}", a.tail());
+  println!("a initial rc count = {}", Rc::strong_count(&a));
+  println!("a next item = {:?}", a.tail());
 
-    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
+  let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
 
-    println!("a rc count after b creation = {}", Rc::strong_count(&a));
-    println!("b initial rc count = {}", Rc::strong_count(&b));
-    println!("b next item = {:?}", b.tail());
+  println!("a rc count after b creation = {}", Rc::strong_count(&a));
+  println!("b initial rc count = {}", Rc::strong_count(&b));
+  println!("b next item = {:?}", b.tail());
 
-    if let Some(link) = a.tail() {
-        *link.borrow_mut() = Rc::clone(&b);
-    }
+  if let Some(link) = a.tail() {
+    *link.borrow_mut() = Rc::clone(&b);
+  }
 
-    println!("b rc count after changing a = {}", Rc::strong_count(&b));
-    println!("a rc count after changing a = {}", Rc::strong_count(&a));
+  println!("b rc count after changing a = {}", Rc::strong_count(&b));
+  println!("a rc count after changing a = {}", Rc::strong_count(&a));
 
-    // Uncomment the next line to see that we have a cycle;
-    // it will overflow the stack.
-    // println!("a next item = {:?}", a.tail());
+  // Uncomment the next line to see that we have a cycle;
+  // it will overflow the stack.
+  // println!("a next item = {:?}", a.tail());
 }
 ```
 
@@ -1823,8 +1833,8 @@ moment, we’ll get this output:
 ```
 $ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.53s
-     Running `target/debug/cons-list`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.53s
+   Running `target/debug/cons-list`
 a initial rc count = 1
 a next item = Some(RefCell { value: Nil })
 a rc count after b creation = 2
@@ -1934,8 +1944,8 @@ use std::rc::Rc;
 
 #[derive(Debug)]
 struct Node {
-    value: i32,
-    children: RefCell<Vec<Rc<Node>>>,
+  value: i32,
+  children: RefCell<Vec<Rc<Node>>>,
 }
 ```
 
@@ -1953,15 +1963,15 @@ src/main.rs
 
 ```
 fn main() {
-    let leaf = Rc::new(Node {
-        value: 3,
-        children: RefCell::new(vec![]),
-    });
+  let leaf = Rc::new(Node {
+    value: 3,
+    children: RefCell::new(vec![]),
+  });
 
-    let branch = Rc::new(Node {
-        value: 5,
-        children: RefCell::new(vec![Rc::clone(&leaf)]),
-    });
+  let branch = Rc::new(Node {
+    value: 5,
+    children: RefCell::new(vec![Rc::clone(&leaf)]),
+  });
 }
 ```
 
@@ -2000,9 +2010,9 @@ use std::rc::{Rc, Weak};
 
 #[derive(Debug)]
 struct Node {
-    value: i32,
-    parent: RefCell<Weak<Node>>,
-    children: RefCell<Vec<Rc<Node>>>,
+  value: i32,
+  parent: RefCell<Weak<Node>>,
+  children: RefCell<Vec<Rc<Node>>>,
 }
 ```
 
@@ -2014,23 +2024,23 @@ src/main.rs
 
 ```
 fn main() {
-    let leaf = Rc::new(Node {
-        value: 3,
-        parent: RefCell::new(Weak::new()),
-        children: RefCell::new(vec![]),
-    });
+  let leaf = Rc::new(Node {
+    value: 3,
+    parent: RefCell::new(Weak::new()),
+    children: RefCell::new(vec![]),
+  });
 
-    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+  println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
 
-    let branch = Rc::new(Node {
-        value: 5,
-        parent: RefCell::new(Weak::new()),
-        children: RefCell::new(vec![Rc::clone(&leaf)]),
-    });
+  let branch = Rc::new(Node {
+    value: 5,
+    parent: RefCell::new(Weak::new()),
+    children: RefCell::new(vec![Rc::clone(&leaf)]),
+  });
 
-    *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+  *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
 
-    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+  println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
 }
 ```
 
@@ -2083,46 +2093,46 @@ src/main.rs
 
 ```
 fn main() {
-    let leaf = Rc::new(Node {
-        value: 3,
-        parent: RefCell::new(Weak::new()),
-        children: RefCell::new(vec![]),
+  let leaf = Rc::new(Node {
+    value: 3,
+    parent: RefCell::new(Weak::new()),
+    children: RefCell::new(vec![]),
+  });
+
+  println!(
+    "leaf strong = {}, weak = {}",
+    Rc::strong_count(&leaf),
+    Rc::weak_count(&leaf),
+  );
+
+  {
+    let branch = Rc::new(Node {
+      value: 5,
+      parent: RefCell::new(Weak::new()),
+      children: RefCell::new(vec![Rc::clone(&leaf)]),
     });
 
+    *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+
     println!(
-        "leaf strong = {}, weak = {}",
-        Rc::strong_count(&leaf),
-        Rc::weak_count(&leaf),
+      "branch strong = {}, weak = {}",
+      Rc::strong_count(&branch),
+      Rc::weak_count(&branch),
     );
 
-    {
-        let branch = Rc::new(Node {
-            value: 5,
-            parent: RefCell::new(Weak::new()),
-            children: RefCell::new(vec![Rc::clone(&leaf)]),
-        });
-
-        *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
-
-        println!(
-            "branch strong = {}, weak = {}",
-            Rc::strong_count(&branch),
-            Rc::weak_count(&branch),
-        );
-
-        println!(
-            "leaf strong = {}, weak = {}",
-            Rc::strong_count(&leaf),
-            Rc::weak_count(&leaf),
-        );
-    }
-
-    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
     println!(
-        "leaf strong = {}, weak = {}",
-        Rc::strong_count(&leaf),
-        Rc::weak_count(&leaf),
+      "leaf strong = {}, weak = {}",
+      Rc::strong_count(&leaf),
+      Rc::weak_count(&leaf),
     );
+  }
+
+  println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+  println!(
+    "leaf strong = {}, weak = {}",
+    Rc::strong_count(&leaf),
+    Rc::weak_count(&leaf),
+  );
 }
 ```
 

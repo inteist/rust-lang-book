@@ -54,17 +54,17 @@ src/main.rs
 
 ```
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+  let number_list = vec![34, 50, 25, 100, 65];
 
-    let mut largest = &number_list[0];
+  let mut largest = &number_list[0];
 
-    for number in &number_list {
-        if number > largest {
-            largest = number;
-        }
+  for number in &number_list {
+    if number > largest {
+      largest = number;
     }
+  }
 
-    println!("The largest number is {largest}");
+  println!("The largest number is {largest}");
 }
 ```
 
@@ -87,29 +87,29 @@ src/main.rs
 
 ```
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+  let number_list = vec![34, 50, 25, 100, 65];
 
-    let mut largest = &number_list[0];
+  let mut largest = &number_list[0];
 
-    for number in &number_list {
-        if number > largest {
-            largest = number;
-        }
+  for number in &number_list {
+    if number > largest {
+      largest = number;
     }
+  }
 
-    println!("The largest number is {largest}");
+  println!("The largest number is {largest}");
 
-    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+  let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
 
-    let mut largest = &number_list[0];
+  let mut largest = &number_list[0];
 
-    for number in &number_list {
-        if number > largest {
-            largest = number;
-        }
+  for number in &number_list {
+    if number > largest {
+      largest = number;
     }
+  }
 
-    println!("The largest number is {largest}");
+  println!("The largest number is {largest}");
 }
 ```
 
@@ -133,27 +133,27 @@ src/main.rs
 
 ```
 fn largest(list: &[i32]) -> &i32 {
-    let mut largest = &list[0];
+  let mut largest = &list[0];
 
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
+  for item in list {
+    if item > largest {
+      largest = item;
     }
+  }
 
-    largest
+  largest
 }
 
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+  let number_list = vec![34, 50, 25, 100, 65];
 
-    let result = largest(&number_list);
-    println!("The largest number is {result}");
+  let result = largest(&number_list);
+  println!("The largest number is {result}");
 
-    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+  let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
 
-    let result = largest(&number_list);
-    println!("The largest number is {result}");
+  let result = largest(&number_list);
+  println!("The largest number is {result}");
 }
 ```
 
@@ -202,39 +202,39 @@ src/main.rs
 
 ```
 fn largest_i32(list: &[i32]) -> &i32 {
-    let mut largest = &list[0];
+  let mut largest = &list[0];
 
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
+  for item in list {
+    if item > largest {
+      largest = item;
     }
+  }
 
-    largest
+  largest
 }
 
 fn largest_char(list: &[char]) -> &char {
-    let mut largest = &list[0];
+  let mut largest = &list[0];
 
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
+  for item in list {
+    if item > largest {
+      largest = item;
     }
+  }
 
-    largest
+  largest
 }
 
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+  let number_list = vec![34, 50, 25, 100, 65];
 
-    let result = largest_i32(&number_list);
-    println!("The largest number is {result}");
+  let result = largest_i32(&number_list);
+  println!("The largest number is {result}");
 
-    let char_list = vec!['y', 'm', 'a', 'q'];
+  let char_list = vec!['y', 'm', 'a', 'q'];
 
-    let result = largest_char(&char_list);
-    println!("The largest char is {result}");
+  let result = largest_char(&char_list);
+  println!("The largest char is {result}");
 }
 ```
 
@@ -277,27 +277,27 @@ src/main.rs
 
 ```
 fn largest<T>(list: &[T]) -> &T {
-    let mut largest = &list[0];
+  let mut largest = &list[0];
 
-    for item in list {
-        if item > largest {
-            largest = item;
-        }
+  for item in list {
+    if item > largest {
+      largest = item;
     }
+  }
 
-    largest
+  largest
 }
 
 fn main() {
-    let number_list = vec![34, 50, 25, 100, 65];
+  let number_list = vec![34, 50, 25, 100, 65];
 
-    let result = largest(&number_list);
-    println!("The largest number is {result}");
+  let result = largest(&number_list);
+  println!("The largest number is {result}");
 
-    let char_list = vec!['y', 'm', 'a', 'q'];
+  let char_list = vec!['y', 'm', 'a', 'q'];
 
-    let result = largest(&char_list);
-    println!("The largest char is {result}");
+  let result = largest(&char_list);
+  println!("The largest char is {result}");
 }
 ```
 
@@ -346,13 +346,13 @@ src/main.rs
 
 ```
 struct Point<T> {
-    x: T,
-    y: T,
+  x: T,
+  y: T,
 }
 
 fn main() {
-    let integer = Point { x: 5, y: 10 };
-    let float = Point { x: 1.0, y: 4.0 };
+  let integer = Point { x: 5, y: 10 };
+  let float = Point { x: 1.0, y: 4.0 };
 }
 ```
 
@@ -373,12 +373,12 @@ src/main.rs
 
 ```
 struct Point<T> {
-    x: T,
-    y: T,
+  x: T,
+  y: T,
 }
 
 fn main() {
-    let wont_work = Point { x: 5, y: 4.0 };
+  let wont_work = Point { x: 5, y: 4.0 };
 }
 ```
 
@@ -411,14 +411,14 @@ src/main.rs
 
 ```
 struct Point<T, U> {
-    x: T,
-    y: U,
+  x: T,
+  y: U,
 }
 
 fn main() {
-    let both_integer = Point { x: 5, y: 10 };
-    let both_float = Point { x: 1.0, y: 4.0 };
-    let integer_and_float = Point { x: 5, y: 4.0 };
+  let both_integer = Point { x: 5, y: 10 };
+  let both_float = Point { x: 1.0, y: 4.0 };
+  let integer_and_float = Point { x: 5, y: 4.0 };
 }
 ```
 
@@ -438,8 +438,8 @@ library provides, which we used in Chapter 6:
 
 ```
 enum Option<T> {
-    Some(T),
-    None,
+  Some(T),
+  None,
 }
 ```
 
@@ -455,8 +455,8 @@ enum that we used in Chapter 9 is one example:
 
 ```
 enum Result<T, E> {
-    Ok(T),
-    Err(E),
+  Ok(T),
+  Err(E),
 }
 ```
 
@@ -483,20 +483,20 @@ src/main.rs
 
 ```
 struct Point<T> {
-    x: T,
-    y: T,
+  x: T,
+  y: T,
 }
 
 impl<T> Point<T> {
-    fn x(&self) -> &T {
-        &self.x
-    }
+  fn x(&self) -> &T {
+    &self.x
+  }
 }
 
 fn main() {
-    let p = Point { x: 5, y: 10 };
+  let p = Point { x: 5, y: 10 };
 
-    println!("p.x = {}", p.x());
+  println!("p.x = {}", p.x());
 }
 ```
 
@@ -524,9 +524,9 @@ src/main.rs
 
 ```
 impl Point<f32> {
-    fn distance_from_origin(&self) -> f32 {
-        (self.x.powi(2) + self.y.powi(2)).sqrt()
-    }
+  fn distance_from_origin(&self) -> f32 {
+    (self.x.powi(2) + self.y.powi(2)).sqrt()
+  }
 }
 ```
 
@@ -549,26 +549,26 @@ src/main.rs
 
 ```
 struct Point<X1, Y1> {
-    x: X1,
-    y: Y1,
+  x: X1,
+  y: Y1,
 }
 
 impl<X1, Y1> Point<X1, Y1> {
-    fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
-        Point {
-            x: self.x,
-            y: other.y,
-        }
+  fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
+    Point {
+      x: self.x,
+      y: other.y,
     }
+  }
 }
 
 fn main() {
-    let p1 = Point { x: 5, y: 10.4 };
-    let p2 = Point { x: "Hello", y: 'c' };
+  let p1 = Point { x: 5, y: 10.4 };
+  let p2 = Point { x: "Hello", y: 'c' };
 
-    let p3 = p1.mixup(p2);
+  let p3 = p1.mixup(p2);
 
-    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+  println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
 }
 ```
 
@@ -625,18 +625,18 @@ src/main.rs
 
 ```
 enum Option_i32 {
-    Some(i32),
-    None,
+  Some(i32),
+  None,
 }
 
 enum Option_f64 {
-    Some(f64),
-    None,
+  Some(f64),
+  None,
 }
 
 fn main() {
-    let integer = Option_i32::Some(5);
-    let float = Option_f64::Some(5.0);
+  let integer = Option_i32::Some(5);
+  let float = Option_f64::Some(5.0);
 }
 ```
 
@@ -687,7 +687,7 @@ src/lib.rs
 
 ```
 pub trait Summary {
-    fn summarize(&self) -> String;
+  fn summarize(&self) -> String;
 }
 ```
 
@@ -723,29 +723,29 @@ src/lib.rs
 
 ```
 pub struct NewsArticle {
-    pub headline: String,
-    pub location: String,
-    pub author: String,
-    pub content: String,
+  pub headline: String,
+  pub location: String,
+  pub author: String,
+  pub content: String,
 }
 
 impl Summary for NewsArticle {
-    fn summarize(&self) -> String {
-        format!("{}, by {} ({})", self.headline, self.author, self.location)
-    }
+  fn summarize(&self) -> String {
+    format!("{}, by {} ({})", self.headline, self.author, self.location)
+  }
 }
 
 pub struct SocialPost {
-    pub username: String,
-    pub content: String,
-    pub reply: bool,
-    pub repost: bool,
+  pub username: String,
+  pub content: String,
+  pub reply: bool,
+  pub repost: bool,
 }
 
 impl Summary for SocialPost {
-    fn summarize(&self) -> String {
-        format!("{}: {}", self.username, self.content)
-    }
+  fn summarize(&self) -> String {
+    format!("{}: {}", self.username, self.content)
+  }
 }
 ```
 
@@ -770,16 +770,16 @@ library crate:
 use aggregator::{SocialPost, Summary};
 
 fn main() {
-    let post = SocialPost {
-        username: String::from("horse_ebooks"),
-        content: String::from(
-            "of course, as you probably already know, people",
-        ),
-        reply: false,
-        repost: false,
-    };
+  let post = SocialPost {
+    username: String::from("horse_ebooks"),
+    content: String::from(
+      "of course, as you probably already know, people",
+    ),
+    reply: false,
+    repost: false,
+  };
 
-    println!("1 new post: {}", post.summarize());
+  println!("1 new post: {}", post.summarize());
 }
 ```
 
@@ -824,9 +824,9 @@ src/lib.rs
 
 ```
 pub trait Summary {
-    fn summarize(&self) -> String {
-        String::from("(Read more...)")
-    }
+  fn summarize(&self) -> String {
+    String::from("(Read more...)")
+  }
 }
 ```
 
@@ -841,17 +841,17 @@ directly, we’ve provided a default implementation and specified that
 the `summarize` method on an instance of `NewsArticle`, like this:
 
 ```
-    let article = NewsArticle {
-        headline: String::from("Penguins win the Stanley Cup Championship!"),
-        location: String::from("Pittsburgh, PA, USA"),
-        author: String::from("Iceburgh"),
-        content: String::from(
-            "The Pittsburgh Penguins once again are the best \
-             hockey team in the NHL.",
-        ),
-    };
+let article = NewsArticle {
+  headline: String::from("Penguins win the Stanley Cup Championship!"),
+  location: String::from("Pittsburgh, PA, USA"),
+  author: String::from("Iceburgh"),
+  content: String::from(
+    "The Pittsburgh Penguins once again are the best \
+     hockey team in the NHL.",
+  ),
+};
 
-    println!("New article available! {}", article.summarize());
+println!("New article available! {}", article.summarize());
 ```
 
 This code prints `New article available! (Read more...)`.
@@ -872,11 +872,11 @@ a small part of it. For example, we could define the `Summary` trait to have a
 
 ```
 pub trait Summary {
-    fn summarize_author(&self) -> String;
+  fn summarize_author(&self) -> String;
 
-    fn summarize(&self) -> String {
-        format!("(Read more from {}...)", self.summarize_author())
-    }
+  fn summarize(&self) -> String {
+    format!("(Read more from {}...)", self.summarize_author())
+  }
 }
 ```
 
@@ -885,9 +885,9 @@ when we implement the trait on a type:
 
 ```
 impl Summary for SocialPost {
-    fn summarize_author(&self) -> String {
-        format!("@{}", self.username)
-    }
+  fn summarize_author(&self) -> String {
+    format!("@{}", self.username)
+  }
 }
 ```
 
@@ -899,16 +899,16 @@ definition of `summarize_author` that we’ve provided. Because we’ve implemen
 that looks like:
 
 ```
-    let post = SocialPost {
-        username: String::from("horse_ebooks"),
-        content: String::from(
-            "of course, as you probably already know, people",
-        ),
-        reply: false,
-        repost: false,
-    };
+let post = SocialPost {
+  username: String::from("horse_ebooks"),
+  content: String::from(
+    "of course, as you probably already know, people",
+  ),
+  reply: false,
+  repost: false,
+};
 
-    println!("1 new post: {}", post.summarize());
+println!("1 new post: {}", post.summarize());
 ```
 
 This code prints `1 new post: (Read more from @horse_ebooks...)`.
@@ -931,7 +931,7 @@ trait. To do this, we use the `impl Trait` syntax, like this:
 
 ```
 pub fn notify(item: &impl Summary) {
-    println!("Breaking news! {}", item.summarize());
+  println!("Breaking news! {}", item.summarize());
 }
 ```
 
@@ -954,7 +954,7 @@ sugar for a longer form known as a *trait bound*; it looks like this:
 
 ```
 pub fn notify<T: Summary>(item: &T) {
-    println!("Breaking news! {}", item.summarize());
+  println!("Breaking news! {}", item.summarize());
 }
 ```
 
@@ -1026,8 +1026,8 @@ we can use a `where` clause, like this:
 ```
 fn some_function<T, U>(t: &T, u: &U) -> i32
 where
-    T: Display + Clone,
-    U: Clone + Debug,
+  T: Display + Clone,
+  U: Clone + Debug,
 {
 ```
 
@@ -1042,14 +1042,14 @@ value of some type that implements a trait, as shown here:
 
 ```
 fn returns_summarizable() -> impl Summary {
-    SocialPost {
-        username: String::from("horse_ebooks"),
-        content: String::from(
-            "of course, as you probably already know, people",
-        ),
-        reply: false,
-        repost: false,
-    }
+  SocialPost {
+    username: String::from("horse_ebooks"),
+    content: String::from(
+      "of course, as you probably already know, people",
+    ),
+    reply: false,
+    repost: false,
+  }
 }
 ```
 
@@ -1072,28 +1072,28 @@ the return type specified as `impl Summary` wouldn’t work:
 
 ```
 fn returns_summarizable(switch: bool) -> impl Summary {
-    if switch {
-        NewsArticle {
-            headline: String::from(
-                "Penguins win the Stanley Cup Championship!",
-            ),
-            location: String::from("Pittsburgh, PA, USA"),
-            author: String::from("Iceburgh"),
-            content: String::from(
-                "The Pittsburgh Penguins once again are the best \
-                 hockey team in the NHL.",
-            ),
-        }
-    } else {
-        SocialPost {
-            username: String::from("horse_ebooks"),
-            content: String::from(
-                "of course, as you probably already know, people",
-            ),
-            reply: false,
-            repost: false,
-        }
+  if switch {
+    NewsArticle {
+      headline: String::from(
+        "Penguins win the Stanley Cup Championship!",
+      ),
+      location: String::from("Pittsburgh, PA, USA"),
+      author: String::from("Iceburgh"),
+      content: String::from(
+        "The Pittsburgh Penguins once again are the best \
+         hockey team in the NHL.",
+      ),
     }
+  } else {
+    SocialPost {
+      username: String::from("horse_ebooks"),
+      content: String::from(
+        "of course, as you probably already know, people",
+      ),
+      reply: false,
+      repost: false,
+    }
+  }
 }
 ```
 
@@ -1121,24 +1121,24 @@ src/lib.rs
 use std::fmt::Display;
 
 struct Pair<T> {
-    x: T,
-    y: T,
+  x: T,
+  y: T,
 }
 
 impl<T> Pair<T> {
-    fn new(x: T, y: T) -> Self {
-        Self { x, y }
-    }
+  fn new(x: T, y: T) -> Self {
+    Self { x, y }
+  }
 }
 
 impl<T: Display + PartialOrd> Pair<T> {
-    fn cmp_display(&self) {
-        if self.x >= self.y {
-            println!("The largest member is x = {}", self.x);
-        } else {
-            println!("The largest member is y = {}", self.y);
-        }
+  fn cmp_display(&self) {
+    if self.x >= self.y {
+      println!("The largest member is x = {}", self.x);
+    } else {
+      println!("The largest member is y = {}", self.y);
     }
+  }
 }
 ```
 
@@ -1153,7 +1153,7 @@ block in the standard library looks similar to this code:
 
 ```
 impl<T: Display> ToString for T {
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -1217,14 +1217,14 @@ has an outer scope and an inner scope.
 
 ```
 fn main() {
-    let r;
+  let r;
 
-    {
-        let x = 5;
-        r = &x;
-    }
+  {
+    let x = 5;
+    r = &x;
+  }
 
-    println!("r: {r}");
+  println!("r: {r}");
 }
 ```
 
@@ -1258,7 +1258,7 @@ error[E0597]: `x` does not live long enough
   |     - `x` dropped here while still borrowed
 8 |
 9 |     println!("r: {r}");
-  |                  --- borrow later used here
+  |                   - borrow later used here
 
 For more information about this error, try `rustc --explain E0597`.
 error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
@@ -1281,15 +1281,22 @@ whether all borrows are valid. Listing 10-17 shows the same code as Listing
 
 ```
 fn main() {
-    let r;                // ---------+-- 'a
-                          //          |
-    {                     //          |
-        let x = 5;        // -+-- 'b  |
-        r = &x;           //  |       |
-    }                     // -+       |
-                          //          |
-    println!("r: {r}");   //          |
-}                         // ---------+
+  // ---------+-- 'a
+  let r;
+              //          |
+  // |
+  {
+    // -+-- 'b  |
+    let x = 5;
+    // |       |
+    r = &x;
+  // -+       |
+  }
+              //          |
+  // |
+  println!("r: {r}");
+// ---------+
+}
 ```
 
 Listing 10-17: Annotations of the lifetimes of `r` and `x`, named `'a` and `'b`, respectively
@@ -1307,13 +1314,17 @@ it compiles without any errors.
 
 ```
 fn main() {
-    let x = 5;            // ----------+-- 'b
-                          //           |
-    let r = &x;           // --+-- 'a  |
-                          //   |       |
-    println!("r: {r}");   //   |       |
-                          // --+       |
-}                         // ----------+
+  // ----------+-- 'b
+  let x = 5;
+              //           |
+  // --+-- 'a  |
+  let r = &x;
+              //   |       |
+  // |       |
+  println!("r: {r}");
+              // --+       |
+// ----------+
+}
 ```
 
 Listing 10-18: A valid reference because the data has a longer lifetime than the reference
@@ -1337,11 +1348,11 @@ src/main.rs
 
 ```
 fn main() {
-    let string1 = String::from("abcd");
-    let string2 = "xyz";
+  let string1 = String::from("abcd");
+  let string2 = "xyz";
 
-    let result = longest(string1.as_str(), string2);
-    println!("The longest string is {result}");
+  let result = longest(string1.as_str(), string2);
+  println!("The longest string is {result}");
 }
 ```
 
@@ -1361,7 +1372,7 @@ src/main.rs
 
 ```
 fn longest(x: &str, y: &str) -> &str {
-    if x.len() > y.len() { x } else { y }
+  if x.len() > y.len() { x } else { y }
 }
 ```
 
@@ -1424,9 +1435,12 @@ reference to an `i32` that has a lifetime parameter named `'a`, and a mutable
 reference to an `i32` that also has the lifetime `'a`:
 
 ```
-&i32        // a reference
-&'a i32     // a reference with an explicit lifetime
-&'a mut i32 // a mutable reference with an explicit lifetime
+// a reference
+&i32
+// a reference with an explicit lifetime
+&'a i32
+// a mutable reference with an explicit lifetime
+&'a mut i32
 ```
 
 One lifetime annotation by itself doesn’t have much meaning, because the
@@ -1454,7 +1468,7 @@ src/main.rs
 
 ```
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
-    if x.len() > y.len() { x } else { y }
+  if x.len() > y.len() { x } else { y }
 }
 ```
 
@@ -1506,13 +1520,13 @@ src/main.rs
 
 ```
 fn main() {
-    let string1 = String::from("long string is long");
+  let string1 = String::from("long string is long");
 
-    {
-        let string2 = String::from("xyz");
-        let result = longest(string1.as_str(), string2.as_str());
-        println!("The longest string is {result}");
-    }
+  {
+    let string2 = String::from("xyz");
+    let result = longest(string1.as_str(), string2.as_str());
+    println!("The longest string is {result}");
+  }
 }
 ```
 
@@ -1535,13 +1549,13 @@ src/main.rs
 
 ```
 fn main() {
-    let string1 = String::from("long string is long");
-    let result;
-    {
-        let string2 = String::from("xyz");
-        result = longest(string1.as_str(), string2.as_str());
-    }
-    println!("The longest string is {result}");
+  let string1 = String::from("long string is long");
+  let result;
+  {
+    let string2 = String::from("xyz");
+    result = longest(string1.as_str(), string2.as_str());
+  }
+  println!("The longest string is {result}");
 }
 ```
 
@@ -1562,7 +1576,7 @@ error[E0597]: `string2` does not live long enough
 7 |     }
   |     - `string2` dropped here while still borrowed
 8 |     println!("The longest string is {result}");
-  |                                     -------- borrow later used here
+  |                                      ------ borrow later used here
 
 For more information about this error, try `rustc --explain E0597`.
 error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
@@ -1603,7 +1617,7 @@ src/main.rs
 
 ```
 fn longest<'a>(x: &'a str, y: &str) -> &'a str {
-    x
+  x
 }
 ```
 
@@ -1625,8 +1639,8 @@ src/main.rs
 
 ```
 fn longest<'a>(x: &str, y: &str) -> &'a str {
-    let result = String::from("really long string");
-    result.as_str()
+  let result = String::from("really long string");
+  result.as_str()
 }
 ```
 
@@ -1681,15 +1695,15 @@ src/main.rs
 
 ```
 struct ImportantExcerpt<'a> {
-    part: &'a str,
+  part: &'a str,
 }
 
 fn main() {
-    let novel = String::from("Call me Ishmael. Some years ago...");
-    let first_sentence = novel.split('.').next().unwrap();
-    let i = ImportantExcerpt {
-        part: first_sentence,
-    };
+  let novel = String::from("Call me Ishmael. Some years ago...");
+  let first_sentence = novel.split('.').next().unwrap();
+  let i = ImportantExcerpt {
+    part: first_sentence,
+  };
 }
 ```
 
@@ -1720,15 +1734,15 @@ src/lib.rs
 
 ```
 fn first_word(s: &str) -> &str {
-    let bytes = s.as_bytes();
+  let bytes = s.as_bytes();
 
-    for (i, &item) in bytes.iter().enumerate() {
-        if item == b' ' {
-            return &s[0..i];
-        }
+  for (i, &item) in bytes.iter().enumerate() {
+    if item == b' ' {
+      return &s[0..i];
     }
+  }
 
-    &s[..]
+  &s[..]
 }
 ```
 
@@ -1869,9 +1883,9 @@ First, we’ll use a method named `level` whose only parameter is a reference to
 
 ```
 impl<'a> ImportantExcerpt<'a> {
-    fn level(&self) -> i32 {
-        3
-    }
+  fn level(&self) -> i32 {
+    3
+  }
 }
 ```
 
@@ -1883,10 +1897,10 @@ Here is an example where the third lifetime elision rule applies:
 
 ```
 impl<'a> ImportantExcerpt<'a> {
-    fn announce_and_return_part(&self, announcement: &str) -> &str {
-        println!("Attention please: {announcement}");
-        self.part
-    }
+  fn announce_and_return_part(&self, announcement: &str) -> &str {
+    println!("Attention please: {announcement}");
+    self.part
+  }
 }
 ```
 
@@ -1929,15 +1943,15 @@ bounds, and lifetimes all in one function!
 use std::fmt::Display;
 
 fn longest_with_an_announcement<'a, T>(
-    x: &'a str,
-    y: &'a str,
-    ann: T,
+  x: &'a str,
+  y: &'a str,
+  ann: T,
 ) -> &'a str
 where
-    T: Display,
+  T: Display,
 {
-    println!("Announcement! {ann}");
-    if x.len() > y.len() { x } else { y }
+  println!("Announcement! {ann}");
+  if x.len() > y.len() { x } else { y }
 }
 ```
 

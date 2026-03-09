@@ -64,7 +64,7 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    println!("Hello, world!");
+  println!("Hello, world!");
 }
 ```
 
@@ -74,8 +74,8 @@ using the `cargo run` command:
 ```
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+   Running `target/debug/guessing_game`
 Hello, world!
 ```
 
@@ -98,17 +98,17 @@ src/main.rs
 use std::io;
 
 fn main() {
-    println!("Guess the number!");
+  println!("Guess the number!");
 
-    println!("Please input your guess.");
+  println!("Please input your guess.");
 
-    let mut guess = String::new();
+  let mut guess = String::new();
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+  io::stdin()
+    .read_line(&mut guess)
+    .expect("Failed to read line");
 
-    println!("You guessed: {guess}");
+  println!("You guessed: {guess}");
 }
 ```
 
@@ -146,9 +146,9 @@ As you also learned in Chapter 1, `println!` is a macro that prints a string to
 the screen:
 
 ```
-    println!("Guess the number!");
+println!("Guess the number!");
 
-    println!("Please input your guess.");
+println!("Please input your guess.");
 ```
 
 This code is printing a prompt stating what the game is and requesting input
@@ -159,7 +159,7 @@ from the user.
 Next, we’ll create a *variable* to store the user input, like this:
 
 ```
-    let mut guess = String::new();
+let mut guess = String::new();
 ```
 
 Now the program is getting interesting! There’s a lot going on in this little
@@ -177,8 +177,10 @@ section in Chapter 3. To make a variable mutable, we add `mut` before the
 variable name:
 
 ```
-let apples = 5; // immutable
-let mut bananas = 5; // mutable
+// immutable
+let apples = 5;
+// mutable
+let mut bananas = 5;
 ```
 
 > Note: The `//` syntax starts a comment that continues until the end of the
@@ -210,8 +212,8 @@ the `stdin` function from the `io` module, which will allow us to handle user
 input:
 
 ```
-    io::stdin()
-        .read_line(&mut guess)
+io::stdin()
+  .read_line(&mut guess)
 ```
 
 If we hadn’t imported the `io` module with `use std::io;` at the beginning of
@@ -249,7 +251,7 @@ text, but note that it’s still part of a single logical line of code. The next
 part is this method:
 
 ```
-        .expect("Failed to read line");
+  .expect("Failed to read line");
 ```
 
 We could have written this code as:
@@ -305,7 +307,7 @@ help: use `let _ = ...` to ignore the resulting value
    |     +++++++
 
 warning: `guessing_game` (bin "guessing_game") generated 1 warning
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.59s
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.59s
 ```
 
 Rust warns that you haven’t used the `Result` value returned from `read_line`,
@@ -322,7 +324,7 @@ Aside from the closing curly bracket, there’s only one more line to discuss in
 the code so far:
 
 ```
-    println!("You guessed: {guess}");
+println!("You guessed: {guess}");
 ```
 
 This line prints the string that now contains the user’s input. The `{}` set of
@@ -356,8 +358,8 @@ input 6 -->
 ```
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.44s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.44s
+   Running `target/debug/guessing_game`
 Guess the number!
 Please input your guess.
 6
@@ -437,7 +439,7 @@ cargo build -->
 $ cargo build
   Updating crates.io index
    Locking 15 packages to latest Rust 1.85.0 compatible versions
-    Adding rand v0.8.5 (available: v0.9.0)
+  Adding rand v0.8.5 (available: v0.9.0)
  Compiling proc-macro2 v1.0.93
  Compiling unicode-ident v1.0.17
  Compiling libc v0.2.170
@@ -491,7 +493,7 @@ cargo build -->
 ```
 $ cargo build
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s
 ```
 
 These lines show that Cargo only updates the build with your tiny change to the
@@ -530,7 +532,7 @@ which will ignore the *Cargo.lock* file and figure out all the latest versions
 that fit your specifications in *Cargo.toml*. Cargo will then write those
 versions to the *Cargo.lock* file. Otherwise, by default, Cargo will only look
 for versions greater than 0.8.5 and less than 0.9.0. If the `rand` crate has
-released the two new versions 0.8.6 and 0.9.0, you would see the following if
+released the two new versions 0.8.6 and 0.999.0, you would see the following if
 you ran `cargo update`:
 
 <!-- manual-regeneration
@@ -541,19 +543,21 @@ as a guide to creating the hypothetical output shown here -->
 
 ```
 $ cargo update
-    Updating crates.io index
-     Locking 1 package to latest Rust 1.85.0 compatible version
-    Updating rand v0.8.5 -> v0.8.6 (available: v0.9.0)
+  Updating crates.io index
+   Locking 1 package to latest Rust 1.85.0 compatible version
+  Updating rand v0.8.5 -> v0.8.6 (available: v0.999.0)
 ```
 
-Cargo ignores the 0.9.0 release. At this point, you would also notice a change
-in your *Cargo.lock* file noting that the version of the `rand` crate you are
-now using is 0.8.6. To use `rand` version 0.9.0 or any version in the 0.9.*x*
-series, you’d have to update the *Cargo.toml* file to look like this instead:
+Cargo ignores the 0.999.0 release. At this point, you would also notice a
+change in your *Cargo.lock* file noting that the version of the `rand` crate
+you are now using is 0.8.6. To use `rand` version 0.999.0 or any version in the
+0.999.*x* series, you’d have to update the *Cargo.toml* file to look like this
+instead (don’t actually make this change because the following examples assume
+you’re using `rand` 0.8):
 
 ```
 [dependencies]
-rand = "0.9.0"
+rand = "0.999.0"
 ```
 
 The next time you run `cargo build`, Cargo will update the registry of crates
@@ -579,21 +583,21 @@ use std::io;
 use rand::Rng;
 
 fn main() {
-    println!("Guess the number!");
+  println!("Guess the number!");
 
-    let secret_number = rand::thread_rng().gen_range(1..=100);
+  let secret_number = rand::thread_rng().gen_range(1..=100);
 
-    println!("The secret number is: {secret_number}");
+  println!("The secret number is: {secret_number}");
 
-    println!("Please input your guess.");
+  println!("Please input your guess.");
 
-    let mut guess = String::new();
+  let mut guess = String::new();
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+  io::stdin()
+    .read_line(&mut guess)
+    .expect("Failed to read line");
 
-    println!("You guessed: {guess}");
+  println!("You guessed: {guess}");
 }
 ```
 
@@ -639,8 +643,8 @@ cargo run
 ```
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+   Running `target/debug/guessing_game`
 Guess the number!
 The secret number is: 7
 Please input your guess.
@@ -648,8 +652,8 @@ Please input your guess.
 You guessed: 4
 
 $ cargo run
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+   Running `target/debug/guessing_game`
 Guess the number!
 The secret number is: 83
 Please input your guess.
@@ -675,15 +679,15 @@ use std::io;
 use rand::Rng;
 
 fn main() {
-    // --snip--
+  // --snip--
 
-    println!("You guessed: {guess}");
+  println!("You guessed: {guess}");
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
-    }
+  match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+  }
 }
 ```
 
@@ -752,9 +756,9 @@ error[E0308]: mismatched types
    |                 arguments to this method are incorrect
    |
    = note: expected reference `&String`
-              found reference `&{integer}`
+        found reference `&{integer}`
 note: method defined here
-  --> /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/cmp.rs:964:8
+  --> /rustc/1159e78c4747b02ef996e55082b704c09b970588/library/core/src/cmp.rs:979:8
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` (bin "guessing_game") due to 1 previous error
@@ -778,23 +782,23 @@ so by adding this line to the `main` function body:
 Filename: src/main.rs
 
 ```
-    // --snip--
+// --snip--
 
-    let mut guess = String::new();
+let mut guess = String::new();
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+io::stdin()
+  .read_line(&mut guess)
+  .expect("Failed to read line");
 
-    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+let guess: u32 = guess.trim().parse().expect("Please type a number!");
 
-    println!("You guessed: {guess}");
+println!("You guessed: {guess}");
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
-    }
+match guess.cmp(&secret_number) {
+  Ordering::Less => println!("Too small!"),
+  Ordering::Greater => println!("Too big!"),
+  Ordering::Equal => println!("You win!"),
+}
 ```
 
 The line is:
@@ -861,8 +865,8 @@ cargo run
 ```
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.26s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.26s
+   Running `target/debug/guessing_game`
 Guess the number!
 The secret number is: 58
 Please input your guess.
@@ -887,21 +891,21 @@ more chances at guessing the number:
 Filename: src/main.rs
 
 ```
-    // --snip--
+// --snip--
 
-    println!("The secret number is: {secret_number}");
+println!("The secret number is: {secret_number}");
 
-    loop {
-        println!("Please input your guess.");
+loop {
+  println!("Please input your guess.");
 
-        // --snip--
+  // --snip--
 
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => println!("You win!"),
-        }
-    }
+  match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+  }
+}
 }
 ```
 
@@ -930,8 +934,8 @@ quit
 ```
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.23s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.23s
+   Running `target/debug/guessing_game`
 Guess the number!
 The secret number is: 59
 Please input your guess.
@@ -965,17 +969,17 @@ Let’s program the game to quit when the user wins by adding a `break` statemen
 Filename: src/main.rs
 
 ```
-        // --snip--
+// --snip--
 
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => {
-                println!("You win!");
-                break;
-            }
-        }
-    }
+match guess.cmp(&secret_number) {
+  Ordering::Less => println!("Too small!"),
+  Ordering::Greater => println!("Too big!"),
+  Ordering::Equal => {
+    println!("You win!");
+    break;
+  }
+}
+}
 }
 ```
 
@@ -993,20 +997,20 @@ the user can continue guessing. We can do that by altering the line where
 src/main.rs
 
 ```
-        // --snip--
+// --snip--
 
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line");
+io::stdin()
+  .read_line(&mut guess)
+  .expect("Failed to read line");
 
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue,
-        };
+let guess: u32 = match guess.trim().parse() {
+  Ok(num) => num,
+  Err(_) => continue,
+};
 
-        println!("You guessed: {guess}");
+println!("You guessed: {guess}");
 
-        // --snip--
+// --snip--
 ```
 
 Listing 2-5: Ignoring a non-number guess and asking for another guess instead of crashing the program
@@ -1047,8 +1051,8 @@ foo
 ```
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s
-     Running `target/debug/guessing_game`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s
+   Running `target/debug/guessing_game`
 Guess the number!
 The secret number is: 61
 Please input your guess.
@@ -1081,35 +1085,35 @@ use std::io;
 use rand::Rng;
 
 fn main() {
-    println!("Guess the number!");
+  println!("Guess the number!");
 
-    let secret_number = rand::thread_rng().gen_range(1..=100);
+  let secret_number = rand::thread_rng().gen_range(1..=100);
 
-    loop {
-        println!("Please input your guess.");
+  loop {
+    println!("Please input your guess.");
 
-        let mut guess = String::new();
+    let mut guess = String::new();
 
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line");
+    io::stdin()
+      .read_line(&mut guess)
+      .expect("Failed to read line");
 
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue,
-        };
+    let guess: u32 = match guess.trim().parse() {
+      Ok(num) => num,
+      Err(_) => continue,
+    };
 
-        println!("You guessed: {guess}");
+    println!("You guessed: {guess}");
 
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => {
-                println!("You win!");
-                break;
-            }
-        }
+    match guess.cmp(&secret_number) {
+      Ordering::Less => println!("Too small!"),
+      Ordering::Greater => println!("Too big!"),
+      Ordering::Equal => {
+        println!("You win!");
+        break;
+      }
     }
+  }
 }
 ```
 

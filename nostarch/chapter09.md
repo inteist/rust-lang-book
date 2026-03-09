@@ -68,7 +68,7 @@ src/main.rs
 
 ```
 fn main() {
-    panic!("crash and burn");
+  panic!("crash and burn");
 }
 ```
 
@@ -79,8 +79,8 @@ When you run the program, you’ll see something like this:
 ```
 $ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.25s
-     Running `target/debug/panic`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.25s
+   Running `target/debug/panic`
 
 thread 'main' panicked at src/main.rs:2:5:
 crash and burn
@@ -113,9 +113,9 @@ src/main.rs
 
 ```
 fn main() {
-    let v = vec![1, 2, 3];
+  let v = vec![1, 2, 3];
 
-    v[99];
+  v[99];
 }
 ```
 
@@ -142,8 +142,8 @@ continue. Let’s try it and see:
 ```
 $ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s
-     Running `target/debug/panic`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s
+   Running `target/debug/panic`
 
 thread 'main' panicked at src/main.rs:4:6:
 index out of bounds: the len is 3 but the index is 99
@@ -179,21 +179,21 @@ thread 'main' panicked at src/main.rs:4:6:
 index out of bounds: the len is 3 but the index is 99
 stack backtrace:
    0: rust_begin_unwind
-             at /rustc/4d91de4e48198da2e33413efdcd9cd2cc0c46688/library/std/src/panicking.rs:692:5
+       at /rustc/4d91de4e48198da2e33413efdcd9cd2cc0c46688/library/std/src/panicking.rs:692:5
    1: core::panicking::panic_fmt
-             at /rustc/4d91de4e48198da2e33413efdcd9cd2cc0c46688/library/core/src/panicking.rs:75:14
+       at /rustc/4d91de4e48198da2e33413efdcd9cd2cc0c46688/library/core/src/panicking.rs:75:14
    2: core::panicking::panic_bounds_check
-             at /rustc/4d91de4e48198da2e33413efdcd9cd2cc0c46688/library/core/src/panicking.rs:273:5
+       at /rustc/4d91de4e48198da2e33413efdcd9cd2cc0c46688/library/core/src/panicking.rs:273:5
    3: <usize as core::slice::index::SliceIndex<[T]>>::index
-             at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/slice/index.rs:274:10
+       at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/slice/index.rs:274:10
    4: core::slice::index::<impl core::ops::index::Index<I> for [T]>::index
-             at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/slice/index.rs:16:9
+       at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/slice/index.rs:16:9
    5: <alloc::vec::Vec<T,A> as core::ops::index::Index<I>>::index
-             at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/alloc/src/vec/mod.rs:3361:9
+       at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/alloc/src/vec/mod.rs:3361:9
    6: panic::main
-             at ./src/main.rs:4:6
+       at ./src/main.rs:4:6
    7: core::ops::function::FnOnce::call_once
-             at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/ops/function.rs:250:5
+       at file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/core/src/ops/function.rs:250:5
 note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
 ```
 
@@ -232,8 +232,8 @@ variants, `Ok` and `Err`, as follows:
 
 ```
 enum Result<T, E> {
-    Ok(T),
-    Err(E),
+  Ok(T),
+  Err(E),
 }
 ```
 
@@ -255,7 +255,7 @@ src/main.rs
 use std::fs::File;
 
 fn main() {
-    let greeting_file_result = File::open("hello.txt");
+  let greeting_file_result = File::open("hello.txt");
 }
 ```
 
@@ -289,12 +289,12 @@ src/main.rs
 use std::fs::File;
 
 fn main() {
-    let greeting_file_result = File::open("hello.txt");
+  let greeting_file_result = File::open("hello.txt");
 
-    let greeting_file = match greeting_file_result {
-        Ok(file) => file,
-        Err(error) => panic!("Problem opening the file: {error:?}"),
-    };
+  let greeting_file = match greeting_file_result {
+    Ok(file) => file,
+    Err(error) => panic!("Problem opening the file: {error:?}"),
+  };
 }
 ```
 
@@ -317,8 +317,8 @@ code, we’ll see the following output from the `panic!` macro:
 ```
 $ cargo run
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
-     Running `target/debug/error-handling`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
+   Running `target/debug/error-handling`
 
 thread 'main' panicked at src/main.rs:8:23:
 Problem opening the file: Os { code: 2, kind: NotFound, message: "No such file or directory" }
@@ -347,20 +347,20 @@ use std::fs::File;
 use std::io::ErrorKind;
 
 fn main() {
-    let greeting_file_result = File::open("hello.txt");
+  let greeting_file_result = File::open("hello.txt");
 
-    let greeting_file = match greeting_file_result {
-        Ok(file) => file,
-        Err(error) => match error.kind() {
-            ErrorKind::NotFound => match File::create("hello.txt") {
-                Ok(fc) => fc,
-                Err(e) => panic!("Problem creating the file: {e:?}"),
-            },
-            _ => {
-                panic!("Problem opening the file: {error:?}");
-            }
-        },
-    };
+  let greeting_file = match greeting_file_result {
+    Ok(file) => file,
+    Err(error) => match error.kind() {
+      ErrorKind::NotFound => match File::create("hello.txt") {
+        Ok(fc) => fc,
+        Err(e) => panic!("Problem creating the file: {e:?}"),
+      },
+      _ => {
+        panic!("Problem opening the file: {error:?}");
+      }
+    },
+  };
 }
 ```
 
@@ -438,7 +438,7 @@ src/main.rs
 use std::fs::File;
 
 fn main() {
-    let greeting_file = File::open("hello.txt").unwrap();
+  let greeting_file = File::open("hello.txt").unwrap();
 }
 ```
 
@@ -469,8 +469,8 @@ src/main.rs
 use std::fs::File;
 
 fn main() {
-    let greeting_file = File::open("hello.txt")
-        .expect("hello.txt should be included in this project");
+  let greeting_file = File::open("hello.txt")
+    .expect("hello.txt should be included in this project");
 }
 ```
 
@@ -521,19 +521,19 @@ use std::fs::File;
 use std::io::{self, Read};
 
 fn read_username_from_file() -> Result<String, io::Error> {
-    let username_file_result = File::open("hello.txt");
+  let username_file_result = File::open("hello.txt");
 
-    let mut username_file = match username_file_result {
-        Ok(file) => file,
-        Err(e) => return Err(e),
-    };
+  let mut username_file = match username_file_result {
+    Ok(file) => file,
+    Err(e) => return Err(e),
+  };
 
-    let mut username = String::new();
+  let mut username = String::new();
 
-    match username_file.read_to_string(&mut username) {
-        Ok(_) => Ok(username),
-        Err(e) => Err(e),
-    }
+  match username_file.read_to_string(&mut username) {
+    Ok(_) => Ok(username),
+    Err(e) => Err(e),
+  }
 }
 ```
 
@@ -611,10 +611,10 @@ use std::fs::File;
 use std::io::{self, Read};
 
 fn read_username_from_file() -> Result<String, io::Error> {
-    let mut username_file = File::open("hello.txt")?;
-    let mut username = String::new();
-    username_file.read_to_string(&mut username)?;
-    Ok(username)
+  let mut username_file = File::open("hello.txt")?;
+  let mut username = String::new();
+  username_file.read_to_string(&mut username)?;
+  Ok(username)
 }
 ```
 
@@ -666,11 +666,11 @@ use std::fs::File;
 use std::io::{self, Read};
 
 fn read_username_from_file() -> Result<String, io::Error> {
-    let mut username = String::new();
+  let mut username = String::new();
 
-    File::open("hello.txt")?.read_to_string(&mut username)?;
+  File::open("hello.txt")?.read_to_string(&mut username)?;
 
-    Ok(username)
+  Ok(username)
 }
 ```
 
@@ -698,7 +698,7 @@ use std::fs;
 use std::io;
 
 fn read_username_from_file() -> Result<String, io::Error> {
-    fs::read_to_string("hello.txt")
+  fs::read_to_string("hello.txt")
 }
 ```
 
@@ -735,7 +735,7 @@ src/main.rs
 use std::fs::File;
 
 fn main() {
-    let greeting_file = File::open("hello.txt")?;
+  let greeting_file = File::open("hello.txt")?;
 }
 ```
 
@@ -757,7 +757,6 @@ error[E0277]: the `?` operator can only be used in a function that returns `Resu
 4 |     let greeting_file = File::open("hello.txt")?;
   |                                                ^ cannot use the `?` operator in a function that returns `()`
   |
-  = help: the trait `FromResidual<Result<Infallible, std::io::Error>>` is not implemented for `()`
 help: consider adding return type
   |
 3 ~ fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -792,7 +791,7 @@ given text.
 
 ```
 fn last_char_of_first_line(text: &str) -> Option<char> {
-    text.lines().next()?.chars().last()
+  text.lines().next()?.chars().last()
 }
 ```
 
@@ -843,9 +842,9 @@ use std::error::Error;
 use std::fs::File;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let greeting_file = File::open("hello.txt")?;
+  let greeting_file = File::open("hello.txt")?;
 
-    Ok(())
+  Ok(())
 }
 ```
 
@@ -932,11 +931,11 @@ the reason you think you’ll never have an `Err` variant in the argument text.
 Here’s an example:
 
 ```
-    use std::net::IpAddr;
+use std::net::IpAddr;
 
-    let home: IpAddr = "127.0.0.1"
-        .parse()
-        .expect("Hardcoded IP address should be valid");
+let home: IpAddr = "127.0.0.1"
+  .parse()
+  .expect("Hardcoded IP address should be valid");
 ```
 
 We’re creating an `IpAddr` instance by parsing a hardcoded string. We can see
@@ -1036,22 +1035,22 @@ number being in range, like so:
 src/main.rs
 
 ```
-    loop {
-        // --snip--
+loop {
+  // --snip--
 
-        let guess: i32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue,
-        };
+  let guess: i32 = match guess.trim().parse() {
+    Ok(num) => num,
+    Err(_) => continue,
+  };
 
-        if guess < 1 || guess > 100 {
-            println!("The secret number will be between 1 and 100.");
-            continue;
-        }
+  if guess < 1 || guess > 100 {
+    println!("The secret number will be between 1 and 100.");
+    continue;
+  }
 
-        match guess.cmp(&secret_number) {
-            // --snip--
-    }
+  match guess.cmp(&secret_number) {
+    // --snip--
+  }
 ```
 
 
@@ -1078,21 +1077,21 @@ src/guessing_game.rs
 
 ```
 pub struct Guess {
-    value: i32,
+  value: i32,
 }
 
 impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if value < 1 || value > 100 {
-            panic!("Guess value must be between 1 and 100, got {value}.");
-        }
-
-        Guess { value }
+  pub fn new(value: i32) -> Guess {
+    if value < 1 || value > 100 {
+      panic!("Guess value must be between 1 and 100, got {value}.");
     }
 
-    pub fn value(&self) -> i32 {
-        self.value
-    }
+    Guess { value }
+  }
+
+  pub fn value(&self) -> i32 {
+    self.value
+  }
 }
 ```
 

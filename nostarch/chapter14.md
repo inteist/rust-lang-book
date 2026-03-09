@@ -42,9 +42,9 @@ and ensure output below is accurate
 
 ```
 $ cargo build
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
 $ cargo build --release
-    Finished `release` profile [optimized] target(s) in 0.32s
+  Finished `release` profile [optimized] target(s) in 0.32s
 ```
 
 The `dev` and `release` are these different profiles used by the compiler.
@@ -137,7 +137,7 @@ src/lib.rs
 /// assert_eq!(6, answer);
 /// ```
 pub fn add_one(x: i32) -> i32 {
-    x + 1
+  x + 1
 }
 ```
 
@@ -299,29 +299,29 @@ src/lib.rs
 //! A library for modeling artistic concepts.
 
 pub mod kinds {
-    /// The primary colors according to the RYB color model.
-    pub enum PrimaryColor {
-        Red,
-        Yellow,
-        Blue,
-    }
+  /// The primary colors according to the RYB color model.
+  pub enum PrimaryColor {
+    Red,
+    Yellow,
+    Blue,
+  }
 
-    /// The secondary colors according to the RYB color model.
-    pub enum SecondaryColor {
-        Orange,
-        Green,
-        Purple,
-    }
+  /// The secondary colors according to the RYB color model.
+  pub enum SecondaryColor {
+    Orange,
+    Green,
+    Purple,
+  }
 }
 
 pub mod utils {
-    use crate::kinds::*;
+  use crate::kinds::*;
 
-    /// Combines two primary colors in equal amounts to create
-    /// a secondary color.
-    pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -> SecondaryColor {
-        // --snip--
-    }
+  /// Combines two primary colors in equal amounts to create
+  /// a secondary color.
+  pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -> SecondaryColor {
+    // --snip--
+  }
 }
 ```
 
@@ -351,9 +351,9 @@ use art::kinds::PrimaryColor;
 use art::utils::mix;
 
 fn main() {
-    let red = PrimaryColor::Red;
-    let yellow = PrimaryColor::Yellow;
-    mix(red, yellow);
+  let red = PrimaryColor::Red;
+  let yellow = PrimaryColor::Yellow;
+  mix(red, yellow);
 }
 ```
 
@@ -384,11 +384,11 @@ pub use self::kinds::SecondaryColor;
 pub use self::utils::mix;
 
 pub mod kinds {
-    // --snip--
+  // --snip--
 }
 
 pub mod utils {
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -414,7 +414,7 @@ use art::PrimaryColor;
 use art::mix;
 
 fn main() {
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -488,7 +488,7 @@ copy just the relevant lines below
 
 ```
 $ cargo publish
-    Updating crates.io index
+  Updating crates.io index
 warning: manifest has no description, license, license-file, documentation, homepage or repository.
 See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for more info.
 --snip--
@@ -571,15 +571,15 @@ copy just the relevant lines below
 
 ```
 $ cargo publish
-    Updating crates.io index
+  Updating crates.io index
    Packaging guessing_game v0.1.0 (file:///projects/guessing_game)
-    Packaged 6 files, 1.2KiB (895.0B compressed)
+  Packaged 6 files, 1.2KiB (895.0B compressed)
    Verifying guessing_game v0.1.0 (file:///projects/guessing_game)
    Compiling guessing_game v0.1.0
 (file:///projects/guessing_game/target/package/guessing_game-0.1.0)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s
    Uploading guessing_game v0.1.0 (file:///projects/guessing_game)
-    Uploaded guessing_game v0.1.0 to registry `crates-io`
+  Uploaded guessing_game v0.1.0 to registry `crates-io`
 note: waiting for `guessing_game v0.1.0` to be available at registry
 `crates-io`.
 You may press ctrl-c to skip waiting; the crate should be available shortly.
@@ -627,8 +627,8 @@ cargo yank carol-test --version 2.1.0 --undo
 
 ```
 $ cargo yank --vers 1.0.1
-    Updating crates.io index
-        Yank guessing_game@1.0.1
+  Updating crates.io index
+    Yank guessing_game@1.0.1
 ```
 
 By adding `--undo` to the command, you can also undo a yank and allow projects
@@ -636,8 +636,8 @@ to start depending on a version again:
 
 ```
 $ cargo yank --vers 1.0.1 --undo
-    Updating crates.io index
-      Unyank guessing_game@1.0.1
+  Updating crates.io index
+    Unyank guessing_game@1.0.1
 ```
 
 A yank *does not* delete any code. It cannot, for example, delete accidentally
@@ -695,8 +695,8 @@ copy output below
 
 ```
 $ cargo new adder
-     Created binary (application) `adder` package
-      Adding `adder` as member of workspace at `file:///projects/add`
+   Created binary (application) `adder` package
+    Adding `adder` as member of workspace at `file:///projects/add`
 ```
 
 Running `cargo new` inside a workspace also automatically adds the newly created
@@ -748,8 +748,8 @@ copy output below
 
 ```
 $ cargo new add_one --lib
-     Created library `add_one` package
-      Adding `add_one` as member of workspace at `file:///projects/add`
+   Created library `add_one` package
+    Adding `add_one` as member of workspace at `file:///projects/add`
 ```
 
 The top-level *Cargo.toml* will now include the *add_one* path in the `members`
@@ -785,7 +785,7 @@ Filename: add_one/src/lib.rs
 
 ```
 pub fn add_one(x: i32) -> i32 {
-    x + 1
+  x + 1
 }
 ```
 
@@ -811,8 +811,8 @@ adder/src/main.rs
 
 ```
 fn main() {
-    let num = 10;
-    println!("Hello, world! {num} plus one is {}!", add_one::add_one(num));
+  let num = 10;
+  println!("Hello, world! {num} plus one is {}!", add_one::add_one(num));
 }
 ```
 
@@ -831,7 +831,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 $ cargo build
    Compiling add_one v0.1.0 (file:///projects/add/add_one)
    Compiling adder v0.1.0 (file:///projects/add/adder)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.22s
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.22s
 ```
 
 To run the binary crate from the *add* directory, we can specify which package
@@ -846,8 +846,8 @@ copy output below; the output updating script doesn't handle subdirectories in p
 
 ```
 $ cargo run -p adder
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
-     Running `target/debug/adder`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+   Running `target/debug/adder`
 Hello, world! 10 plus one is 11!
 ```
 
@@ -895,7 +895,7 @@ copy output below; the output updating script doesn't handle subdirectories in p
 
 ```
 $ cargo build
-    Updating crates.io index
+  Updating crates.io index
   Downloaded rand v0.8.5
    --snip--
    Compiling rand v0.8.5
@@ -910,7 +910,7 @@ warning: unused import: `rand`
 
 warning: `add_one` (lib) generated 1 warning (run `cargo fix --lib -p add_one` to apply 1 suggestion)
    Compiling adder v0.1.0 (file:///projects/add/adder)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.95s
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.95s
 ```
 
 The top-level *Cargo.lock* now contains information about the dependency of
@@ -958,17 +958,17 @@ Filename: add_one/src/lib.rs
 
 ```
 pub fn add_one(x: i32) -> i32 {
-    x + 1
+  x + 1
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn it_works() {
-        assert_eq!(3, add_one(2));
-    }
+  #[test]
+  fn it_works() {
+    assert_eq!(3, add_one(2));
+  }
 }
 ```
 
@@ -987,15 +987,15 @@ paths properly
 $ cargo test
    Compiling add_one v0.1.0 (file:///projects/add/add_one)
    Compiling adder v0.1.0 (file:///projects/add/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
-     Running unittests src/lib.rs (target/debug/deps/add_one-93c49ee75dc46543)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+   Running unittests src/lib.rs (target/debug/deps/add_one-93c49ee75dc46543)
 
 running 1 test
 test tests::it_works ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running unittests src/main.rs (target/debug/deps/adder-3a47283c568d2b6a)
+   Running unittests src/main.rs (target/debug/deps/adder-3a47283c568d2b6a)
 
 running 0 tests
 
@@ -1025,8 +1025,8 @@ copy output below; the output updating script doesn't handle subdirectories in p
 
 ```
 $ cargo test -p add_one
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
-     Running unittests src/lib.rs (target/debug/deps/add_one-93c49ee75dc46543)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+   Running unittests src/lib.rs (target/debug/deps/add_one-93c49ee75dc46543)
 
 running 1 test
 test tests::it_works ... ok
@@ -1090,13 +1090,13 @@ cargo install something you don't have, copy relevant output below
 
 ```
 $ cargo install ripgrep
-    Updating crates.io index
+  Updating crates.io index
   Downloaded ripgrep v14.1.1
   Downloaded 1 crate (213.6 KB) in 0.40s
   Installing ripgrep v14.1.1
 --snip--
    Compiling grep v0.3.2
-    Finished `release` profile [optimized + debuginfo] target(s) in 6.73s
+  Finished `release` profile [optimized + debuginfo] target(s) in 6.73s
   Installing ~/.cargo/bin/rg
    Installed package `ripgrep v14.1.1` (executable `rg`)
 ```

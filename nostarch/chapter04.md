@@ -122,7 +122,7 @@ As a first example of ownership, we’ll look at the scope of some variables. A
 following variable:
 
 ```
-    let s = "hello";
+let s = "hello";
 ```
 
 The variable `s` refers to a string literal, where the value of the string is
@@ -132,11 +132,14 @@ program with comments annotating where the variable `s` would be valid.
 
 
 ```
-    {                      // s is not valid here, since it's not yet declared
-        let s = "hello";   // s is valid from this point forward
+// s is not valid here, since it's not yet declared
+{
+  // s is valid from this point forward
+  let s = "hello";
 
-        // do stuff with s
-    }                      // this scope is now over, and s is no longer valid
+  // do stuff with s
+}
+// this scope is now over, and s is no longer valid
 ```
 
 Listing 4-1: A variable and the scope in which it is valid
@@ -189,11 +192,13 @@ Tree” in Chapter 7.
 This kind of string *can* be mutated:
 
 ```
-    let mut s = String::from("hello");
+let mut s = String::from("hello");
 
-    s.push_str(", world!"); // push_str() appends a literal to a String
+// push_str() appends a literal to a String
+s.push_str(", world!");
 
-    println!("{s}"); // this will print `hello, world!`
+// this will print `hello, world!`
+println!("{s}");
 ```
 
 So, what’s the difference here? Why can `String` be mutated but literals
@@ -235,12 +240,13 @@ variable that owns it goes out of scope. Here’s a version of our scope example
 from Listing 4-1 using a `String` instead of a string literal:
 
 ```
-    {
-        let s = String::from("hello"); // s is valid from this point forward
+{
+  // s is valid from this point forward
+  let s = String::from("hello");
 
-        // do stuff with s
-    }                                  // this scope is now over, and s is no
-                                       // longer valid
+  // do stuff with s
+}
+// this scope is now over, and s is no longer valid
 ```
 
 There is a natural point at which we can return the memory our `String` needs
@@ -271,8 +277,8 @@ Listing 4-2 shows an example using an integer.
 
 
 ```
-    let x = 5;
-    let y = x;
+let x = 5;
+let y = x;
 ```
 
 Listing 4-2: Assigning the integer value of variable `x` to `y`
@@ -286,8 +292,8 @@ onto the stack.
 Now let’s look at the `String` version:
 
 ```
-    let s1 = String::from("hello");
-    let s2 = s1;
+let s1 = String::from("hello");
+let s2 = s1;
 ```
 
 This looks very similar, so we might assume that the way it works would be the
@@ -353,10 +359,10 @@ out of scope. Check out what happens when you try to use `s1` after `s2` is
 created; it won’t work:
 
 ```
-    let s1 = String::from("hello");
-    let s2 = s1;
+let s1 = String::from("hello");
+let s2 = s1;
 
-    println!("{s1}, world!");
+println!("{s1}, world!");
 ```
 
 You’ll get an error like this because Rust prevents you from using the
@@ -366,7 +372,7 @@ invalidated reference:
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
- --> src/main.rs:5:15
+ --> src/main.rs:5:16
   |
 2 |     let s1 = String::from("hello");
   |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
@@ -374,7 +380,7 @@ error[E0382]: borrow of moved value: `s1`
   |              -- value moved here
 4 |
 5 |     println!("{s1}, world!");
-  |               ^^^^ value borrowed here after move
+  |                ^^ value borrowed here after move
   |
   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
 help: consider cloning the value if the performance cost is acceptable
@@ -417,10 +423,10 @@ new value to an existing variable, Rust will call `drop` and free the original
 value’s memory immediately. Consider this code, for example:
 
 ```
-    let mut s = String::from("hello");
-    s = String::from("ahoy");
+let mut s = String::from("hello");
+s = String::from("ahoy");
 
-    println!("{s}, world!");
+println!("{s}, world!");
 ```
 
 We initially declare a variable `s` and bind it to a `String` with the value
@@ -454,10 +460,10 @@ programming languages, you’ve probably seen them before.
 Here’s an example of the `clone` method in action:
 
 ```
-    let s1 = String::from("hello");
-    let s2 = s1.clone();
+let s1 = String::from("hello");
+let s2 = s1.clone();
 
-    println!("s1 = {s1}, s2 = {s2}");
+println!("s1 = {s1}, s2 = {s2}");
 ```
 
 This works just fine and explicitly produces the behavior shown in Figure 4-3,
@@ -473,10 +479,10 @@ There’s another wrinkle we haven’t talked about yet. This code using
 integers—part of which was shown in Listing 4-2—works and is valid:
 
 ```
-    let x = 5;
-    let y = x;
+let x = 5;
+let y = x;
 
-    println!("x = {x}, y = {y}");
+println!("x = {x}, y = {y}");
 ```
 
 But this code seems to contradict what we just learned: We don’t have a call to
@@ -526,28 +532,37 @@ src/main.rs
 
 ```
 fn main() {
-    let s = String::from("hello");  // s comes into scope
+  // s comes into scope
+  let s = String::from("hello");
 
-    takes_ownership(s);             // s's value moves into the function...
-                                    // ... and so is no longer valid here
+  // s's value moves into the function...
+  // ... and so is no longer valid here
+  takes_ownership(s);
 
-    let x = 5;                      // x comes into scope
+  // x comes into scope
+  let x = 5;
 
-    makes_copy(x);                  // Because i32 implements the Copy trait,
-                                    // x does NOT move into the function,
-                                    // so it's okay to use x afterward.
+  // Because i32 implements the Copy trait,
+  // x does NOT move into the function,
+  // so it's okay to use x afterward.
+  makes_copy(x);
 
-} // Here, x goes out of scope, then s. However, because s's value was moved,
-  // nothing special happens.
+}
+// Here, x goes out of scope, then s. However, because s's value was moved,
+// nothing special happens.
 
-fn takes_ownership(some_string: String) { // some_string comes into scope
-    println!("{some_string}");
-} // Here, some_string goes out of scope and `drop` is called. The backing
-  // memory is freed.
+// some_string comes into scope
+fn takes_ownership(some_string: String) {
+  println!("{some_string}");
+}
+// Here, some_string goes out of scope and `drop` is called. The backing
+// memory is freed.
 
-fn makes_copy(some_integer: i32) { // some_integer comes into scope
-    println!("{some_integer}");
-} // Here, some_integer goes out of scope. Nothing special happens.
+// some_integer comes into scope
+fn makes_copy(some_integer: i32) {
+  println!("{some_integer}");
+}
+// Here, some_integer goes out of scope. Nothing special happens.
 ```
 
 Listing 4-3: Functions with ownership and scope annotated
@@ -567,34 +582,37 @@ src/main.rs
 
 ```
 fn main() {
-    let s1 = gives_ownership();        // gives_ownership moves its return
-                                       // value into s1
+  // gives_ownership moves its return value into s1
+  let s1 = gives_ownership();
 
-    let s2 = String::from("hello");    // s2 comes into scope
+  // s2 comes into scope
+  let s2 = String::from("hello");
 
-    let s3 = takes_and_gives_back(s2); // s2 is moved into
-                                       // takes_and_gives_back, which also
-                                       // moves its return value into s3
-} // Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
-  // happens. s1 goes out of scope and is dropped.
+  // s2 is moved into takes_and_gives_back, which also
+  // moves its return value into s3
+  let s3 = takes_and_gives_back(s2);
+}
+// Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
+// happens. s1 goes out of scope and is dropped.
 
-fn gives_ownership() -> String {       // gives_ownership will move its
-                                       // return value into the function
-                                       // that calls it
+// gives_ownership will move its return value into the function
+// that calls it
+fn gives_ownership() -> String {
 
-    let some_string = String::from("yours"); // some_string comes into scope
+  // some_string comes into scope
+  let some_string = String::from("yours");
 
-    some_string                        // some_string is returned and
-                                       // moves out to the calling
-                                       // function
+  // some_string is returned and moves out to the calling function
+  some_string
 }
 
 // This function takes a String and returns a String.
 fn takes_and_gives_back(a_string: String) -> String {
-    // a_string comes into
-    // scope
+  // a_string comes into
+  // scope
 
-    a_string  // a_string is returned and moves out to the calling function
+  // a_string is returned and moves out to the calling function
+  a_string
 }
 ```
 
@@ -617,17 +635,18 @@ src/main.rs
 
 ```
 fn main() {
-    let s1 = String::from("hello");
+  let s1 = String::from("hello");
 
-    let (s2, len) = calculate_length(s1);
+  let (s2, len) = calculate_length(s1);
 
-    println!("The length of '{s2}' is {len}.");
+  println!("The length of '{s2}' is {len}.");
 }
 
 fn calculate_length(s: String) -> (String, usize) {
-    let length = s.len(); // len() returns the length of a String
+  // len() returns the length of a String
+  let length = s.len();
 
-    (s, length)
+  (s, length)
 }
 ```
 
@@ -655,15 +674,15 @@ src/main.rs
 
 ```
 fn main() {
-    let s1 = String::from("hello");
+  let s1 = String::from("hello");
 
-    let len = calculate_length(&s1);
+  let len = calculate_length(&s1);
 
-    println!("The length of '{s1}' is {len}.");
+  println!("The length of '{s1}' is {len}.");
 }
 
 fn calculate_length(s: &String) -> usize {
-    s.len()
+  s.len()
 }
 ```
 
@@ -690,9 +709,9 @@ Figure 4-6: A diagram of `&String` `s` pointing at
 Let’s take a closer look at the function call here:
 
 ```
-    let s1 = String::from("hello");
+let s1 = String::from("hello");
 
-    let len = calculate_length(&s1);
+let len = calculate_length(&s1);
 ```
 
 The `&s1` syntax lets us create a reference that *refers* to the value of `s1`
@@ -703,10 +722,12 @@ Likewise, the signature of the function uses `&` to indicate that the type of
 the parameter `s` is a reference. Let’s add some explanatory annotations:
 
 ```
-fn calculate_length(s: &String) -> usize { // s is a reference to a String
-    s.len()
-} // Here, s goes out of scope. But because s does not have ownership of what
-  // it refers to, the String is not dropped.
+// s is a reference to a String
+fn calculate_length(s: &String) -> usize {
+  s.len()
+}
+// Here, s goes out of scope. But because s does not have ownership of what
+// it refers to, the String is not dropped.
 ```
 
 The scope in which the variable `s` is valid is the same as any function
@@ -727,13 +748,13 @@ src/main.rs
 
 ```
 fn main() {
-    let s = String::from("hello");
+  let s = String::from("hello");
 
-    change(&s);
+  change(&s);
 }
 
 fn change(some_string: &String) {
-    some_string.push_str(", world");
+  some_string.push_str(", world");
 }
 ```
 
@@ -771,13 +792,13 @@ src/main.rs
 
 ```
 fn main() {
-    let mut s = String::from("hello");
+  let mut s = String::from("hello");
 
-    change(&mut s);
+  change(&mut s);
 }
 
 fn change(some_string: &mut String) {
-    some_string.push_str(", world");
+  some_string.push_str(", world");
 }
 ```
 
@@ -795,12 +816,12 @@ attempts to create two mutable references to `s` will fail:
 src/main.rs
 
 ```
-    let mut s = String::from("hello");
+let mut s = String::from("hello");
 
-    let r1 = &mut s;
-    let r2 = &mut s;
+let r1 = &mut s;
+let r2 = &mut s;
 
-    println!("{r1}, {r2}");
+println!("{r1}, {r2}");
 ```
 
 
@@ -819,7 +840,7 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time
   |              ^^^^^^ second mutable borrow occurs here
 6 |
 7 |     println!("{r1}, {r2}");
-  |               ---- first borrow later used here
+  |                -- first borrow later used here
 
 For more information about this error, try `rustc --explain E0499`.
 error: could not compile `ownership` (bin "ownership") due to 1 previous error
@@ -850,26 +871,31 @@ As always, we can use curly brackets to create a new scope, allowing for
 multiple mutable references, just not *simultaneous* ones:
 
 ```
-    let mut s = String::from("hello");
+let mut s = String::from("hello");
 
-    {
-        let r1 = &mut s;
-    } // r1 goes out of scope here, so we can make a new reference with no problems.
+{
+  let r1 = &mut s;
+// r1 goes out of scope here, so we can make a new reference
+// with no problems.
+}
 
-    let r2 = &mut s;
+let r2 = &mut s;
 ```
 
 Rust enforces a similar rule for combining mutable and immutable references.
 This code results in an error:
 
 ```
-    let mut s = String::from("hello");
+let mut s = String::from("hello");
 
-    let r1 = &s; // no problem
-    let r2 = &s; // no problem
-    let r3 = &mut s; // BIG PROBLEM
+// no problem
+let r1 = &s;
+// no problem
+let r2 = &s;
+// BIG PROBLEM
+let r3 = &mut s;
 
-    println!("{r1}, {r2}, and {r3}");
+println!("{r1}, {r2}, and {r3}");
 ```
 
 Here’s the error:
@@ -887,7 +913,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
   |              ^^^^^^ mutable borrow occurs here
 7 |
 8 |     println!("{r1}, {r2}, and {r3}");
-  |               ---- immutable borrow later used here
+  |                -- immutable borrow later used here
 
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `ownership` (bin "ownership") due to 1 previous error
@@ -907,15 +933,18 @@ compile because the last usage of the immutable references is in the `println!`,
 before the mutable reference is introduced:
 
 ```
-    let mut s = String::from("hello");
+let mut s = String::from("hello");
 
-    let r1 = &s; // no problem
-    let r2 = &s; // no problem
-    println!("{r1} and {r2}");
-    // Variables r1 and r2 will not be used after this point.
+// no problem
+let r1 = &s;
+// no problem
+let r2 = &s;
+println!("{r1} and {r2}");
+// Variables r1 and r2 will not be used after this point.
 
-    let r3 = &mut s; // no problem
-    println!("{r3}");
+// no problem
+let r3 = &mut s;
+println!("{r3}");
 ```
 
 The scopes of the immutable references `r1` and `r2` end after the `println!`
@@ -946,13 +975,13 @@ src/main.rs
 
 ```
 fn main() {
-    let reference_to_nothing = dangle();
+  let reference_to_nothing = dangle();
 }
 
 fn dangle() -> &String {
-    let s = String::from("hello");
+  let s = String::from("hello");
 
-    &s
+  &s
 }
 ```
 
@@ -980,15 +1009,8 @@ help: instead, you are more likely to want to return an owned value
 5 + fn dangle() -> String {
   |
 
-error[E0515]: cannot return reference to local variable `s`
- --> src/main.rs:8:5
-  |
-8 |     &s
-  |     ^^ returns a reference to data owned by the current function
-
-Some errors have detailed explanations: E0106, E0515.
-For more information about an error, try `rustc --explain E0106`.
-error: could not compile `ownership` (bin "ownership") due to 2 previous errors
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `ownership` (bin "ownership") due to 1 previous error
 ```
 
 This error message refers to a feature we haven’t covered yet: lifetimes. We’ll
@@ -1006,13 +1028,17 @@ Let’s take a closer look at exactly what’s happening at each stage of our
 src/main.rs
 
 ```
-fn dangle() -> &String { // dangle returns a reference to a String
+// dangle returns a reference to a String
+fn dangle() -> &String {
 
-    let s = String::from("hello"); // s is a new String
+  // s is a new String
+  let s = String::from("hello");
 
-    &s // we return a reference to the String, s
-} // Here, s goes out of scope and is dropped, so its memory goes away.
-  // Danger!
+  // we return a reference to the String, s
+  &s
+}
+// Here, s goes out of scope and is dropped, so its memory goes away.
+// Danger!
 ```
 
 
@@ -1026,9 +1052,9 @@ The solution here is to return the `String` directly:
 
 ```
 fn no_dangle() -> String {
-    let s = String::from("hello");
+  let s = String::from("hello");
 
-    s
+  s
 }
 ```
 
@@ -1079,15 +1105,15 @@ src/main.rs
 
 ```
 fn first_word(s: &String) -> usize {
-    let bytes = s.as_bytes();
+  let bytes = s.as_bytes();
 
-    for (i, &item) in bytes.iter().enumerate() {
-        if item == b' ' {
-            return i;
-        }
+  for (i, &item) in bytes.iter().enumerate() {
+    if item == b' ' {
+      return i;
     }
+  }
 
-    s.len()
+  s.len()
 }
 ```
 
@@ -1098,13 +1124,13 @@ a value is a space, we’ll convert our `String` to an array of bytes using the
 `as_bytes` method.
 
 ```
-    let bytes = s.as_bytes();
+let bytes = s.as_bytes();
 ```
 
 Next, we create an iterator over the array of bytes using the `iter` method:
 
 ```
-    for (i, &item) in bytes.iter().enumerate() {
+for (i, &item) in bytes.iter().enumerate() {
 ```
 
 We’ll discuss iterators in more detail in Chapter 13.
@@ -1126,12 +1152,12 @@ using the byte literal syntax. If we find a space, we return the position.
 Otherwise, we return the length of the string by using `s.len()`.
 
 ```
-        if item == b' ' {
-            return i;
-        }
-    }
+if item == b' ' {
+  return i;
+}
+}
 
-    s.len()
+s.len()
 ```
 
 We now have a way to find out the index of the end of the first word in the
@@ -1145,14 +1171,16 @@ src/main.rs
 
 ```
 fn main() {
-    let mut s = String::from("hello world");
+  let mut s = String::from("hello world");
 
-    let word = first_word(&s); // word will get the value 5
+  // word will get the value 5
+  let word = first_word(&s);
 
-    s.clear(); // this empties the String, making it equal to ""
+  // this empties the String, making it equal to ""
+  s.clear();
 
-    // word still has the value 5 here, but s no longer has any content that we
-    // could meaningfully use with the value 5, so word is now totally invalid!
+  // word still has the value 5 here, but s no longer has any content that we
+  // could meaningfully use with the value 5, so word is now totally invalid!
 }
 ```
 
@@ -1185,10 +1213,10 @@ A *string slice* is a reference to a contiguous sequence of the elements of a
 `String`, and it looks like this:
 
 ```
-    let s = String::from("hello world");
+let s = String::from("hello world");
 
-    let hello = &s[0..5];
-    let world = &s[6..11];
+let hello = &s[0..5];
+let world = &s[6..11];
 ```
 
 Rather than a reference to the entire `String`, `hello` is a reference to a
@@ -1217,34 +1245,34 @@ With Rust’s `..` range syntax, if you want to start at index 0, you can drop
 the value before the two periods. In other words, these are equal:
 
 ```
-    let s = String::from("hello");
+let s = String::from("hello");
 
-    let slice = &s[0..2];
-    let slice = &s[..2];
+let slice = &s[0..2];
+let slice = &s[..2];
 ```
 
 By the same token, if your slice includes the last byte of the `String`, you
 can drop the trailing number. That means these are equal:
 
 ```
-    let s = String::from("hello");
+let s = String::from("hello");
 
-    let len = s.len();
+let len = s.len();
 
-    let slice = &s[3..len];
-    let slice = &s[3..];
+let slice = &s[3..len];
+let slice = &s[3..];
 ```
 
 You can also drop both values to take a slice of the entire string. So, these
 are equal:
 
 ```
-    let s = String::from("hello");
+let s = String::from("hello");
 
-    let len = s.len();
+let len = s.len();
 
-    let slice = &s[0..len];
-    let slice = &s[..];
+let slice = &s[0..len];
+let slice = &s[..];
 ```
 
 > Note: String slice range indices must occur at valid UTF-8 character
@@ -1258,15 +1286,15 @@ src/main.rs
 
 ```
 fn first_word(s: &String) -> &str {
-    let bytes = s.as_bytes();
+  let bytes = s.as_bytes();
 
-    for (i, &item) in bytes.iter().enumerate() {
-        if item == b' ' {
-            return &s[0..i];
-        }
+  for (i, &item) in bytes.iter().enumerate() {
+    if item == b' ' {
+      return &s[0..i];
     }
+  }
 
-    &s[..]
+  &s[..]
 }
 ```
 
@@ -1301,13 +1329,14 @@ src/main.rs
 
 ```
 fn main() {
-    let mut s = String::from("hello world");
+  let mut s = String::from("hello world");
 
-    let word = first_word(&s);
+  let word = first_word(&s);
 
-    s.clear(); // error!
+  // error!
+  s.clear();
 
-    println!("the first word is: {word}");
+  println!("the first word is: {word}");
 }
 ```
 
@@ -1328,7 +1357,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
    |     ^^^^^^^^^ mutable borrow occurs here
 19 |
 20 |     println!("the first word is: {word}");
-   |                                  ------ immutable borrow later used here
+   |                                   ---- immutable borrow later used here
 
 For more information about this error, try `rustc --explain E0502`.
 error: could not compile `ownership` (bin "ownership") due to 1 previous error
@@ -1392,25 +1421,25 @@ src/main.rs
 
 ```
 fn main() {
-    let my_string = String::from("hello world");
+  let my_string = String::from("hello world");
 
-    // `first_word` works on slices of `String`s, whether partial or whole.
-    let word = first_word(&my_string[0..6]);
-    let word = first_word(&my_string[..]);
-    // `first_word` also works on references to `String`s, which are equivalent
-    // to whole slices of `String`s.
-    let word = first_word(&my_string);
+  // `first_word` works on slices of `String`s, whether partial or whole.
+  let word = first_word(&my_string[0..6]);
+  let word = first_word(&my_string[..]);
+  // `first_word` also works on references to `String`s, which are equivalent
+  // to whole slices of `String`s.
+  let word = first_word(&my_string);
 
-    let my_string_literal = "hello world";
+  let my_string_literal = "hello world";
 
-    // `first_word` works on slices of string literals, whether partial or
-    // whole.
-    let word = first_word(&my_string_literal[0..6]);
-    let word = first_word(&my_string_literal[..]);
+  // `first_word` works on slices of string literals, whether partial or
+  // whole.
+  let word = first_word(&my_string_literal[0..6]);
+  let word = first_word(&my_string_literal[..]);
 
-    // Because string literals *are* string slices already,
-    // this works too, without the slice syntax!
-    let word = first_word(my_string_literal);
+  // Because string literals *are* string slices already,
+  // this works too, without the slice syntax!
+  let word = first_word(my_string_literal);
 }
 ```
 

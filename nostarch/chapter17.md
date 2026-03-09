@@ -248,11 +248,11 @@ src/main.rs
 use trpl::Html;
 
 async fn page_title(url: &str) -> Option<String> {
-    let response = trpl::get(url).await;
-    let response_text = response.text().await;
-    Html::parse(&response_text)
-        .select_first("title")
-        .map(|title| title.inner_html())
+  let response = trpl::get(url).await;
+  let response_text = response.text().await;
+  Html::parse(&response_text)
+    .select_first("title")
+    .map(|title| title.inner_html())
 }
 ```
 
@@ -309,7 +309,7 @@ together with `await` between them, as shown in Listing 17-2.
 src/main.rs
 
 ```
-    let response_text = trpl::get(url).await.text().await;
+let response_text = trpl::get(url).await.text().await;
 ```
 
 Listing 17-2: Chaining with the `await` keyword
@@ -334,12 +334,12 @@ use std::future::Future;
 use trpl::Html;
 
 fn page_title(url: &str) -> impl Future<Output = Option<String>> {
-    async move {
-        let text = trpl::get(url).await.text().await;
-        Html::parse(&text)
-            .select_first("title")
-            .map(|title| title.inner_html())
-    }
+  async move {
+    let text = trpl::get(url).await.text().await;
+    Html::parse(&text)
+      .select_first("title")
+      .map(|title| title.inner_html())
+  }
 }
 ```
 
@@ -375,12 +375,12 @@ src/main.rs
 
 ```
 async fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    let url = &args[1];
-    match page_title(url).await {
-        Some(title) => println!("The title for {url} was {title}"),
-        None => println!("{url} had no title"),
-    }
+  let args: Vec<String> = std::env::args().collect();
+  let url = &args[1];
+  match page_title(url).await {
+    Some(title) => println!("The title for {url} was {title}"),
+    None => println!("{url} had no title"),
+  }
 }
 ```
 
@@ -446,15 +446,15 @@ src/main.rs
 
 ```
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+  let args: Vec<String> = std::env::args().collect();
 
-    trpl::block_on(async {
-        let url = &args[1];
-        match page_title(url).await {
-            Some(title) => println!("The title for {url} was {title}"),
-            None => println!("{url} had no title"),
-        }
-    })
+  trpl::block_on(async {
+    let url = &args[1];
+    match page_title(url).await {
+      Some(title) => println!("The title for {url} was {title}"),
+      None => println!("{url} had no title"),
+    }
+  })
 }
 ```
 
@@ -471,10 +471,10 @@ cargo run -- "https://www.rust-lang.org"
 
 ```
 $ cargo run -- "https://www.rust-lang.org"
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
-     Running `target/debug/async_await 'https://www.rust-lang.org'`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
+   Running `target/debug/async_await 'https://www.rust-lang.org'`
 The title for https://www.rust-lang.org was
-            Rust Programming Language
+      Rust Programming Language
 ```
 
 Phew—we finally have some working async code! But before we add the code to
@@ -491,9 +491,9 @@ point:
 
 ```
 enum PageTitleFuture<'a> {
-    Initial { url: &'a str },
-    GetAwaitPoint { url: &'a str },
-    TextAwaitPoint { response: trpl::Response },
+  Initial { url: &'a str },
+  GetAwaitPoint { url: &'a str },
+  TextAwaitPoint { response: trpl::Response },
 }
 ```
 
@@ -540,32 +540,32 @@ src/main.rs
 use trpl::{Either, Html};
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+  let args: Vec<String> = std::env::args().collect();
 
-    trpl::block_on(async {
-        let title_fut_1 = page_title(&args[1]);
-        let title_fut_2 = page_title(&args[2]);
+  trpl::block_on(async {
+    let title_fut_1 = page_title(&args[1]);
+    let title_fut_2 = page_title(&args[2]);
 
-        let (url, maybe_title) =
-            match trpl::select(title_fut_1, title_fut_2).await {
-                Either::Left(left) => left,
-                Either::Right(right) => right,
-            };
+    let (url, maybe_title) =
+      match trpl::select(title_fut_1, title_fut_2).await {
+        Either::Left(left) => left,
+        Either::Right(right) => right,
+      };
 
-        println!("{url} returned first");
-        match maybe_title {
-            Some(title) => println!("Its page title was: '{title}'"),
-            None => println!("It had no title."),
-        }
-    })
+    println!("{url} returned first");
+    match maybe_title {
+      Some(title) => println!("Its page title was: '{title}'"),
+      None => println!("It had no title."),
+    }
+  })
 }
 
 async fn page_title(url: &str) -> (&str, Option<String>) {
-    let response_text = trpl::get(url).await.text().await;
-    let title = Html::parse(&response_text)
-        .select_first("title")
-        .map(|title| title.inner_html());
-    (url, title)
+  let response_text = trpl::get(url).await.text().await;
+  let title = Html::parse(&response_text)
+    .select_first("title")
+    .map(|title| title.inner_html());
+  (url, title)
 }
 ```
 
@@ -591,8 +591,8 @@ failure baked into `Either`. Instead, it uses `Left` and `Right` to indicate
 
 ```
 enum Either<A, B> {
-    Left(A),
-    Right(B),
+  Left(A),
+  Right(B),
 }
 ```
 
@@ -614,6 +614,7 @@ importantly, you’ve learned the basics of working with futures, so now we can
 dig deeper into what we can do with async.
 
 <!-- TODO: map source link version to version of Rust? -->
+
 
 <!-- Old headings. Do not remove or links may break. -->
 
@@ -651,19 +652,19 @@ src/main.rs
 use std::time::Duration;
 
 fn main() {
-    trpl::block_on(async {
-        trpl::spawn_task(async {
-            for i in 1..10 {
-                println!("hi number {i} from the first task!");
-                trpl::sleep(Duration::from_millis(500)).await;
-            }
-        });
-
-        for i in 1..5 {
-            println!("hi number {i} from the second task!");
-            trpl::sleep(Duration::from_millis(500)).await;
-        }
+  trpl::block_on(async {
+    trpl::spawn_task(async {
+      for i in 1..10 {
+        println!("hi number {i} from the first task!");
+        trpl::sleep(Duration::from_millis(500)).await;
+      }
     });
+
+    for i in 1..5 {
+      println!("hi number {i} from the second task!");
+      trpl::sleep(Duration::from_millis(500)).await;
+    }
+  });
 }
 ```
 
@@ -713,19 +714,19 @@ we also unwrap it after awaiting it.
 src/main.rs
 
 ```
-        let handle = trpl::spawn_task(async {
-            for i in 1..10 {
-                println!("hi number {i} from the first task!");
-                trpl::sleep(Duration::from_millis(500)).await;
-            }
-        });
+let handle = trpl::spawn_task(async {
+  for i in 1..10 {
+    println!("hi number {i} from the first task!");
+    trpl::sleep(Duration::from_millis(500)).await;
+  }
+});
 
-        for i in 1..5 {
-            println!("hi number {i} from the second task!");
-            trpl::sleep(Duration::from_millis(500)).await;
-        }
+for i in 1..5 {
+  println!("hi number {i} from the second task!");
+  trpl::sleep(Duration::from_millis(500)).await;
+}
 
-        handle.await.unwrap();
+handle.await.unwrap();
 ```
 
 Listing 17-7: Using `await` with a join handle to run a task to completion
@@ -775,21 +776,21 @@ ignore the output, because it’s just a tuple containing two unit values.
 src/main.rs
 
 ```
-        let fut1 = async {
-            for i in 1..10 {
-                println!("hi number {i} from the first task!");
-                trpl::sleep(Duration::from_millis(500)).await;
-            }
-        };
+let fut1 = async {
+  for i in 1..10 {
+    println!("hi number {i} from the first task!");
+    trpl::sleep(Duration::from_millis(500)).await;
+  }
+};
 
-        let fut2 = async {
-            for i in 1..5 {
-                println!("hi number {i} from the second task!");
-                trpl::sleep(Duration::from_millis(500)).await;
-            }
-        };
+let fut2 = async {
+  for i in 1..5 {
+    println!("hi number {i} from the second task!");
+    trpl::sleep(Duration::from_millis(500)).await;
+  }
+};
 
-        trpl::join(fut1, fut2).await;
+trpl::join(fut1, fut2).await;
 ```
 
 Listing 17-8: Using `trpl::join` to await two anonymous futures
@@ -857,13 +858,13 @@ async block—*not* spawning a separate task as we spawned a separate thread.
 src/main.rs
 
 ```
-        let (tx, mut rx) = trpl::channel();
+let (tx, mut rx) = trpl::channel();
 
-        let val = String::from("hi");
-        tx.send(val).unwrap();
+let val = String::from("hi");
+tx.send(val).unwrap();
 
-        let received = rx.recv().await.unwrap();
-        println!("received '{received}'");
+let received = rx.recv().await.unwrap();
+println!("received '{received}'");
 ```
 
 Listing 17-9: Creating an async channel and assigning the two halves to `tx` and `rx`
@@ -904,23 +905,23 @@ between them, as shown in Listing 17-10.
 src/main.rs
 
 ```
-        let (tx, mut rx) = trpl::channel();
+let (tx, mut rx) = trpl::channel();
 
-        let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("future"),
-        ];
+let vals = vec![
+  String::from("hi"),
+  String::from("from"),
+  String::from("the"),
+  String::from("future"),
+];
 
-        for val in vals {
-            tx.send(val).unwrap();
-            trpl::sleep(Duration::from_millis(500)).await;
-        }
+for val in vals {
+  tx.send(val).unwrap();
+  trpl::sleep(Duration::from_millis(500)).await;
+}
 
-        while let Some(value) = rx.recv().await {
-            println!("received '{value}'");
-        }
+while let Some(value) = rx.recv().await {
+  println!("received '{value}'");
+}
 ```
 
 Listing 17-10: Sending and receiving multiple messages over the async channel and sleeping with an `await` between each message
@@ -935,7 +936,7 @@ In Listing 16-10, we used a `for` loop to process all the items received from a
 synchronous channel. Rust doesn’t yet have a way to use a `for` loop with an
 *asynchronously produced* series of items, however, so we need to use a loop we
 haven’t seen before: the `while let` conditional loop. This is the loop version
-of the `if let` construct we saw back in the “Concise Control Flow with `if let` and `let else`” section in Chapter 6. The loop
+of the `if let` construct we saw back in the “Concise Control Flow with `if let` and `let...else`” section in Chapter 6. The loop
 will continue executing as long as the pattern it specifies continues to match
 the value.
 
@@ -985,27 +986,27 @@ what we’re trying *not* to do.
 src/main.rs
 
 ```
-        let tx_fut = async {
-            let vals = vec![
-                String::from("hi"),
-                String::from("from"),
-                String::from("the"),
-                String::from("future"),
-            ];
+let tx_fut = async {
+  let vals = vec![
+    String::from("hi"),
+    String::from("from"),
+    String::from("the"),
+    String::from("future"),
+  ];
 
-            for val in vals {
-                tx.send(val).unwrap();
-                trpl::sleep(Duration::from_millis(500)).await;
-            }
-        };
+  for val in vals {
+    tx.send(val).unwrap();
+    trpl::sleep(Duration::from_millis(500)).await;
+  }
+};
 
-        let rx_fut = async {
-            while let Some(value) = rx.recv().await {
-                println!("received '{value}'");
-            }
-        };
+let rx_fut = async {
+  while let Some(value) = rx.recv().await {
+    println!("received '{value}'");
+  }
+};
 
-        trpl::join(tx_fut, rx_fut).await;
+trpl::join(tx_fut, rx_fut).await;
 ```
 
 Listing 17-11: Separating `send` and `recv` into their own `async` blocks and awaiting the futures for those blocks
@@ -1050,10 +1051,10 @@ In Listing 17-12, we change the block used to send messages from `async` to
 src/main.rs
 
 ```
-        let (tx, mut rx) = trpl::channel();
+let (tx, mut rx) = trpl::channel();
 
-        let tx_fut = async move {
-            // --snip--
+let tx_fut = async move {
+  // --snip--
 ```
 
 Listing 17-12: A revision of the code from Listing 17-11 that correctly shuts down when complete
@@ -1071,44 +1072,44 @@ on `tx` if we want to send messages from multiple futures, as shown in Listing
 src/main.rs
 
 ```
-        let (tx, mut rx) = trpl::channel();
+let (tx, mut rx) = trpl::channel();
 
-        let tx1 = tx.clone();
-        let tx1_fut = async move {
-            let vals = vec![
-                String::from("hi"),
-                String::from("from"),
-                String::from("the"),
-                String::from("future"),
-            ];
+let tx1 = tx.clone();
+let tx1_fut = async move {
+  let vals = vec![
+    String::from("hi"),
+    String::from("from"),
+    String::from("the"),
+    String::from("future"),
+  ];
 
-            for val in vals {
-                tx1.send(val).unwrap();
-                trpl::sleep(Duration::from_millis(500)).await;
-            }
-        };
+  for val in vals {
+    tx1.send(val).unwrap();
+    trpl::sleep(Duration::from_millis(500)).await;
+  }
+};
 
-        let rx_fut = async {
-            while let Some(value) = rx.recv().await {
-                println!("received '{value}'");
-            }
-        };
+let rx_fut = async {
+  while let Some(value) = rx.recv().await {
+    println!("received '{value}'");
+  }
+};
 
-        let tx_fut = async move {
-            let vals = vec![
-                String::from("more"),
-                String::from("messages"),
-                String::from("for"),
-                String::from("you"),
-            ];
+let tx_fut = async move {
+  let vals = vec![
+    String::from("more"),
+    String::from("messages"),
+    String::from("for"),
+    String::from("you"),
+  ];
 
-            for val in vals {
-                tx.send(val).unwrap();
-                trpl::sleep(Duration::from_millis(1500)).await;
-            }
-        };
+  for val in vals {
+    tx.send(val).unwrap();
+    trpl::sleep(Duration::from_millis(1500)).await;
+  }
+};
 
-        trpl::join!(tx1_fut, tx_fut, rx_fut);
+trpl::join!(tx1_fut, tx_fut, rx_fut);
 ```
 
 Listing 17-13: Using multiple producers with async blocks
@@ -1180,8 +1181,8 @@ src/main.rs
 
 ```
 fn slow(name: &str, ms: u64) {
-    thread::sleep(Duration::from_millis(ms));
-    println!("'{name}' ran for {ms}ms");
+thread::sleep(Duration::from_millis(ms));
+println!("'{name}' ran for {ms}ms");
 }
 ```
 
@@ -1198,29 +1199,29 @@ a pair of futures.
 src/main.rs
 
 ```
-        let a = async {
-            println!("'a' started.");
-            slow("a", 30);
-            slow("a", 10);
-            slow("a", 20);
-            trpl::sleep(Duration::from_millis(50)).await;
-            println!("'a' finished.");
-        };
+let a = async {
+  println!("'a' started.");
+  slow("a", 30);
+  slow("a", 10);
+  slow("a", 20);
+  trpl::sleep(Duration::from_millis(50)).await;
+  println!("'a' finished.");
+};
 
-        let b = async {
-            println!("'b' started.");
-            slow("b", 75);
-            slow("b", 10);
-            slow("b", 15);
-            slow("b", 350);
-            trpl::sleep(Duration::from_millis(50)).await;
-            println!("'b' finished.");
-        };
+let b = async {
+  println!("'b' started.");
+  slow("b", 75);
+  slow("b", 10);
+  slow("b", 15);
+  slow("b", 350);
+  trpl::sleep(Duration::from_millis(50)).await;
+  println!("'b' finished.");
+};
 
-        trpl::select(a, b).await;
+trpl::select(a, b).await;
 ```
 
-Listing 17-15: Calling `slow` to simulate running slow operations
+Listing 17-15: Calling the `slow` function to simulate slow operations
 
 Each future hands control back to the runtime only *after* carrying out a bunch
 of slow operations. If you run this code, you will see this output:
@@ -1262,31 +1263,31 @@ as shown in Listing 17-16.
 src/main.rs
 
 ```
-        let one_ms = Duration::from_millis(1);
+let one_ms = Duration::from_millis(1);
 
-        let a = async {
-            println!("'a' started.");
-            slow("a", 30);
-            trpl::sleep(one_ms).await;
-            slow("a", 10);
-            trpl::sleep(one_ms).await;
-            slow("a", 20);
-            trpl::sleep(one_ms).await;
-            println!("'a' finished.");
-        };
+let a = async {
+  println!("'a' started.");
+  slow("a", 30);
+  trpl::sleep(one_ms).await;
+  slow("a", 10);
+  trpl::sleep(one_ms).await;
+  slow("a", 20);
+  trpl::sleep(one_ms).await;
+  println!("'a' finished.");
+};
 
-        let b = async {
-            println!("'b' started.");
-            slow("b", 75);
-            trpl::sleep(one_ms).await;
-            slow("b", 10);
-            trpl::sleep(one_ms).await;
-            slow("b", 15);
-            trpl::sleep(one_ms).await;
-            slow("b", 350);
-            trpl::sleep(one_ms).await;
-            println!("'b' finished.");
-        };
+let b = async {
+  println!("'b' started.");
+  slow("b", 75);
+  trpl::sleep(one_ms).await;
+  slow("b", 10);
+  trpl::sleep(one_ms).await;
+  slow("b", 15);
+  trpl::sleep(one_ms).await;
+  slow("b", 350);
+  trpl::sleep(one_ms).await;
+  println!("'b' finished.");
+};
 ```
 
 Listing 17-16: Using `trpl::sleep` to let operations switch off making progress
@@ -1326,29 +1327,29 @@ all those `trpl::sleep` calls with `trpl::yield_now`.
 src/main.rs
 
 ```
-        let a = async {
-            println!("'a' started.");
-            slow("a", 30);
-            trpl::yield_now().await;
-            slow("a", 10);
-            trpl::yield_now().await;
-            slow("a", 20);
-            trpl::yield_now().await;
-            println!("'a' finished.");
-        };
+let a = async {
+  println!("'a' started.");
+  slow("a", 30);
+  trpl::yield_now().await;
+  slow("a", 10);
+  trpl::yield_now().await;
+  slow("a", 20);
+  trpl::yield_now().await;
+  println!("'a' finished.");
+};
 
-        let b = async {
-            println!("'b' started.");
-            slow("b", 75);
-            trpl::yield_now().await;
-            slow("b", 10);
-            trpl::yield_now().await;
-            slow("b", 15);
-            trpl::yield_now().await;
-            slow("b", 350);
-            trpl::yield_now().await;
-            println!("'b' finished.");
-        };
+let b = async {
+  println!("'b' started.");
+  slow("b", 75);
+  trpl::yield_now().await;
+  slow("b", 10);
+  trpl::yield_now().await;
+  slow("b", 15);
+  trpl::yield_now().await;
+  slow("b", 350);
+  trpl::yield_now().await;
+  println!("'b' finished.");
+};
 ```
 
 Listing 17-17: Using `yield_now` to let operations switch off making progress
@@ -1391,17 +1392,17 @@ future.
 src/main.rs
 
 ```
-        let slow = async {
-            trpl::sleep(Duration::from_secs(5)).await;
-            "Finally finished"
-        };
+let slow = async {
+  trpl::sleep(Duration::from_secs(5)).await;
+  "Finally finished"
+};
 
-        match timeout(slow, Duration::from_secs(2)).await {
-            Ok(message) => println!("Succeeded with '{message}'"),
-            Err(duration) => {
-                println!("Failed after {} seconds", duration.as_secs())
-            }
-        }
+match timeout(slow, Duration::from_secs(2)).await {
+  Ok(message) => println!("Succeeded with '{message}'"),
+  Err(duration) => {
+    println!("Failed after {} seconds", duration.as_secs())
+  }
+}
 ```
 
 Listing 17-18: Using our imagined `timeout` to run a slow operation with a time limit
@@ -1426,10 +1427,10 @@ src/main.rs
 
 ```
 async fn timeout<F: Future>(
-    future_to_try: F,
-    max_time: Duration,
+future_to_try: F,
+max_time: Duration,
 ) -> Result<F::Output, Duration> {
-    // Here is where our implementation will go!
+// Here is where our implementation will go!
 }
 ```
 
@@ -1451,13 +1452,13 @@ use trpl::Either;
 // --snip--
 
 async fn timeout<F: Future>(
-    future_to_try: F,
-    max_time: Duration,
+future_to_try: F,
+max_time: Duration,
 ) -> Result<F::Output, Duration> {
-    match trpl::select(future_to_try, trpl::sleep(max_time)).await {
-        Either::Left(output) => Ok(output),
-        Either::Right(_) => Err(max_time),
-    }
+match trpl::select(future_to_try, trpl::sleep(max_time)).await {
+  Either::Left(output) => Ok(output),
+  Either::Right(_) => Err(max_time),
+}
 }
 ```
 
@@ -1533,13 +1534,13 @@ stream by calling its `next` method and then awaiting the output, as in Listing
 src/main.rs
 
 ```
-        let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        let iter = values.iter().map(|n| n * 2);
-        let mut stream = trpl::stream_from_iter(iter);
+let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let iter = values.iter().map(|n| n * 2);
+let mut stream = trpl::stream_from_iter(iter);
 
-        while let Some(value) = stream.next().await {
-            println!("The value was: {value}");
-        }
+while let Some(value) = stream.next().await {
+  println!("The value was: {value}");
+}
 ```
 
 Listing 17-21: Creating a stream from an iterator and printing its values
@@ -1604,9 +1605,9 @@ src/main.rs
 use trpl::StreamExt;
 
 fn main() {
-    trpl::block_on(async {
-        let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        // --snip--
+  trpl::block_on(async {
+    let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    // --snip--
 ```
 
 Listing 17-22: Successfully using an iterator as the basis for a stream
@@ -1644,9 +1645,9 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 
 pub trait Future {
-    type Output;
+  type Output;
 
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
+  fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
 }
 ```
 
@@ -1662,8 +1663,8 @@ moment. For now, let’s focus on what the method returns, the `Poll` type:
 
 ```
 pub enum Poll<T> {
-    Ready(T),
-    Pending,
+  Ready(T),
+  Pending,
 }
 ```
 
@@ -1687,13 +1688,13 @@ kind of (although not exactly) like this:
 
 ```
 match page_title(url).poll() {
-    Ready(page_title) => match page_title {
-        Some(title) => println!("The title for {url} was {title}"),
-        None => println!("{url} had no title"),
-    }
-    Pending => {
-        // But what goes here?
-    }
+  Ready(page_title) => match page_title {
+    Some(title) => println!("The title for {url} was {title}"),
+    None => println!("{url} had no title"),
+  }
+  Pending => {
+    // But what goes here?
+  }
 }
 ```
 
@@ -1704,15 +1705,15 @@ we need a loop:
 ```
 let mut page_title_fut = page_title(url);
 loop {
-    match page_title_fut.poll() {
-        Ready(value) => match page_title {
-            Some(title) => println!("The title for {url} was {title}"),
-            None => println!("{url} had no title"),
-        }
-        Pending => {
-            // continue
-        }
+  match page_title_fut.poll() {
+    Ready(value) => match page_title {
+      Some(title) => println!("The title for {url} was {title}"),
+      None => println!("{url} had no title"),
     }
+    Pending => {
+      // continue
+    }
+  }
 }
 ```
 
@@ -1755,14 +1756,14 @@ and calls the `trpl::join_all` function instead, which won’t compile yet.
 src/main.rs
 
 ```
-        let tx_fut = async move {
-            // --snip--
-        };
+let tx_fut = async move {
+  // --snip--
+};
 
-        let futures: Vec<Box<dyn Future<Output = ()>>> =
-            vec![Box::new(tx1_fut), Box::new(rx_fut), Box::new(tx_fut)];
+let futures: Vec<Box<dyn Future<Output = ()>>> =
+  vec![Box::new(tx1_fut), Box::new(rx_fut), Box::new(tx_fut)];
 
-        trpl::join_all(futures).await;
+trpl::join_all(futures).await;
 ```
 
 Listing 17-23: Awaiting futures in a collection
@@ -1798,7 +1799,7 @@ error[E0277]: `dyn Future<Output = ()>` cannot be unpinned
    |                                 ^^^^^ the trait `Unpin` is not implemented for `dyn Future<Output = ()>`
    |
    = note: consider using the `pin!` macro
-           consider using `Box::pin` if you need to access the pinned value outside of the current scope
+       consider using `Box::pin` if you need to access the pinned value outside of the current scope
    = note: required for `Box<dyn Future<Output = ()>>` to implement `Future`
 note: required by a bound in `futures_util::future::join_all::JoinAll`
   --> file:///home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.30/src/future/join_all.rs:29:8
@@ -1836,10 +1837,10 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 
 pub trait Future {
-    type Output;
+  type Output;
 
-    // Required method
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
+  // Required method
+  fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
 }
 ```
 
@@ -2013,20 +2014,20 @@ use std::pin::{Pin, pin};
 
 // --snip--
 
-        let tx1_fut = pin!(async move {
-            // --snip--
-        });
+let tx1_fut = pin!(async move {
+  // --snip--
+});
 
-        let rx_fut = pin!(async {
-            // --snip--
-        });
+let rx_fut = pin!(async {
+  // --snip--
+});
 
-        let tx_fut = pin!(async move {
-            // --snip--
-        });
+let tx_fut = pin!(async move {
+  // --snip--
+});
 
-        let futures: Vec<Pin<&mut dyn Future<Output = ()>>> =
-            vec![tx1_fut, rx_fut, tx_fut];
+let futures: Vec<Pin<&mut dyn Future<Output = ()>>> =
+  vec![tx1_fut, rx_fut, tx_fut];
 ```
 
 Listing 17-24: Pinning the futures to enable moving them into the vector
@@ -2076,12 +2077,12 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 
 trait Stream {
-    type Item;
+  type Item;
 
-    fn poll_next(
-        self: Pin<&mut Self>,
-        cx: &mut Context<'_>
-    ) -> Poll<Option<Self::Item>>;
+  fn poll_next(
+    self: Pin<&mut Self>,
+    cx: &mut Context<'_>
+  ) -> Poll<Option<Self::Item>>;
 }
 ```
 
@@ -2111,11 +2112,11 @@ method so we can do just that:
 
 ```
 trait StreamExt: Stream {
-    async fn next(&mut self) -> Option<Self::Item>
-    where
-        Self: Unpin;
+  async fn next(&mut self) -> Option<Self::Item>
+  where
+    Self: Unpin;
 
-    // other methods...
+  // other methods...
 }
 ```
 
@@ -2223,20 +2224,20 @@ src/main.rs
 use std::{thread, time::Duration};
 
 fn main() {
-    let (tx, mut rx) = trpl::channel();
+  let (tx, mut rx) = trpl::channel();
 
-    thread::spawn(move || {
-        for i in 1..11 {
-            tx.send(i).unwrap();
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
+  thread::spawn(move || {
+    for i in 1..11 {
+      tx.send(i).unwrap();
+      thread::sleep(Duration::from_secs(1));
+    }
+  });
 
-    trpl::block_on(async {
-        while let Some(message) = rx.recv().await {
-            println!("{message}");
-        }
-    });
+  trpl::block_on(async {
+    while let Some(message) = rx.recv().await {
+      println!("{message}");
+    }
+  });
 }
 ```
 
