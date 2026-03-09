@@ -843,13 +843,28 @@ code {{
 pre {{
     white-space: pre;
     overflow-x: auto;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 4px;
-        margin: 0.5rem 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0.5rem 0;
     border: 1px solid #d7d7d7;
-        border-radius: 0.25rem;
+    border-radius: 0.25rem;
     background: #f8f8f8;
+}}
+
+figure.listing {{
+    margin: 0;
+}}
+
+figure.listing .file-name,
+figure.listing .filename {{
+    display: block;
+    margin: 0 0 0.25rem 0;
+}}
+
+figure.listing figcaption {{
+    margin: 0.25rem 0 0;
+    font-size: 0.85em;
 }}
 
 pre code {{
@@ -1414,7 +1429,15 @@ mod tests {
     fn epub_css_uses_compact_full_width_code_blocks() {
         let css = default_epub_css(1.0);
         assert!(css.contains("width: 100%;"));
-        assert!(css.contains("padding: 4px;"));
+        assert!(css.contains("padding: 0;"));
+    }
+
+    #[test]
+    fn epub_css_removes_listing_horizontal_inset() {
+        let css = default_epub_css(1.0);
+        assert!(css.contains("figure.listing"));
+        assert!(css.contains("margin: 0;"));
+        assert!(css.contains("figure.listing .file-name"));
     }
 
     fn temp_path(label: &str) -> std::path::PathBuf {
