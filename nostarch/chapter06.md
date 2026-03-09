@@ -46,8 +46,8 @@ variants of the enum:
 
 ```
 enum IpAddrKind {
-    V4,
-    V6,
+  V4,
+  V6,
 }
 ```
 
@@ -58,8 +58,8 @@ enum IpAddrKind {
 We can create instances of each of the two variants of `IpAddrKind` like this:
 
 ```
-    let four = IpAddrKind::V4;
-    let six = IpAddrKind::V6;
+let four = IpAddrKind::V4;
+let six = IpAddrKind::V6;
 ```
 
 Note that the variants of the enum are namespaced under its identifier, and we
@@ -74,8 +74,8 @@ fn route(ip_kind: IpAddrKind) {}
 And we can call this function with either variant:
 
 ```
-    route(IpAddrKind::V4);
-    route(IpAddrKind::V6);
+route(IpAddrKind::V4);
+route(IpAddrKind::V6);
 ```
 
 Using enums has even more advantages. Thinking more about our IP address type,
@@ -86,25 +86,25 @@ Listing 6-1.
 
 
 ```
-    enum IpAddrKind {
-        V4,
-        V6,
-    }
+enum IpAddrKind {
+  V4,
+  V6,
+}
 
-    struct IpAddr {
-        kind: IpAddrKind,
-        address: String,
-    }
+struct IpAddr {
+  kind: IpAddrKind,
+  address: String,
+}
 
-    let home = IpAddr {
-        kind: IpAddrKind::V4,
-        address: String::from("127.0.0.1"),
-    };
+let home = IpAddr {
+  kind: IpAddrKind::V4,
+  address: String::from("127.0.0.1"),
+};
 
-    let loopback = IpAddr {
-        kind: IpAddrKind::V6,
-        address: String::from("::1"),
-    };
+let loopback = IpAddr {
+  kind: IpAddrKind::V6,
+  address: String::from("::1"),
+};
 ```
 
 Listing 6-1: Storing the data and `IpAddrKind` variant of an IP address using a `struct`
@@ -124,14 +124,14 @@ variant. This new definition of the `IpAddr` enum says that both `V4` and `V6`
 variants will have associated `String` values:
 
 ```
-    enum IpAddr {
-        V4(String),
-        V6(String),
-    }
+enum IpAddr {
+  V4(String),
+  V6(String),
+}
 
-    let home = IpAddr::V4(String::from("127.0.0.1"));
+let home = IpAddr::V4(String::from("127.0.0.1"));
 
-    let loopback = IpAddr::V6(String::from("::1"));
+let loopback = IpAddr::V6(String::from("::1"));
 ```
 
 We attach data to each variant of the enum directly, so there is no need for an
@@ -150,14 +150,14 @@ still express `V6` addresses as one `String` value, we wouldn’t be able to wit
 a struct. Enums handle this case with ease:
 
 ```
-    enum IpAddr {
-        V4(u8, u8, u8, u8),
-        V6(String),
-    }
+enum IpAddr {
+  V4(u8, u8, u8, u8),
+  V6(String),
+}
 
-    let home = IpAddr::V4(127, 0, 0, 1);
+let home = IpAddr::V4(127, 0, 0, 1);
 
-    let loopback = IpAddr::V6(String::from("::1"));
+let loopback = IpAddr::V6(String::from("::1"));
 ```
 
 We’ve shown several different ways to define data structures to store version
@@ -171,16 +171,16 @@ variant:
 
 ```
 struct Ipv4Addr {
-    // --snip--
+  // --snip--
 }
 
 struct Ipv6Addr {
-    // --snip--
+  // --snip--
 }
 
 enum IpAddr {
-    V4(Ipv4Addr),
-    V6(Ipv6Addr),
+  V4(Ipv4Addr),
+  V6(Ipv6Addr),
 }
 ```
 
@@ -200,10 +200,10 @@ variety of types embedded in its variants.
 
 ```
 enum Message {
-    Quit,
-    Move { x: i32, y: i32 },
-    Write(String),
-    ChangeColor(i32, i32, i32),
+  Quit,
+  Move { x: i32, y: i32 },
+  Write(String),
+  ChangeColor(i32, i32, i32),
 }
 ```
 
@@ -223,13 +223,16 @@ type. The following structs could hold the same data that the preceding enum
 variants hold:
 
 ```
-struct QuitMessage; // unit struct
+// unit struct
+struct QuitMessage;
 struct MoveMessage {
-    x: i32,
-    y: i32,
+  x: i32,
+  y: i32,
 }
-struct WriteMessage(String); // tuple struct
-struct ChangeColorMessage(i32, i32, i32); // tuple struct
+// tuple struct
+struct WriteMessage(String);
+// tuple struct
+struct ChangeColorMessage(i32, i32, i32);
 ```
 
 But if we used the different structs, each of which has its own type, we
@@ -241,14 +244,14 @@ define methods on structs using `impl`, we’re also able to define methods on
 enums. Here’s a method named `call` that we could define on our `Message` enum:
 
 ```
-    impl Message {
-        fn call(&self) {
-            // method body would be defined here
-        }
-    }
+impl Message {
+  fn call(&self) {
+    // method body would be defined here
+  }
+}
 
-    let m = Message::Write(String::from("hello"));
-    m.call();
+let m = Message::Write(String::from("hello"));
+m.call();
 ```
 
 The body of the method would use `self` to get the value that we called the
@@ -309,8 +312,8 @@ as follows:
 
 ```
 enum Option<T> {
-    None,
-    Some(T),
+  None,
+  Some(T),
 }
 ```
 
@@ -329,10 +332,10 @@ a different type. Here are some examples of using `Option` values to hold
 number types and char types:
 
 ```
-    let some_number = Some(5);
-    let some_char = Some('e');
+let some_number = Some(5);
+let some_char = Some('e');
 
-    let absent_number: Option<i32> = None;
+let absent_number: Option<i32> = None;
 ```
 
 The type of `some_number` is `Option<i32>`. The type of `some_char` is
@@ -354,10 +357,10 @@ definitely a valid value. For example, this code won’t compile, because it’s
 trying to add an `i8` to an `Option<i8>`:
 
 ```
-    let x: i8 = 5;
-    let y: Option<i8> = Some(5);
+let x: i8 = 5;
+let y: Option<i8> = Some(5);
 
-    let sum = x + y;
+let sum = x + y;
 ```
 
 If we run this code, we get an error message like this one:
@@ -373,10 +376,10 @@ error[E0277]: cannot add `Option<i8>` to `i8`
   |
   = help: the trait `Add<Option<i8>>` is not implemented for `i8`
   = help: the following other types implement trait `Add<Rhs>`:
-            `&i8` implements `Add<i8>`
-            `&i8` implements `Add`
-            `i8` implements `Add<&i8>`
-            `i8` implements `Add`
+      `&i8` implements `Add<i8>`
+      `&i8` implements `Add`
+      `i8` implements `Add<&i8>`
+      `i8` implements `Add`
 
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `enums` (bin "enums") due to 1 previous error
@@ -449,19 +452,19 @@ in Listing 6-3.
 
 ```
 enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter,
+  Penny,
+  Nickel,
+  Dime,
+  Quarter,
 }
 
 fn value_in_cents(coin: Coin) -> u8 {
-    match coin {
-        Coin::Penny => 1,
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        Coin::Quarter => 25,
-    }
+  match coin {
+    Coin::Penny => 1,
+    Coin::Nickel => 5,
+    Coin::Dime => 10,
+    Coin::Quarter => 25,
+  }
 }
 ```
 
@@ -498,15 +501,15 @@ still returns the last value of the block, `1`:
 
 ```
 fn value_in_cents(coin: Coin) -> u8 {
-    match coin {
-        Coin::Penny => {
-            println!("Lucky penny!");
-            1
-        }
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        Coin::Quarter => 25,
+  match coin {
+    Coin::Penny => {
+      println!("Lucky penny!");
+      1
     }
+    Coin::Nickel => 5,
+    Coin::Dime => 10,
+    Coin::Quarter => 25,
+  }
 }
 ```
 
@@ -525,18 +528,19 @@ stored inside it, which we’ve done in Listing 6-4.
 
 
 ```
-#[derive(Debug)] // so we can inspect the state in a minute
+// so we can inspect the state in a minute
+#[derive(Debug)]
 enum UsState {
-    Alabama,
-    Alaska,
-    // --snip--
+  Alabama,
+  Alaska,
+  // --snip--
 }
 
 enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter(UsState),
+  Penny,
+  Nickel,
+  Dime,
+  Quarter(UsState),
 }
 ```
 
@@ -554,15 +558,15 @@ quarter’s state. Then, we can use `state` in the code for that arm, like so:
 
 ```
 fn value_in_cents(coin: Coin) -> u8 {
-    match coin {
-        Coin::Penny => 1,
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        Coin::Quarter(state) => {
-            println!("State quarter from {state:?}!");
-            25
-        }
+  match coin {
+    Coin::Penny => 1,
+    Coin::Nickel => 5,
+    Coin::Dime => 10,
+    Coin::Quarter(state) => {
+      println!("State quarter from {state:?}!");
+      25
     }
+  }
 }
 ```
 
@@ -595,16 +599,16 @@ Listing 6-5.
 
 
 ```
-    fn plus_one(x: Option<i32>) -> Option<i32> {
-        match x {
-            None => None,
-            Some(i) => Some(i + 1),
-        }
-    }
+fn plus_one(x: Option<i32>) -> Option<i32> {
+  match x {
+    None => None,
+    Some(i) => Some(i + 1),
+  }
+}
 
-    let five = Some(5);
-    let six = plus_one(five);
-    let none = plus_one(None);
+let five = Some(5);
+let six = plus_one(five);
+let none = plus_one(None);
 ```
 
 Listing 6-5: A function that uses a `match` expression on an `Option<i32>`
@@ -614,14 +618,14 @@ Let’s examine the first execution of `plus_one` in more detail. When we call
 value `Some(5)`. We then compare that against each match arm:
 
 ```
-            None => None,
+None => None,
 ```
 
 The `Some(5)` value doesn’t match the pattern `None`, so we continue to the
 next arm:
 
 ```
-            Some(i) => Some(i + 1),
+Some(i) => Some(i + 1),
 ```
 
 Does `Some(5)` match `Some(i)`? It does! We have the same variant. The `i`
@@ -633,7 +637,7 @@ Now let’s consider the second call of `plus_one` in Listing 6-5, where `x` is
 `None`. We enter the `match` and compare to the first arm:
 
 ```
-            None => None,
+None => None,
 ```
 
 It matches! There’s no value to add to, so the program stops and returns the
@@ -653,11 +657,11 @@ cover all possibilities. Consider this version of our `plus_one` function,
 which has a bug and won’t compile:
 
 ```
-    fn plus_one(x: Option<i32>) -> Option<i32> {
-        match x {
-            Some(i) => Some(i + 1),
-        }
-    }
+fn plus_one(x: Option<i32>) -> Option<i32> {
+  match x {
+    Some(i) => Some(i + 1),
+  }
+}
 ```
 
 We didn’t handle the `None` case, so this code will cause a bug. Luckily, it’s
@@ -674,8 +678,8 @@ error[E0004]: non-exhaustive patterns: `None` not covered
   |               ^ pattern `None` not covered
   |
 note: `Option<i32>` defined here
- --> /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/option.rs:572:1
- ::: /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/option.rs:576:5
+ --> /rustc/1159e78c4747b02ef996e55082b704c09b970588/library/core/src/option.rs:593:1
+ ::: /rustc/1159e78c4747b02ef996e55082b704c09b970588/library/core/src/option.rs:597:5
   |
   = note: not covered
   = note: the matched value is of type `Option<i32>`
@@ -709,16 +713,16 @@ functions without bodies because actually implementing them is out of scope for
 this example:
 
 ```
-    let dice_roll = 9;
-    match dice_roll {
-        3 => add_fancy_hat(),
-        7 => remove_fancy_hat(),
-        other => move_player(other),
-    }
+let dice_roll = 9;
+match dice_roll {
+  3 => add_fancy_hat(),
+  7 => remove_fancy_hat(),
+  other => move_player(other),
+}
 
-    fn add_fancy_hat() {}
-    fn remove_fancy_hat() {}
-    fn move_player(num_spaces: u8) {}
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {}
 ```
 
 For the first two arms, the patterns are the literal values `3` and `7`. For
@@ -744,16 +748,16 @@ a 7, you must roll again. We no longer need to use the catch-all value, so we
 can change our code to use `_` instead of the variable named `other`:
 
 ```
-    let dice_roll = 9;
-    match dice_roll {
-        3 => add_fancy_hat(),
-        7 => remove_fancy_hat(),
-        _ => reroll(),
-    }
+let dice_roll = 9;
+match dice_roll {
+  3 => add_fancy_hat(),
+  7 => remove_fancy_hat(),
+  _ => reroll(),
+}
 
-    fn add_fancy_hat() {}
-    fn remove_fancy_hat() {}
-    fn reroll() {}
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn reroll() {}
 ```
 
 This example also meets the exhaustiveness requirement because we’re explicitly
@@ -765,15 +769,15 @@ that by using the unit value (the empty tuple type we mentioned in “The Tuple
 Type” section) as the code that goes with the `_` arm:
 
 ```
-    let dice_roll = 9;
-    match dice_roll {
-        3 => add_fancy_hat(),
-        7 => remove_fancy_hat(),
-        _ => (),
-    }
+let dice_roll = 9;
+match dice_roll {
+  3 => add_fancy_hat(),
+  7 => remove_fancy_hat(),
+  _ => (),
+}
 
-    fn add_fancy_hat() {}
-    fn remove_fancy_hat() {}
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
 ```
 
 Here, we’re telling Rust explicitly that we aren’t going to use any other value
@@ -785,7 +789,7 @@ There’s more about patterns and matching that we’ll cover in Chapter
 `if let` syntax, which can be useful in situations where the `match` expression
 is a bit wordy.
 
-## Concise Control Flow with if let and let else
+## Concise Control Flow with if let and let...else
 
 The `if let` syntax lets you combine `if` and `let` into a less verbose way to
 handle values that match one pattern while ignoring the rest. Consider the
@@ -795,11 +799,11 @@ variant.
 
 
 ```
-    let config_max = Some(3u8);
-    match config_max {
-        Some(max) => println!("The maximum is configured to be {max}"),
-        _ => (),
-    }
+let config_max = Some(3u8);
+match config_max {
+  Some(max) => println!("The maximum is configured to be {max}"),
+  _ => (),
+}
 ```
 
 Listing 6-6: A `match` that only cares about executing code when the value is `Some`
@@ -813,10 +817,10 @@ Instead, we could write this in a shorter way using `if let`. The following
 code behaves the same as the `match` in Listing 6-6:
 
 ```
-    let config_max = Some(3u8);
-    if let Some(max) = config_max {
-        println!("The maximum is configured to be {max}");
-    }
+let config_max = Some(3u8);
+if let Some(max) = config_max {
+  println!("The maximum is configured to be {max}");
+}
 ```
 
 The syntax `if let` takes a pattern and an expression separated by an equal
@@ -844,22 +848,22 @@ announcing the state of the quarters, we could do that with a `match`
 expression, like this:
 
 ```
-    let mut count = 0;
-    match coin {
-        Coin::Quarter(state) => println!("State quarter from {state:?}!"),
-        _ => count += 1,
-    }
+let mut count = 0;
+match coin {
+  Coin::Quarter(state) => println!("State quarter from {state:?}!"),
+  _ => count += 1,
+}
 ```
 
 Or we could use an `if let` and `else` expression, like this:
 
 ```
-    let mut count = 0;
-    if let Coin::Quarter(state) = coin {
-        println!("State quarter from {state:?}!");
-    } else {
-        count += 1;
-    }
+let mut count = 0;
+if let Coin::Quarter(state) = coin {
+  println!("State quarter from {state:?}!");
+} else {
+  count += 1;
+}
 ```
 
 ## Staying on the “Happy Path” with let...else
@@ -872,13 +876,13 @@ age of a state, like so:
 
 ```
 impl UsState {
-    fn existed_in(&self, year: u16) -> bool {
-        match self {
-            UsState::Alabama => year >= 1819,
-            UsState::Alaska => year >= 1959,
-            // -- snip --
-        }
+  fn existed_in(&self, year: u16) -> bool {
+    match self {
+      UsState::Alabama => year >= 1819,
+      UsState::Alaska => year >= 1959,
+      // -- snip --
     }
+  }
 }
 ```
 
@@ -888,15 +892,15 @@ variable within the body of the condition, as in Listing 6-7.
 
 ```
 fn describe_state_quarter(coin: Coin) -> Option<String> {
-    if let Coin::Quarter(state) = coin {
-        if state.existed_in(1900) {
-            Some(format!("{state:?} is pretty old, for America!"))
-        } else {
-            Some(format!("{state:?} is relatively new."))
-        }
+  if let Coin::Quarter(state) = coin {
+    if state.existed_in(1900) {
+      Some(format!("{state:?} is pretty old, for America!"))
     } else {
-        None
+      Some(format!("{state:?} is relatively new."))
     }
+  } else {
+    None
+  }
 }
 ```
 
@@ -911,17 +915,17 @@ something similar with a `match`, too.)
 
 ```
 fn describe_state_quarter(coin: Coin) -> Option<String> {
-    let state = if let Coin::Quarter(state) = coin {
-        state
-    } else {
-        return None;
-    };
+  let state = if let Coin::Quarter(state) = coin {
+    state
+  } else {
+    return None;
+  };
 
-    if state.existed_in(1900) {
-        Some(format!("{state:?} is pretty old, for America!"))
-    } else {
-        Some(format!("{state:?} is relatively new."))
-    }
+  if state.existed_in(1900) {
+    Some(format!("{state:?} is pretty old, for America!"))
+  } else {
+    Some(format!("{state:?} is relatively new."))
+  }
 }
 ```
 
@@ -942,15 +946,15 @@ place of `if let`.
 
 ```
 fn describe_state_quarter(coin: Coin) -> Option<String> {
-    let Coin::Quarter(state) = coin else {
-        return None;
-    };
+  let Coin::Quarter(state) = coin else {
+    return None;
+  };
 
-    if state.existed_in(1900) {
-        Some(format!("{state:?} is pretty old, for America!"))
-    } else {
-        Some(format!("{state:?} is relatively new."))
-    }
+  if state.existed_in(1900) {
+    Some(format!("{state:?} is pretty old, for America!"))
+  } else {
+    Some(format!("{state:?} is relatively new."))
+  }
 }
 ```
 

@@ -250,7 +250,7 @@ main.rs
 
 ```
 fn main() {
-    println!("Hello, world!");
+  println!("Hello, world!");
 }
 ```
 
@@ -494,7 +494,7 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    println!("Hello, world!");
+  println!("Hello, world!");
 }
 ```
 
@@ -524,7 +524,7 @@ entering the following command:
 ```
 $ cargo build
    Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
-    Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
+  Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
 ```
 
 This command creates an executable file in *target/debug/hello_cargo* (or
@@ -549,8 +549,8 @@ code and then run the resultant executable all in one command:
 
 ```
 $ cargo run
-    Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
-     Running `target/debug/hello_cargo`
+  Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
+   Running `target/debug/hello_cargo`
 Hello, world!
 ```
 
@@ -565,8 +565,8 @@ output:
 ```
 $ cargo run
    Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.33 secs
-     Running `target/debug/hello_cargo`
+  Finished dev [unoptimized + debuginfo] target(s) in 0.33 secs
+   Running `target/debug/hello_cargo`
 Hello, world!
 ```
 
@@ -576,7 +576,7 @@ your code to make sure it compiles but doesn’t produce an executable:
 ```
 $ cargo check
    Checking hello_cargo v0.1.0 (file:///projects/hello_cargo)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
+  Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
 ```
 
 Why would you not want an executable? Often, `cargo check` is much faster than

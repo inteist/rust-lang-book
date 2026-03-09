@@ -102,7 +102,7 @@ Filename: src/main.rs
 
 ```
 fn match(needle: &str, haystack: &str) -> bool {
-    haystack.contains(needle)
+  haystack.contains(needle)
 }
 ```
 
@@ -124,11 +124,11 @@ Filename: src/main.rs
 
 ```
 fn r#match(needle: &str, haystack: &str) -> bool {
-    haystack.contains(needle)
+  haystack.contains(needle)
 }
 
 fn main() {
-    assert!(r#match("foo", "foobar"));
+  assert!(r#match("foo", "foobar"));
 }
 ```
 
@@ -570,8 +570,8 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let mut x = 42;
-    println!("{x}");
+  let mut x = 42;
+  println!("{x}");
 }
 ```
 
@@ -597,9 +597,9 @@ apply that suggestion using the `rustfix` tool by running the command `cargo fix
 
 ```
 $ cargo fix
-    Checking myprogram v0.1.0 (file:///projects/myprogram)
-      Fixing src/main.rs (1 fix)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.59s
+  Checking myprogram v0.1.0 (file:///projects/myprogram)
+    Fixing src/main.rs (1 fix)
+  Finished dev [unoptimized + debuginfo] target(s) in 0.59s
 ```
 
 When we look at *src/main.rs* again, we’ll see that `cargo fix` has changed the
@@ -609,8 +609,8 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = 42;
-    println!("{x}");
+  let x = 42;
+  println!("{x}");
 }
 ```
 
@@ -638,9 +638,9 @@ src/main.rs
 
 ```
 fn main() {
-    let x = 3.1415;
-    let r = 8.0;
-    println!("the area of the circle is {}", x * r * r);
+  let x = 3.1415;
+  let r = 8.0;
+  println!("the area of the circle is {}", x * r * r);
 }
 ```
 
@@ -670,9 +670,9 @@ src/main.rs
 
 ```
 fn main() {
-    let x = std::f64::consts::PI;
-    let r = 8.0;
-    println!("the area of the circle is {}", x * r * r);
+  let x = std::f64::consts::PI;
+  let r = 8.0;
+  println!("the area of the circle is {}", x * r * r);
 }
 ```
 
@@ -832,7 +832,7 @@ there are two releases:
 
 ```
 nightly: * - - * - - *
-                     |
+           |
 beta:                *
 ```
 
@@ -842,7 +842,7 @@ there’s still a nightly release every night:
 
 ```
 nightly: * - - * - - * - - * - - *
-                     |
+           |
 beta:                *
 ```
 
@@ -853,7 +853,7 @@ the `beta` branch, and a new release of beta is produced:
 
 ```
 nightly: * - - * - - * - - * - - * - - *
-                     |
+           |
 beta:                * - - - - - - - - *
 ```
 
@@ -862,9 +862,9 @@ Six weeks after the first beta was created, it’s time for a stable release! Th
 
 ```
 nightly: * - - * - - * - - * - - * - - * - * - *
-                     |
+           |
 beta:                * - - - - - - - - *
-                                       |
+                     |
 stable:                                *
 ```
 
@@ -875,9 +875,9 @@ off of `nightly` again:
 
 ```
 nightly: * - - * - - * - - * - - * - - * - * - *
-                     |                         |
+           |                         |
 beta:                * - - - - - - - - *       *
-                                       |
+                     |
 stable:                                *
 ```
 

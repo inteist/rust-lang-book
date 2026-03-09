@@ -74,8 +74,8 @@ src/lib.rs
 
 ```
 pub struct AveragedCollection {
-    list: Vec<i32>,
-    average: f64,
+  list: Vec<i32>,
+  average: f64,
 }
 ```
 
@@ -91,30 +91,30 @@ src/lib.rs
 
 ```
 impl AveragedCollection {
-    pub fn add(&mut self, value: i32) {
-        self.list.push(value);
+  pub fn add(&mut self, value: i32) {
+    self.list.push(value);
+    self.update_average();
+  }
+
+  pub fn remove(&mut self) -> Option<i32> {
+    let result = self.list.pop();
+    match result {
+      Some(value) => {
         self.update_average();
+        Some(value)
+      }
+      None => None,
     }
+  }
 
-    pub fn remove(&mut self) -> Option<i32> {
-        let result = self.list.pop();
-        match result {
-            Some(value) => {
-                self.update_average();
-                Some(value)
-            }
-            None => None,
-        }
-    }
+  pub fn average(&self) -> f64 {
+    self.average
+  }
 
-    pub fn average(&self) -> f64 {
-        self.average
-    }
-
-    fn update_average(&mut self) {
-        let total: i32 = self.list.iter().sum();
-        self.average = total as f64 / self.list.len() as f64;
-    }
+  fn update_average(&mut self) {
+    let total: i32 = self.list.iter().sum();
+    self.average = total as f64 / self.list.len() as f64;
+  }
 }
 ```
 
@@ -275,7 +275,7 @@ src/lib.rs
 
 ```
 pub trait Draw {
-    fn draw(&self);
+  fn draw(&self);
 }
 ```
 
@@ -291,7 +291,7 @@ src/lib.rs
 
 ```
 pub struct Screen {
-    pub components: Vec<Box<dyn Draw>>,
+  pub components: Vec<Box<dyn Draw>>,
 }
 ```
 
@@ -304,11 +304,11 @@ src/lib.rs
 
 ```
 impl Screen {
-    pub fn run(&self) {
-        for component in self.components.iter() {
-            component.draw();
-        }
+  pub fn run(&self) {
+    for component in self.components.iter() {
+      component.draw();
     }
+  }
 }
 ```
 
@@ -325,18 +325,18 @@ src/lib.rs
 
 ```
 pub struct Screen<T: Draw> {
-    pub components: Vec<T>,
+  pub components: Vec<T>,
 }
 
 impl<T> Screen<T>
 where
-    T: Draw,
+  T: Draw,
 {
-    pub fn run(&self) {
-        for component in self.components.iter() {
-            component.draw();
-        }
+  pub fn run(&self) {
+    for component in self.components.iter() {
+      component.draw();
     }
+  }
 }
 ```
 
@@ -364,15 +364,15 @@ src/lib.rs
 
 ```
 pub struct Button {
-    pub width: u32,
-    pub height: u32,
-    pub label: String,
+  pub width: u32,
+  pub height: u32,
+  pub label: String,
 }
 
 impl Draw for Button {
-    fn draw(&self) {
-        // code to actually draw a button
-    }
+  fn draw(&self) {
+    // code to actually draw a button
+  }
 }
 ```
 
@@ -398,15 +398,15 @@ src/main.rs
 use gui::Draw;
 
 struct SelectBox {
-    width: u32,
-    height: u32,
-    options: Vec<String>,
+  width: u32,
+  height: u32,
+  options: Vec<String>,
 }
 
 impl Draw for SelectBox {
-    fn draw(&self) {
-        // code to actually draw a select box
-    }
+  fn draw(&self) {
+    // code to actually draw a select box
+  }
 }
 ```
 
@@ -424,26 +424,26 @@ src/main.rs
 use gui::{Button, Screen};
 
 fn main() {
-    let screen = Screen {
-        components: vec![
-            Box::new(SelectBox {
-                width: 75,
-                height: 10,
-                options: vec![
-                    String::from("Yes"),
-                    String::from("Maybe"),
-                    String::from("No"),
-                ],
-            }),
-            Box::new(Button {
-                width: 50,
-                height: 10,
-                label: String::from("OK"),
-            }),
+  let screen = Screen {
+    components: vec![
+      Box::new(SelectBox {
+        width: 75,
+        height: 10,
+        options: vec![
+          String::from("Yes"),
+          String::from("Maybe"),
+          String::from("No"),
         ],
-    };
+      }),
+      Box::new(Button {
+        width: 50,
+        height: 10,
+        label: String::from("OK"),
+      }),
+    ],
+  };
 
-    screen.run();
+  screen.run();
 }
 ```
 
@@ -480,11 +480,11 @@ src/main.rs
 use gui::Screen;
 
 fn main() {
-    let screen = Screen {
-        components: vec![Box::new(String::from("Hi"))],
-    };
+  let screen = Screen {
+    components: vec![Box::new(String::from("Hi"))],
+  };
 
-    screen.run();
+  screen.run();
 }
 ```
 
@@ -605,16 +605,16 @@ src/main.rs
 use blog::Post;
 
 fn main() {
-    let mut post = Post::new();
+  let mut post = Post::new();
 
-    post.add_text("I ate a salad for lunch today");
-    assert_eq!("", post.content());
+  post.add_text("I ate a salad for lunch today");
+  assert_eq!("", post.content());
 
-    post.request_review();
-    assert_eq!("", post.content());
+  post.request_review();
+  assert_eq!("", post.content());
 
-    post.approve();
-    assert_eq!("I ate a salad for lunch today", post.content());
+  post.approve();
+  assert_eq!("I ate a salad for lunch today", post.content());
 }
 ```
 
@@ -663,17 +663,17 @@ src/lib.rs
 
 ```
 pub struct Post {
-    state: Option<Box<dyn State>>,
-    content: String,
+  state: Option<Box<dyn State>>,
+  content: String,
 }
 
 impl Post {
-    pub fn new() -> Post {
-        Post {
-            state: Some(Box::new(Draft {})),
-            content: String::new(),
-        }
+  pub fn new() -> Post {
+    Post {
+      state: Some(Box::new(Draft {})),
+      content: String::new(),
     }
+  }
 }
 
 trait State {}
@@ -711,10 +711,10 @@ src/lib.rs
 
 ```
 impl Post {
-    // --snip--
-    pub fn add_text(&mut self, text: &str) {
-        self.content.push_str(text);
-    }
+  // --snip--
+  pub fn add_text(&mut self, text: &str) {
+    self.content.push_str(text);
+  }
 }
 ```
 
@@ -748,10 +748,10 @@ src/lib.rs
 
 ```
 impl Post {
-    // --snip--
-    pub fn content(&self) -> &str {
-        ""
-    }
+  // --snip--
+  pub fn content(&self) -> &str {
+    ""
+  }
 }
 ```
 
@@ -774,32 +774,32 @@ src/lib.rs
 
 ```
 impl Post {
-    // --snip--
-    pub fn request_review(&mut self) {
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.request_review())
-        }
+  // --snip--
+  pub fn request_review(&mut self) {
+    if let Some(s) = self.state.take() {
+      self.state = Some(s.request_review())
     }
+  }
 }
 
 trait State {
-    fn request_review(self: Box<Self>) -> Box<dyn State>;
+  fn request_review(self: Box<Self>) -> Box<dyn State>;
 }
 
 struct Draft {}
 
 impl State for Draft {
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        Box::new(PendingReview {})
-    }
+  fn request_review(self: Box<Self>) -> Box<dyn State> {
+    Box::new(PendingReview {})
+  }
 }
 
 struct PendingReview {}
 
 impl State for PendingReview {
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+  fn request_review(self: Box<Self>) -> Box<dyn State> {
+    self
+  }
 }
 ```
 
@@ -862,47 +862,47 @@ src/lib.rs
 
 ```
 impl Post {
-    // --snip--
-    pub fn approve(&mut self) {
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.approve())
-        }
+  // --snip--
+  pub fn approve(&mut self) {
+    if let Some(s) = self.state.take() {
+      self.state = Some(s.approve())
     }
+  }
 }
 
 trait State {
-    fn request_review(self: Box<Self>) -> Box<dyn State>;
-    fn approve(self: Box<Self>) -> Box<dyn State>;
+  fn request_review(self: Box<Self>) -> Box<dyn State>;
+  fn approve(self: Box<Self>) -> Box<dyn State>;
 }
 
 struct Draft {}
 
 impl State for Draft {
-    // --snip--
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+  // --snip--
+  fn approve(self: Box<Self>) -> Box<dyn State> {
+    self
+  }
 }
 
 struct PendingReview {}
 
 impl State for PendingReview {
-    // --snip--
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        Box::new(Published {})
-    }
+  // --snip--
+  fn approve(self: Box<Self>) -> Box<dyn State> {
+    Box::new(Published {})
+  }
 }
 
 struct Published {}
 
 impl State for Published {
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+  fn request_review(self: Box<Self>) -> Box<dyn State> {
+    self
+  }
 
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
+  fn approve(self: Box<Self>) -> Box<dyn State> {
+    self
+  }
 }
 ```
 
@@ -928,11 +928,11 @@ src/lib.rs
 
 ```
 impl Post {
-    // --snip--
-    pub fn content(&self) -> &str {
-        self.state.as_ref().unwrap().content(self)
-    }
-    // --snip--
+  // --snip--
+  pub fn content(&self) -> &str {
+    self.state.as_ref().unwrap().content(self)
+  }
+  // --snip--
 }
 ```
 
@@ -967,20 +967,20 @@ src/lib.rs
 
 ```
 trait State {
-    // --snip--
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        ""
-    }
+  // --snip--
+  fn content<'a>(&self, post: &'a Post) -> &'a str {
+    ""
+  }
 }
 
 // --snip--
 struct Published {}
 
 impl State for Published {
-    // --snip--
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        &post.content
-    }
+  // --snip--
+  fn content<'a>(&self, post: &'a Post) -> &'a str {
+    &post.content
+  }
 }
 ```
 
@@ -1090,10 +1090,10 @@ src/main.rs
 
 ```
 fn main() {
-    let mut post = Post::new();
+  let mut post = Post::new();
 
-    post.add_text("I ate a salad for lunch today");
-    assert_eq!("", post.content());
+  post.add_text("I ate a salad for lunch today");
+  assert_eq!("", post.content());
 }
 ```
 
@@ -1113,29 +1113,29 @@ src/lib.rs
 
 ```
 pub struct Post {
-    content: String,
+  content: String,
 }
 
 pub struct DraftPost {
-    content: String,
+  content: String,
 }
 
 impl Post {
-    pub fn new() -> DraftPost {
-        DraftPost {
-            content: String::new(),
-        }
+  pub fn new() -> DraftPost {
+    DraftPost {
+      content: String::new(),
     }
+  }
 
-    pub fn content(&self) -> &str {
-        &self.content
-    }
+  pub fn content(&self) -> &str {
+    &self.content
+  }
 }
 
 impl DraftPost {
-    pub fn add_text(&mut self, text: &str) {
-        self.content.push_str(text);
-    }
+  pub fn add_text(&mut self, text: &str) {
+    self.content.push_str(text);
+  }
 }
 ```
 
@@ -1174,24 +1174,24 @@ src/lib.rs
 
 ```
 impl DraftPost {
-    // --snip--
-    pub fn request_review(self) -> PendingReviewPost {
-        PendingReviewPost {
-            content: self.content,
-        }
+  // --snip--
+  pub fn request_review(self) -> PendingReviewPost {
+    PendingReviewPost {
+      content: self.content,
     }
+  }
 }
 
 pub struct PendingReviewPost {
-    content: String,
+  content: String,
 }
 
 impl PendingReviewPost {
-    pub fn approve(self) -> Post {
-        Post {
-            content: self.content,
-        }
+  pub fn approve(self) -> Post {
+    Post {
+      content: self.content,
     }
+  }
 }
 ```
 
@@ -1223,15 +1223,15 @@ src/main.rs
 use blog::Post;
 
 fn main() {
-    let mut post = Post::new();
+  let mut post = Post::new();
 
-    post.add_text("I ate a salad for lunch today");
+  post.add_text("I ate a salad for lunch today");
 
-    let post = post.request_review();
+  let post = post.request_review();
 
-    let post = post.approve();
+  let post = post.approve();
 
-    assert_eq!("I ate a salad for lunch today", post.content());
+  assert_eq!("I ate a salad for lunch today", post.content());
 }
 ```
 

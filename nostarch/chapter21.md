@@ -76,7 +76,7 @@ this. Let’s make a new project in the usual fashion:
 
 ```
 $ cargo new hello
-     Created binary (application) `hello` project
+   Created binary (application) `hello` project
 $ cd hello
 ```
 
@@ -90,13 +90,13 @@ src/main.rs
 use std::net::TcpListener;
 
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+  let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+  for stream in listener.incoming() {
+    let stream = stream.unwrap();
 
-        println!("Connection established!");
-    }
+    println!("Connection established!");
+  }
 }
 ```
 
@@ -151,7 +151,7 @@ data. But when you look at your terminal, you should see several messages that
 were printed when the browser connected to the server!
 
 ```
-     Running `target/debug/hello`
+   Running `target/debug/hello`
 Connection established!
 Connection established!
 Connection established!
@@ -196,29 +196,29 @@ src/main.rs
 
 ```
 use std::{
-    io::{BufReader, prelude::*},
-    net::{TcpListener, TcpStream},
+  io::{BufReader, prelude::*},
+  net::{TcpListener, TcpStream},
 };
 
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+  let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+  for stream in listener.incoming() {
+    let stream = stream.unwrap();
 
-        handle_connection(stream);
-    }
+    handle_connection(stream);
+  }
 }
 
 fn handle_connection(mut stream: TcpStream) {
-    let buf_reader = BufReader::new(&stream);
-    let http_request: Vec<_> = buf_reader
-        .lines()
-        .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
-        .collect();
+  let buf_reader = BufReader::new(&stream);
+  let http_request: Vec<_> = buf_reader
+    .lines()
+    .map(|result| result.unwrap())
+    .take_while(|line| !line.is_empty())
+    .collect();
 
-    println!("Request: {http_request:#?}");
+  println!("Request: {http_request:#?}");
 }
 ```
 
@@ -266,23 +266,23 @@ Can't automate because the output depends on making requests
 ```
 $ cargo run
    Compiling hello v0.1.0 (file:///projects/hello)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.42s
-     Running `target/debug/hello`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.42s
+   Running `target/debug/hello`
 Request: [
-    "GET / HTTP/1.1",
-    "Host: 127.0.0.1:7878",
-    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
-    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-    "Accept-Language: en-US,en;q=0.5",
-    "Accept-Encoding: gzip, deflate, br",
-    "DNT: 1",
-    "Connection: keep-alive",
-    "Upgrade-Insecure-Requests: 1",
-    "Sec-Fetch-Dest: document",
-    "Sec-Fetch-Mode: navigate",
-    "Sec-Fetch-Site: none",
-    "Sec-Fetch-User: ?1",
-    "Cache-Control: max-age=0",
+  "GET / HTTP/1.1",
+  "Host: 127.0.0.1:7878",
+  "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
+  "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+  "Accept-Language: en-US,en;q=0.5",
+  "Accept-Encoding: gzip, deflate, br",
+  "DNT: 1",
+  "Connection: keep-alive",
+  "Upgrade-Insecure-Requests: 1",
+  "Sec-Fetch-Dest: document",
+  "Sec-Fetch-Mode: navigate",
+  "Sec-Fetch-Site: none",
+  "Sec-Fetch-User: ?1",
+  "Cache-Control: max-age=0",
 ]
 ```
 
@@ -376,16 +376,16 @@ src/main.rs
 
 ```
 fn handle_connection(mut stream: TcpStream) {
-    let buf_reader = BufReader::new(&stream);
-    let http_request: Vec<_> = buf_reader
-        .lines()
-        .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
-        .collect();
+  let buf_reader = BufReader::new(&stream);
+  let http_request: Vec<_> = buf_reader
+    .lines()
+    .map(|result| result.unwrap())
+    .take_while(|line| !line.is_empty())
+    .collect();
 
-    let response = "HTTP/1.1 200 OK\r\n\r\n";
+  let response = "HTTP/1.1 200 OK\r\n\r\n";
 
-    stream.write_all(response.as_bytes()).unwrap();
+  stream.write_all(response.as_bytes()).unwrap();
 }
 ```
 
@@ -417,12 +417,12 @@ hello.html
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Hello!</title>
+  <meta charset="utf-8">
+  <title>Hello!</title>
   </head>
   <body>
-    <h1>Hello!</h1>
-    <p>Hi from Rust</p>
+  <h1>Hello!</h1>
+  <p>Hi from Rust</p>
   </body>
 </html>
 ```
@@ -438,28 +438,28 @@ src/main.rs
 
 ```
 use std::{
-    fs,
-    io::{BufReader, prelude::*},
-    net::{TcpListener, TcpStream},
+  fs,
+  io::{BufReader, prelude::*},
+  net::{TcpListener, TcpStream},
 };
 // --snip--
 
 fn handle_connection(mut stream: TcpStream) {
-    let buf_reader = BufReader::new(&stream);
-    let http_request: Vec<_> = buf_reader
-        .lines()
-        .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
-        .collect();
+  let buf_reader = BufReader::new(&stream);
+  let http_request: Vec<_> = buf_reader
+    .lines()
+    .map(|result| result.unwrap())
+    .take_while(|line| !line.is_empty())
+    .collect();
 
-    let status_line = "HTTP/1.1 200 OK";
-    let contents = fs::read_to_string("hello.html").unwrap();
-    let length = contents.len();
+  let status_line = "HTTP/1.1 200 OK";
+  let contents = fs::read_to_string("hello.html").unwrap();
+  let length = contents.len();
 
-    let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+  let response =
+    format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
-    stream.write_all(response.as_bytes()).unwrap();
+  stream.write_all(response.as_bytes()).unwrap();
 }
 ```
 
@@ -502,22 +502,22 @@ src/main.rs
 // --snip--
 
 fn handle_connection(mut stream: TcpStream) {
-    let buf_reader = BufReader::new(&stream);
-    let request_line = buf_reader.lines().next().unwrap().unwrap();
+  let buf_reader = BufReader::new(&stream);
+  let request_line = buf_reader.lines().next().unwrap().unwrap();
 
-    if request_line == "GET / HTTP/1.1" {
-        let status_line = "HTTP/1.1 200 OK";
-        let contents = fs::read_to_string("hello.html").unwrap();
-        let length = contents.len();
+  if request_line == "GET / HTTP/1.1" {
+    let status_line = "HTTP/1.1 200 OK";
+    let contents = fs::read_to_string("hello.html").unwrap();
+    let length = contents.len();
 
-        let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
-        );
+    let response = format!(
+      "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
+    );
 
-        stream.write_all(response.as_bytes()).unwrap();
-    } else {
-        // some other request
-    }
+    stream.write_all(response.as_bytes()).unwrap();
+  } else {
+    // some other request
+  }
 }
 ```
 
@@ -551,18 +551,18 @@ indicating the response to the end user.
 src/main.rs
 
 ```
-    // --snip--
-    } else {
-        let status_line = "HTTP/1.1 404 NOT FOUND";
-        let contents = fs::read_to_string("404.html").unwrap();
-        let length = contents.len();
+// --snip--
+} else {
+let status_line = "HTTP/1.1 404 NOT FOUND";
+let contents = fs::read_to_string("404.html").unwrap();
+let length = contents.len();
 
-        let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
-        );
+let response = format!(
+  "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
+);
 
-        stream.write_all(response.as_bytes()).unwrap();
-    }
+stream.write_all(response.as_bytes()).unwrap();
+}
 ```
 
 Listing 21-7: Responding with status code 404 and an error page if anything other than */* was requested
@@ -579,12 +579,12 @@ Listing 21-8.
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Hello!</title>
+  <meta charset="utf-8">
+  <title>Hello!</title>
   </head>
   <body>
-    <h1>Oops!</h1>
-    <p>Sorry, I don't know what you're asking for.</p>
+  <h1>Oops!</h1>
+  <p>Sorry, I don't know what you're asking for.</p>
   </body>
 </html>
 ```
@@ -616,21 +616,21 @@ src/main.rs
 // --snip--
 
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+  // --snip--
 
-    let (status_line, filename) = if request_line == "GET / HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "hello.html")
-    } else {
-        ("HTTP/1.1 404 NOT FOUND", "404.html")
-    };
+  let (status_line, filename) = if request_line == "GET / HTTP/1.1" {
+    ("HTTP/1.1 200 OK", "hello.html")
+  } else {
+    ("HTTP/1.1 404 NOT FOUND", "404.html")
+  };
 
-    let contents = fs::read_to_string(filename).unwrap();
-    let length = contents.len();
+  let contents = fs::read_to_string(filename).unwrap();
+  let length = contents.len();
 
-    let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+  let response =
+    format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
-    stream.write_all(response.as_bytes()).unwrap();
+  stream.write_all(response.as_bytes()).unwrap();
 }
 ```
 
@@ -687,27 +687,27 @@ src/main.rs
 
 ```
 use std::{
-    fs,
-    io::{BufReader, prelude::*},
-    net::{TcpListener, TcpStream},
-    thread,
-    time::Duration,
+  fs,
+  io::{BufReader, prelude::*},
+  net::{TcpListener, TcpStream},
+  thread,
+  time::Duration,
 };
 // --snip--
 
 fn handle_connection(mut stream: TcpStream) {
-    // --snip--
+  // --snip--
 
-    let (status_line, filename) = match &request_line[..] {
-        "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
-        "GET /sleep HTTP/1.1" => {
-            thread::sleep(Duration::from_secs(5));
-            ("HTTP/1.1 200 OK", "hello.html")
-        }
-        _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
-    };
+  let (status_line, filename) = match &request_line[..] {
+    "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
+    "GET /sleep HTTP/1.1" => {
+      thread::sleep(Duration::from_secs(5));
+      ("HTTP/1.1 200 OK", "hello.html")
+    }
+    _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
+  };
 
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -802,15 +802,15 @@ src/main.rs
 
 ```
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+  let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+  for stream in listener.incoming() {
+    let stream = stream.unwrap();
 
-        thread::spawn(|| {
-            handle_connection(stream);
-        });
-    }
+    thread::spawn(|| {
+      handle_connection(stream);
+    });
+  }
 }
 ```
 
@@ -842,16 +842,16 @@ src/main.rs
 
 ```
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    let pool = ThreadPool::new(4);
+  let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+  let pool = ThreadPool::new(4);
 
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+  for stream in listener.incoming() {
+    let stream = stream.unwrap();
 
-        pool.execute(|| {
-            handle_connection(stream);
-        });
-    }
+    pool.execute(|| {
+      handle_connection(stream);
+    });
+  }
 }
 ```
 
@@ -876,7 +876,7 @@ error we get:
 
 ```
 $ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
+  Checking hello v0.1.0 (file:///projects/hello)
 error[E0433]: failed to resolve: use of undeclared type `ThreadPool`
   --> src/main.rs:11:16
    |
@@ -922,7 +922,7 @@ we need to address:
 
 ```
 $ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
+  Checking hello v0.1.0 (file:///projects/hello)
 error[E0599]: no function or associated item named `new` found for struct `ThreadPool` in the current scope
   --> src/main.rs:12:28
    |
@@ -945,9 +945,9 @@ src/lib.rs
 pub struct ThreadPool;
 
 impl ThreadPool {
-    pub fn new(size: usize) -> ThreadPool {
-        ThreadPool
-    }
+  pub fn new(size: usize) -> ThreadPool {
+    ThreadPool
+  }
 }
 ```
 
@@ -962,7 +962,7 @@ Let’s check the code again:
 
 ```
 $ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
+  Checking hello v0.1.0 (file:///projects/hello)
 error[E0599]: no method named `execute` found for struct `ThreadPool` in the current scope
   --> src/main.rs:17:14
    |
@@ -991,10 +991,10 @@ has on its parameter. The documentation shows us the following:
 
 ```
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
-    where
-        F: FnOnce() -> T,
-        F: Send + 'static,
-        T: Send + 'static,
+  where
+    F: FnOnce() -> T,
+    F: Send + 'static,
+    T: Send + 'static,
 ```
 
 The `F` type parameter is the one we’re concerned with here; the `T` type
@@ -1015,12 +1015,12 @@ src/lib.rs
 
 ```
 impl ThreadPool {
-    // --snip--
-    pub fn execute<F>(&self, f: F)
-    where
-        F: FnOnce() + Send + 'static,
-    {
-    }
+  // --snip--
+  pub fn execute<F>(&self, f: F)
+  where
+    F: FnOnce() + Send + 'static,
+  {
+  }
 }
 ```
 
@@ -1036,8 +1036,8 @@ nothing, but we’re only trying to make our code compile. Let’s check it agai
 
 ```
 $ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s
+  Checking hello v0.1.0 (file:///projects/hello)
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s
 ```
 
 It compiles! But note that if you try `cargo run` and make a request in the
@@ -1070,20 +1070,20 @@ src/lib.rs
 
 ```
 impl ThreadPool {
-    /// Create a new ThreadPool.
-    ///
-    /// The size is the number of threads in the pool.
-    ///
-    /// # Panics
-    ///
-    /// The `new` function will panic if the size is zero.
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  /// Create a new ThreadPool.
+  ///
+  /// The size is the number of threads in the pool.
+  ///
+  /// # Panics
+  ///
+  /// The `new` function will panic if the size is zero.
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        ThreadPool
-    }
+    ThreadPool
+  }
 
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -1115,10 +1115,10 @@ look at the `thread::spawn` signature:
 
 ```
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
-    where
-        F: FnOnce() -> T,
-        F: Send + 'static,
-        T: Send + 'static,
+  where
+    F: FnOnce() -> T,
+    F: Send + 'static,
+    T: Send + 'static,
 ```
 
 The `spawn` function returns a `JoinHandle<T>`, where `T` is the type that the
@@ -1138,23 +1138,23 @@ src/lib.rs
 use std::thread;
 
 pub struct ThreadPool {
-    threads: Vec<thread::JoinHandle<()>>,
+  threads: Vec<thread::JoinHandle<()>>,
 }
 
 impl ThreadPool {
-    // --snip--
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  // --snip--
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        let mut threads = Vec::with_capacity(size);
+    let mut threads = Vec::with_capacity(size);
 
-        for _ in 0..size {
-            // create some threads and store them in the vector
-        }
-
-        ThreadPool { threads }
+    for _ in 0..size {
+      // create some threads and store them in the vector
     }
-    // --snip--
+
+    ThreadPool { threads }
+  }
+  // --snip--
 }
 ```
 
@@ -1229,36 +1229,36 @@ src/lib.rs
 use std::thread;
 
 pub struct ThreadPool {
-    workers: Vec<Worker>,
+  workers: Vec<Worker>,
 }
 
 impl ThreadPool {
-    // --snip--
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  // --snip--
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        let mut workers = Vec::with_capacity(size);
+    let mut workers = Vec::with_capacity(size);
 
-        for id in 0..size {
-            workers.push(Worker::new(id));
-        }
-
-        ThreadPool { workers }
+    for id in 0..size {
+      workers.push(Worker::new(id));
     }
-    // --snip--
+
+    ThreadPool { workers }
+  }
+  // --snip--
 }
 
 struct Worker {
-    id: usize,
-    thread: thread::JoinHandle<()>,
+  id: usize,
+  thread: thread::JoinHandle<()>,
 }
 
 impl Worker {
-    fn new(id: usize) -> Worker {
-        let thread = thread::spawn(|| {});
+  fn new(id: usize) -> Worker {
+    let thread = thread::spawn(|| {});
 
-        Worker { id, thread }
-    }
+    Worker { id, thread }
+  }
 }
 ```
 
@@ -1322,28 +1322,28 @@ src/lib.rs
 use std::{sync::mpsc, thread};
 
 pub struct ThreadPool {
-    workers: Vec<Worker>,
-    sender: mpsc::Sender<Job>,
+  workers: Vec<Worker>,
+  sender: mpsc::Sender<Job>,
 }
 
 struct Job;
 
 impl ThreadPool {
-    // --snip--
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  // --snip--
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        let (sender, receiver) = mpsc::channel();
+    let (sender, receiver) = mpsc::channel();
 
-        let mut workers = Vec::with_capacity(size);
+    let mut workers = Vec::with_capacity(size);
 
-        for id in 0..size {
-            workers.push(Worker::new(id));
-        }
-
-        ThreadPool { workers, sender }
+    for id in 0..size {
+      workers.push(Worker::new(id));
     }
-    // --snip--
+
+    ThreadPool { workers, sender }
+  }
+  // --snip--
 }
 ```
 
@@ -1361,33 +1361,33 @@ src/lib.rs
 
 ```
 impl ThreadPool {
-    // --snip--
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  // --snip--
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        let (sender, receiver) = mpsc::channel();
+    let (sender, receiver) = mpsc::channel();
 
-        let mut workers = Vec::with_capacity(size);
+    let mut workers = Vec::with_capacity(size);
 
-        for id in 0..size {
-            workers.push(Worker::new(id, receiver));
-        }
-
-        ThreadPool { workers, sender }
+    for id in 0..size {
+      workers.push(Worker::new(id, receiver));
     }
-    // --snip--
+
+    ThreadPool { workers, sender }
+  }
+  // --snip--
 }
 
 // --snip--
 
 impl Worker {
-    fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
-        let thread = thread::spawn(|| {
-            receiver;
-        });
+  fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
+    let thread = thread::spawn(|| {
+      receiver;
+    });
 
-        Worker { id, thread }
-    }
+    Worker { id, thread }
+  }
 }
 ```
 
@@ -1400,7 +1400,7 @@ When we try to check this code, we get this error:
 
 ```
 $ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
+  Checking hello v0.1.0 (file:///projects/hello)
 error[E0382]: use of moved value: `receiver`
   --> src/lib.rs:26:42
    |
@@ -1450,38 +1450,38 @@ src/lib.rs
 
 ```
 use std::{
-    sync::{Arc, Mutex, mpsc},
-    thread,
+  sync::{Arc, Mutex, mpsc},
+  thread,
 };
 // --snip--
 
 impl ThreadPool {
-    // --snip--
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  // --snip--
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        let (sender, receiver) = mpsc::channel();
+    let (sender, receiver) = mpsc::channel();
 
-        let receiver = Arc::new(Mutex::new(receiver));
+    let receiver = Arc::new(Mutex::new(receiver));
 
-        let mut workers = Vec::with_capacity(size);
+    let mut workers = Vec::with_capacity(size);
 
-        for id in 0..size {
-            workers.push(Worker::new(id, Arc::clone(&receiver)));
-        }
-
-        ThreadPool { workers, sender }
+    for id in 0..size {
+      workers.push(Worker::new(id, Arc::clone(&receiver)));
     }
 
-    // --snip--
+    ThreadPool { workers, sender }
+  }
+
+  // --snip--
 }
 
 // --snip--
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        // --snip--
-    }
+  fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    // --snip--
+}
 }
 ```
 
@@ -1509,16 +1509,16 @@ src/lib.rs
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
 impl ThreadPool {
-    // --snip--
+  // --snip--
 
-    pub fn execute<F>(&self, f: F)
-    where
-        F: FnOnce() + Send + 'static,
-    {
-        let job = Box::new(f);
+  pub fn execute<F>(&self, f: F)
+  where
+    F: FnOnce() + Send + 'static,
+  {
+    let job = Box::new(f);
 
-        self.sender.send(job).unwrap();
-    }
+    self.sender.send(job).unwrap();
+  }
 }
 
 // --snip--
@@ -1547,19 +1547,19 @@ src/lib.rs
 // --snip--
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(move || {
-            loop {
-                let job = receiver.lock().unwrap().recv().unwrap();
+  fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    let thread = thread::spawn(move || {
+      loop {
+        let job = receiver.lock().unwrap().recv().unwrap();
 
-                println!("Worker {id} got a job; executing.");
+        println!("Worker {id} got a job; executing.");
 
-                job();
-            }
-        });
+        job();
+      }
+    });
 
-        Worker { id, thread }
-    }
+    Worker { id, thread }
+  }
 }
 ```
 
@@ -1616,8 +1616,8 @@ warning: fields `id` and `thread` are never read
    |     ^^^^^^
 
 warning: `hello` (lib) generated 2 warnings
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.91s
-     Running `target/debug/hello`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.91s
+   Running `target/debug/hello`
 Worker 0 got a job; executing.
 Worker 2 got a job; executing.
 Worker 1 got a job; executing.
@@ -1656,17 +1656,17 @@ src/lib.rs
 // --snip--
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(move || {
-            while let Ok(job) = receiver.lock().unwrap().recv() {
-                println!("Worker {id} got a job; executing.");
+  fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    let thread = thread::spawn(move || {
+      while let Ok(job) = receiver.lock().unwrap().recv() {
+        println!("Worker {id} got a job; executing.");
 
-                job();
-            }
-        });
+        job();
+      }
+    });
 
-        Worker { id, thread }
-    }
+    Worker { id, thread }
+  }
 }
 ```
 
@@ -1721,13 +1721,13 @@ src/lib.rs
 
 ```
 impl Drop for ThreadPool {
-    fn drop(&mut self) {
-        for worker in &mut self.workers {
-            println!("Shutting down worker {}", worker.id);
+  fn drop(&mut self) {
+    for worker in &mut self.workers {
+      println!("Shutting down worker {}", worker.id);
 
-            worker.thread.join().unwrap();
-        }
+      worker.thread.join().unwrap();
     }
+  }
 }
 ```
 
@@ -1744,7 +1744,7 @@ Here is the error we get when we compile this code:
 
 ```
 $ cargo check
-    Checking hello v0.1.0 (file:///projects/hello)
+  Checking hello v0.1.0 (file:///projects/hello)
 error[E0507]: cannot move out of `worker.thread` which is behind a mutable reference
   --> src/lib.rs:52:13
    |
@@ -1754,7 +1754,7 @@ error[E0507]: cannot move out of `worker.thread` which is behind a mutable refer
    |             move occurs because `worker.thread` has type `JoinHandle<()>`, which does not implement the `Copy` trait
    |
 note: `JoinHandle::<T>::join` takes ownership of the receiver `self`, which moves `worker.thread`
-  --> /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/std/src/thread/mod.rs:1876:17
+  --> /rustc/1159e78c4747b02ef996e55082b704c09b970588/library/std/src/thread/mod.rs:1921:17
 
 For more information about this error, try `rustc --explain E0507`.
 error: could not compile `hello` (lib) due to 1 previous error
@@ -1790,13 +1790,13 @@ src/lib.rs
 
 ```
 impl Drop for ThreadPool {
-    fn drop(&mut self) {
-        for worker in self.workers.drain(..) {
-            println!("Shutting down worker {}", worker.id);
+  fn drop(&mut self) {
+    for worker in self.workers.drain(..) {
+      println!("Shutting down worker {}", worker.id);
 
-            worker.thread.join().unwrap();
-        }
+      worker.thread.join().unwrap();
     }
+  }
 }
 ```
 
@@ -1831,40 +1831,40 @@ src/lib.rs
 
 ```
 pub struct ThreadPool {
-    workers: Vec<Worker>,
-    sender: Option<mpsc::Sender<Job>>,
+  workers: Vec<Worker>,
+  sender: Option<mpsc::Sender<Job>>,
 }
 // --snip--
 impl ThreadPool {
-    pub fn new(size: usize) -> ThreadPool {
-        // --snip--
+  pub fn new(size: usize) -> ThreadPool {
+    // --snip--
 
-        ThreadPool {
-            workers,
-            sender: Some(sender),
-        }
+    ThreadPool {
+      workers,
+      sender: Some(sender),
     }
+  }
 
-    pub fn execute<F>(&self, f: F)
-    where
-        F: FnOnce() + Send + 'static,
-    {
-        let job = Box::new(f);
+  pub fn execute<F>(&self, f: F)
+  where
+    F: FnOnce() + Send + 'static,
+  {
+    let job = Box::new(f);
 
-        self.sender.as_ref().unwrap().send(job).unwrap();
-    }
+    self.sender.as_ref().unwrap().send(job).unwrap();
+  }
 }
 
 impl Drop for ThreadPool {
-    fn drop(&mut self) {
-        drop(self.sender.take());
+  fn drop(&mut self) {
+    drop(self.sender.take());
 
-        for worker in self.workers.drain(..) {
-            println!("Shutting down worker {}", worker.id);
+    for worker in self.workers.drain(..) {
+      println!("Shutting down worker {}", worker.id);
 
-            worker.thread.join().unwrap();
-        }
+      worker.thread.join().unwrap();
     }
+  }
 }
 ```
 
@@ -1880,27 +1880,27 @@ src/lib.rs
 
 ```
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(move || {
-            loop {
-                let message = receiver.lock().unwrap().recv();
+  fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    let thread = thread::spawn(move || {
+      loop {
+        let message = receiver.lock().unwrap().recv();
 
-                match message {
-                    Ok(job) => {
-                        println!("Worker {id} got a job; executing.");
+        match message {
+          Ok(job) => {
+            println!("Worker {id} got a job; executing.");
 
-                        job();
-                    }
-                    Err(_) => {
-                        println!("Worker {id} disconnected; shutting down.");
-                        break;
-                    }
-                }
-            }
-        });
+            job();
+          }
+          Err(_) => {
+            println!("Worker {id} disconnected; shutting down.");
+            break;
+          }
+        }
+      }
+    });
 
-        Worker { id, thread }
-    }
+    Worker { id, thread }
+  }
 }
 ```
 
@@ -1913,18 +1913,18 @@ src/main.rs
 
 ```
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    let pool = ThreadPool::new(4);
+  let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+  let pool = ThreadPool::new(4);
 
-    for stream in listener.incoming().take(2) {
-        let stream = stream.unwrap();
+  for stream in listener.incoming().take(2) {
+    let stream = stream.unwrap();
 
-        pool.execute(|| {
-            handle_connection(stream);
-        });
-    }
+    pool.execute(|| {
+      handle_connection(stream);
+    });
+  }
 
-    println!("Shutting down.");
+  println!("Shutting down.");
 }
 ```
 
@@ -1955,8 +1955,8 @@ Can't automate because the output depends on making requests
 ```
 $ cargo run
    Compiling hello v0.1.0 (file:///projects/hello)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.41s
-     Running `target/debug/hello`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.41s
+   Running `target/debug/hello`
 Worker 0 got a job; executing.
 Shutting down.
 Shutting down worker 0
@@ -1998,48 +1998,48 @@ src/main.rs
 ```
 use hello::ThreadPool;
 use std::{
-    fs,
-    io::{BufReader, prelude::*},
-    net::{TcpListener, TcpStream},
-    thread,
-    time::Duration,
+  fs,
+  io::{BufReader, prelude::*},
+  net::{TcpListener, TcpStream},
+  thread,
+  time::Duration,
 };
 
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    let pool = ThreadPool::new(4);
+  let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+  let pool = ThreadPool::new(4);
 
-    for stream in listener.incoming().take(2) {
-        let stream = stream.unwrap();
+  for stream in listener.incoming().take(2) {
+    let stream = stream.unwrap();
 
-        pool.execute(|| {
-            handle_connection(stream);
-        });
-    }
+    pool.execute(|| {
+      handle_connection(stream);
+    });
+  }
 
-    println!("Shutting down.");
+  println!("Shutting down.");
 }
 
 fn handle_connection(mut stream: TcpStream) {
-    let buf_reader = BufReader::new(&stream);
-    let request_line = buf_reader.lines().next().unwrap().unwrap();
+  let buf_reader = BufReader::new(&stream);
+  let request_line = buf_reader.lines().next().unwrap().unwrap();
 
-    let (status_line, filename) = match &request_line[..] {
-        "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
-        "GET /sleep HTTP/1.1" => {
-            thread::sleep(Duration::from_secs(5));
-            ("HTTP/1.1 200 OK", "hello.html")
-        }
-        _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
-    };
+  let (status_line, filename) = match &request_line[..] {
+    "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
+    "GET /sleep HTTP/1.1" => {
+      thread::sleep(Duration::from_secs(5));
+      ("HTTP/1.1 200 OK", "hello.html")
+    }
+    _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
+  };
 
-    let contents = fs::read_to_string(filename).unwrap();
-    let length = contents.len();
+  let contents = fs::read_to_string(filename).unwrap();
+  let length = contents.len();
 
-    let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+  let response =
+    format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
-    stream.write_all(response.as_bytes()).unwrap();
+  stream.write_all(response.as_bytes()).unwrap();
 }
 ```
 
@@ -2049,98 +2049,98 @@ src/lib.rs
 
 ```
 use std::{
-    sync::{Arc, Mutex, mpsc},
-    thread,
+  sync::{Arc, Mutex, mpsc},
+  thread,
 };
 
 pub struct ThreadPool {
-    workers: Vec<Worker>,
-    sender: Option<mpsc::Sender<Job>>,
+  workers: Vec<Worker>,
+  sender: Option<mpsc::Sender<Job>>,
 }
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
 impl ThreadPool {
-    /// Create a new ThreadPool.
-    ///
-    /// The size is the number of threads in the pool.
-    ///
-    /// # Panics
-    ///
-    /// The `new` function will panic if the size is zero.
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+  /// Create a new ThreadPool.
+  ///
+  /// The size is the number of threads in the pool.
+  ///
+  /// # Panics
+  ///
+  /// The `new` function will panic if the size is zero.
+  pub fn new(size: usize) -> ThreadPool {
+    assert!(size > 0);
 
-        let (sender, receiver) = mpsc::channel();
+    let (sender, receiver) = mpsc::channel();
 
-        let receiver = Arc::new(Mutex::new(receiver));
+    let receiver = Arc::new(Mutex::new(receiver));
 
-        let mut workers = Vec::with_capacity(size);
+    let mut workers = Vec::with_capacity(size);
 
-        for id in 0..size {
-            workers.push(Worker::new(id, Arc::clone(&receiver)));
-        }
-
-        ThreadPool {
-            workers,
-            sender: Some(sender),
-        }
+    for id in 0..size {
+      workers.push(Worker::new(id, Arc::clone(&receiver)));
     }
 
-    pub fn execute<F>(&self, f: F)
-    where
-        F: FnOnce() + Send + 'static,
-    {
-        let job = Box::new(f);
-
-        self.sender.as_ref().unwrap().send(job).unwrap();
+    ThreadPool {
+      workers,
+      sender: Some(sender),
     }
+  }
+
+  pub fn execute<F>(&self, f: F)
+  where
+    F: FnOnce() + Send + 'static,
+  {
+    let job = Box::new(f);
+
+    self.sender.as_ref().unwrap().send(job).unwrap();
+  }
 }
 
 impl Drop for ThreadPool {
-    fn drop(&mut self) {
-        drop(self.sender.take());
+  fn drop(&mut self) {
+    drop(self.sender.take());
 
-        for worker in &mut self.workers {
-            println!("Shutting down worker {}", worker.id);
+    for worker in &mut self.workers {
+      println!("Shutting down worker {}", worker.id);
 
-            if let Some(thread) = worker.thread.take() {
-                thread.join().unwrap();
-            }
-        }
+      if let Some(thread) = worker.thread.take() {
+        thread.join().unwrap();
+      }
     }
+  }
 }
 
 struct Worker {
-    id: usize,
-    thread: Option<thread::JoinHandle<()>>,
+  id: usize,
+  thread: Option<thread::JoinHandle<()>>,
 }
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(move || {
-            loop {
-                let message = receiver.lock().unwrap().recv();
+  fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    let thread = thread::spawn(move || {
+      loop {
+        let message = receiver.lock().unwrap().recv();
 
-                match message {
-                    Ok(job) => {
-                        println!("Worker {id} got a job; executing.");
+        match message {
+          Ok(job) => {
+            println!("Worker {id} got a job; executing.");
 
-                        job();
-                    }
-                    Err(_) => {
-                        println!("Worker {id} disconnected; shutting down.");
-                        break;
-                    }
-                }
-            }
-        });
-
-        Worker {
-            id,
-            thread: Some(thread),
+            job();
+          }
+          Err(_) => {
+            println!("Worker {id} disconnected; shutting down.");
+            break;
+          }
         }
+      }
+    });
+
+    Worker {
+      id,
+      thread: Some(thread),
     }
+  }
 }
 ```
 

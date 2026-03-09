@@ -986,17 +986,31 @@ fn highlight_source(
     syntax_set: &SyntaxSet,
     theme: &Theme,
 ) -> Result<String, String> {
+    // 1. Remove <span class="boring">...</span> blocks entirely (content included).
+    //    These contain mdbook scaffolding like #![allow(unused)], fn main() {, }
+    //    that should not appear in the EPUB output.
+    let boring_re = Regex::new(r#"(?s)<span class="boring">.*?</span>"#)
+        .map_err(|e| format!("Bad boring regex: {e}"))?;
+    let without_boring = boring_re.replace_all(raw_code_html, "");
+
+    // 2. Strip remaining HTML tags (syntax highlight spans, etc.)
     let html_tag_re = Regex::new(r#"(?s)<[^>]+>"#)
         .map_err(|e| format!("Bad inline markup regex: {e}"))?;
-    let unwrapped = html_tag_re.replace_all(raw_code_html, "");
+    let unwrapped = html_tag_re.replace_all(&without_boring, "");
     let decoded = decode_html_entities(&unwrapped).to_string();
+
+    // 3. Convert 4-space indentation to 2-space for horizontal compactness
+    //    on e-readers. We process each line and replace leading groups of
+    //    4 spaces with 2 spaces.
+    let compact = reindent_code(&decoded, 4, 2);
+
     let syntax = syntax_set
         .find_syntax_by_token(language)
         .unwrap_or_else(|| syntax_set.find_syntax_plain_text());
     let mut highlighter = HighlightLines::new(syntax, theme);
 
     let mut out = String::from("<pre class=\"playground\"><code>");
-    for line in decoded.split_inclusive('\n') {
+    for line in compact.split_inclusive('\n') {
         let regions = highlighter
             .highlight_line(line, syntax_set)
             .map_err(|e| format!("Syntax highlighting failed: {e}"))?;
@@ -1010,6 +1024,31 @@ fn highlight_source(
     out.push_str("</code></pre>");
 
     Ok(out)
+}
+
+/// Reindent code by replacing every `from_width` leading spaces with
+/// `to_width` spaces. Only touches the leading whitespace of each line.
+fn reindent_code(code: &str, from_width: usize, to_width: usize) -> String {
+    if from_width == to_width || from_width == 0 {
+        return code.to_string();
+    }
+    let mut out = String::with_capacity(code.len());
+    for line in code.split('\n') {
+        let leading_spaces = line.len() - line.trim_start_matches(' ').len();
+        let indent_levels = leading_spaces / from_width;
+        let remainder = leading_spaces % from_width;
+        let new_indent = indent_levels * to_width + remainder;
+        for _ in 0..new_indent {
+            out.push(' ');
+        }
+        out.push_str(&line[leading_spaces..]);
+        out.push('\n');
+    }
+    // Remove the trailing \n we added after the last split segment
+    if !code.ends_with('\n') && out.ends_with('\n') {
+        out.pop();
+    }
+    out
 }
 
 fn md_to_html(md_path: &str) -> String {

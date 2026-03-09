@@ -55,7 +55,7 @@ on your system:
 
 ```
 $ cargo new minigrep
-     Created binary (application) `minigrep` project
+   Created binary (application) `minigrep` project
 $ cd minigrep
 ```
 
@@ -93,8 +93,8 @@ src/main.rs
 use std::env;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    dbg!(args);
+  let args: Vec<String> = env::args().collect();
+  dbg!(args);
 }
 ```
 
@@ -133,22 +133,22 @@ first with no arguments and then with two arguments:
 ```
 $ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.61s
-     Running `target/debug/minigrep`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.61s
+   Running `target/debug/minigrep`
 [src/main.rs:5:5] args = [
-    "target/debug/minigrep",
+  "target/debug/minigrep",
 ]
 ```
 
 ```
 $ cargo run -- needle haystack
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.57s
-     Running `target/debug/minigrep needle haystack`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.57s
+   Running `target/debug/minigrep needle haystack`
 [src/main.rs:5:5] args = [
-    "target/debug/minigrep",
-    "needle",
-    "haystack",
+  "target/debug/minigrep",
+  "needle",
+  "haystack",
 ]
 ```
 
@@ -173,13 +173,13 @@ src/main.rs
 use std::env;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let query = &args[1];
-    let file_path = &args[2];
+  let query = &args[1];
+  let file_path = &args[2];
 
-    println!("Searching for {query}");
-    println!("In file {file_path}");
+  println!("Searching for {query}");
+  println!("In file {file_path}");
 }
 ```
 
@@ -199,8 +199,8 @@ and `sample.txt`:
 ```
 $ cargo run -- test sample.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep test sample.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep test sample.txt`
 Searching for test
 In file sample.txt
 ```
@@ -246,13 +246,13 @@ use std::env;
 use std::fs;
 
 fn main() {
-    // --snip--
-    println!("In file {file_path}");
+  // --snip--
+  println!("In file {file_path}");
 
-    let contents = fs::read_to_string(file_path)
-        .expect("Should have been able to read the file");
+  let contents = fs::read_to_string(file_path)
+    .expect("Should have been able to read the file");
 
-    println!("With text:\n{contents}");
+  println!("With text:\n{contents}");
 }
 ```
 
@@ -276,8 +276,8 @@ second argument:
 ```
 $ cargo run -- the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep the poem.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep the poem.txt`
 Searching for the
 In file poem.txt
 With text:
@@ -381,18 +381,18 @@ src/main.rs
 
 ```
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let (query, file_path) = parse_config(&args);
+  let (query, file_path) = parse_config(&args);
 
-    // --snip--
+  // --snip--
 }
 
 fn parse_config(args: &[String]) -> (&str, &str) {
-    let query = &args[1];
-    let file_path = &args[2];
+  let query = &args[1];
+  let file_path = &args[2];
 
-    (query, file_path)
+  (query, file_path)
 }
 ```
 
@@ -435,29 +435,29 @@ src/main.rs
 
 ```
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let config = parse_config(&args);
+  let config = parse_config(&args);
 
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.file_path);
+  println!("Searching for {}", config.query);
+  println!("In file {}", config.file_path);
 
-    let contents = fs::read_to_string(config.file_path)
-        .expect("Should have been able to read the file");
+  let contents = fs::read_to_string(config.file_path)
+    .expect("Should have been able to read the file");
 
-    // --snip--
+  // --snip--
 }
 
 struct Config {
-    query: String,
-    file_path: String,
+  query: String,
+  file_path: String,
 }
 
 fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let file_path = args[2].clone();
+  let query = args[1].clone();
+  let file_path = args[2].clone();
 
-    Config { query, file_path }
+  Config { query, file_path }
 }
 ```
 
@@ -525,22 +525,22 @@ src/main.rs
 
 ```
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let config = Config::new(&args);
+  let config = Config::new(&args);
 
-    // --snip--
+  // --snip--
 }
 
 // --snip--
 
 impl Config {
-    fn new(args: &[String]) -> Config {
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+  fn new(args: &[String]) -> Config {
+    let query = args[1].clone();
+    let file_path = args[2].clone();
 
-        Config { query, file_path }
-    }
+    Config { query, file_path }
+  }
 }
 ```
 
@@ -561,8 +561,8 @@ without any arguments; it will look like this:
 ```
 $ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep`
 
 thread 'main' panicked at src/main.rs:27:21:
 index out of bounds: the len is 1 but the index is 1
@@ -582,12 +582,12 @@ long enough, the program panics and displays a better error message.
 src/main.rs
 
 ```
-    // --snip--
-    fn new(args: &[String]) -> Config {
-        if args.len() < 3 {
-            panic!("not enough arguments");
-        }
-        // --snip--
+// --snip--
+fn new(args: &[String]) -> Config {
+  if args.len() < 3 {
+    panic!("not enough arguments");
+  }
+  // --snip--
 ```
 
 Listing 12-8: Adding a check for the number of arguments
@@ -606,8 +606,8 @@ arguments again to see what the error looks like now:
 ```
 $ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep`
 
 thread 'main' panicked at src/main.rs:26:13:
 not enough arguments
@@ -645,16 +645,16 @@ src/main.rs
 
 ```
 impl Config {
-    fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-
-        let query = args[1].clone();
-        let file_path = args[2].clone();
-
-        Ok(Config { query, file_path })
+  fn build(args: &[String]) -> Result<Config, &'static str> {
+    if args.len() < 3 {
+      return Err("not enough arguments");
     }
+
+    let query = args[1].clone();
+    let file_path = args[2].clone();
+
+    Ok(Config { query, file_path })
+  }
 }
 ```
 
@@ -692,14 +692,14 @@ src/main.rs
 use std::process;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");
-        process::exit(1);
-    });
+  let config = Config::build(&args).unwrap_or_else(|err| {
+    println!("Problem parsing arguments: {err}");
+    process::exit(1);
+  });
 
-    // --snip--
+  // --snip--
 ```
 
 Listing 12-10: Exiting with an error code if building a `Config` fails
@@ -729,8 +729,8 @@ extra output. Let’s try it:
 ```
 $ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.48s
-     Running `target/debug/minigrep`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.48s
+   Running `target/debug/minigrep`
 Problem parsing arguments: not enough arguments
 ```
 
@@ -757,19 +757,19 @@ src/main.rs
 
 ```
 fn main() {
-    // --snip--
+  // --snip--
 
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.file_path);
+println!("Searching for {}", config.query);
+println!("In file {}", config.file_path);
 
-    run(config);
+run(config);
 }
 
 fn run(config: Config) {
-    let contents = fs::read_to_string(config.file_path)
-        .expect("Should have been able to read the file");
+let contents = fs::read_to_string(config.file_path)
+  .expect("Should have been able to read the file");
 
-    println!("With text:\n{contents}");
+println!("With text:\n{contents}");
 }
 
 // --snip--
@@ -803,11 +803,11 @@ use std::error::Error;
 // --snip--
 
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = fs::read_to_string(config.file_path)?;
+let contents = fs::read_to_string(config.file_path)?;
 
-    println!("With text:\n{contents}");
+println!("With text:\n{contents}");
 
-    Ok(())
+Ok(())
 }
 ```
 
@@ -858,8 +858,8 @@ help: use `let _ = ...` to ignore the resulting value
    |     +++++++
 
 warning: `minigrep` (bin "minigrep") generated 1 warning
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.71s
-     Running `target/debug/minigrep the poem.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.71s
+   Running `target/debug/minigrep the poem.txt`
 Searching for the
 In file poem.txt
 With text:
@@ -889,15 +889,15 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    // --snip--
+  // --snip--
 
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.file_path);
+println!("Searching for {}", config.query);
+println!("In file {}", config.file_path);
 
-    if let Err(e) = run(config) {
-        println!("Application error: {e}");
-        process::exit(1);
-    }
+if let Err(e) = run(config) {
+  println!("Application error: {e}");
+  process::exit(1);
+}
 }
 ```
 
@@ -930,7 +930,7 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    unimplemented!();
+  unimplemented!();
 }
 ```
 
@@ -950,19 +950,19 @@ src/main.rs
 use minigrep::search;
 
 fn main() {
-    // --snip--
+  // --snip--
 }
 
 // --snip--
 
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = fs::read_to_string(config.file_path)?;
+let contents = fs::read_to_string(config.file_path)?;
 
-    for line in search(&config.query, &contents) {
-        println!("{line}");
-    }
+for line in search(&config.query, &contents) {
+  println!("{line}");
+}
 
-    Ok(())
+Ok(())
 }
 ```
 
@@ -1036,18 +1036,18 @@ src/lib.rs
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn one_result() {
-        let query = "duct";
-        let contents = "\
+  #[test]
+  fn one_result() {
+    let query = "duct";
+    let contents = "\
 Rust:
 safe, fast, productive.
 Pick three.";
 
-        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
-    }
+    assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+  }
 }
 ```
 
@@ -1070,7 +1070,7 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    vec![]
+  vec![]
 }
 ```
 
@@ -1150,9 +1150,9 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    for line in contents.lines() {
-        // do something with line
-    }
+  for line in contents.lines() {
+    // do something with line
+  }
 }
 ```
 
@@ -1174,11 +1174,11 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    for line in contents.lines() {
-        if line.contains(query) {
-            // do something with line
-        }
+  for line in contents.lines() {
+    if line.contains(query) {
+      // do something with line
     }
+  }
 }
 ```
 
@@ -1199,15 +1199,15 @@ src/lib.rs
 
 ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
+  let mut results = Vec::new();
 
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
+  for line in contents.lines() {
+    if line.contains(query) {
+      results.push(line);
     }
+  }
 
-    results
+  results
 }
 ```
 
@@ -1219,15 +1219,15 @@ and our test should pass. Let’s run the test:
 ```
 $ cargo test
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.22s
-     Running unittests src/lib.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 1.22s
+   Running unittests src/lib.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
 
 running 1 test
 test tests::one_result ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running unittests src/main.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
+   Running unittests src/main.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
 
 running 0 tests
 
@@ -1256,8 +1256,8 @@ should return exactly one line from the Emily Dickinson poem: *frog*.
 ```
 $ cargo run -- frog poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.38s
-     Running `target/debug/minigrep frog poem.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.38s
+   Running `target/debug/minigrep frog poem.txt`
 How public, like a frog
 ```
 
@@ -1266,8 +1266,8 @@ Cool! Now let’s try a word that will match multiple lines, like *body*:
 ```
 $ cargo run -- body poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep body poem.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep body poem.txt`
 I'm nobody! Who are you?
 Are you nobody, too?
 How dreary to be somebody!
@@ -1279,8 +1279,8 @@ word that isn’t anywhere in the poem, such as *monomorphization*:
 ```
 $ cargo run -- monomorphization poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep monomorphization poem.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep monomorphization poem.txt`
 ```
 
 Excellent! We’ve built our own mini version of a classic tool and learned a lot
@@ -1318,34 +1318,34 @@ src/lib.rs
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn case_sensitive() {
-        let query = "duct";
-        let contents = "\
+  #[test]
+  fn case_sensitive() {
+    let query = "duct";
+    let contents = "\
 Rust:
 safe, fast, productive.
 Pick three.
 Duct tape.";
 
-        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
-    }
+    assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+  }
 
-    #[test]
-    fn case_insensitive() {
-        let query = "rUsT";
-        let contents = "\
+  #[test]
+  fn case_insensitive() {
+    let query = "rUsT";
+    let contents = "\
 Rust:
 safe, fast, productive.
 Pick three.
 Trust me.";
 
-        assert_eq!(
-            vec!["Rust:", "Trust me."],
-            search_case_insensitive(query, contents)
-        );
-    }
+    assert_eq!(
+      vec!["Rust:", "Trust me."],
+      search_case_insensitive(query, contents)
+    );
+  }
 }
 ```
 
@@ -1378,19 +1378,19 @@ src/lib.rs
 
 ```
 pub fn search_case_insensitive<'a>(
-    query: &str,
-    contents: &'a str,
+  query: &str,
+  contents: &'a str,
 ) -> Vec<&'a str> {
-    let query = query.to_lowercase();
-    let mut results = Vec::new();
+  let query = query.to_lowercase();
+  let mut results = Vec::new();
 
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line);
-        }
+  for line in contents.lines() {
+    if line.to_lowercase().contains(&query) {
+      results.push(line);
     }
+  }
 
-    results
+  results
 }
 ```
 
@@ -1422,8 +1422,8 @@ Let’s see if this implementation passes the tests:
 ```
 $ cargo test
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.33s
-     Running unittests src/lib.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 1.33s
+   Running unittests src/lib.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
 
 running 2 tests
 test tests::case_insensitive ... ok
@@ -1431,7 +1431,7 @@ test tests::case_sensitive ... ok
 
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running unittests src/main.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
+   Running unittests src/main.rs (target/debug/deps/minigrep-9cd200e5fac0fc94)
 
 running 0 tests
 
@@ -1455,9 +1455,9 @@ Filename: src/main.rs
 
 ```
 pub struct Config {
-    pub query: String,
-    pub file_path: String,
-    pub ignore_case: bool,
+pub query: String,
+pub file_path: String,
+pub ignore_case: bool,
 }
 ```
 
@@ -1474,19 +1474,19 @@ use minigrep::{search, search_case_insensitive};
 // --snip--
 
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = fs::read_to_string(config.file_path)?;
+let contents = fs::read_to_string(config.file_path)?;
 
-    let results = if config.ignore_case {
-        search_case_insensitive(&config.query, &contents)
-    } else {
-        search(&config.query, &contents)
-    };
+let results = if config.ignore_case {
+  search_case_insensitive(&config.query, &contents)
+} else {
+  search(&config.query, &contents)
+};
 
-    for line in results {
-        println!("{line}");
-    }
+for line in results {
+  println!("{line}");
+}
 
-    Ok(())
+Ok(())
 }
 ```
 
@@ -1502,22 +1502,22 @@ src/main.rs
 
 ```
 impl Config {
-    fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
+fn build(args: &[String]) -> Result<Config, &'static str> {
+  if args.len() < 3 {
+    return Err("not enough arguments");
+  }
 
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+  let query = args[1].clone();
+  let file_path = args[2].clone();
 
-        let ignore_case = env::var("IGNORE_CASE").is_ok();
+  let ignore_case = env::var("IGNORE_CASE").is_ok();
 
-        Ok(Config {
-            query,
-            file_path,
-            ignore_case,
-        })
-    }
+  Ok(Config {
+    query,
+    file_path,
+    ignore_case,
+  })
+}
 }
 ```
 
@@ -1549,8 +1549,8 @@ the word *to* in all lowercase:
 ```
 $ cargo run -- to poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
-     Running `target/debug/minigrep to poem.txt`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+   Running `target/debug/minigrep to poem.txt`
 Are you nobody, too?
 How dreary to be somebody!
 ```
@@ -1672,17 +1672,17 @@ src/main.rs
 
 ```
 fn main() {
-    let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().collect();
 
-    let config = Config::build(&args).unwrap_or_else(|err| {
-        eprintln!("Problem parsing arguments: {err}");
-        process::exit(1);
-    });
+  let config = Config::build(&args).unwrap_or_else(|err| {
+    eprintln!("Problem parsing arguments: {err}");
+    process::exit(1);
+  });
 
-    if let Err(e) = run(config) {
-        eprintln!("Application error: {e}");
-        process::exit(1);
-    }
+  if let Err(e) = run(config) {
+    eprintln!("Application error: {e}");
+    process::exit(1);
+  }
 }
 ```
 

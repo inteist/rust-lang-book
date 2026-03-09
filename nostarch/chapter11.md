@@ -83,7 +83,7 @@ Let’s create a new library project called `adder` that will add two numbers:
 
 ```
 $ cargo new adder --lib
-     Created library `adder` project
+   Created library `adder` project
 $ cd adder
 ```
 
@@ -105,18 +105,18 @@ cd ../../..
 
 ```
 pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+  left + right
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn it_works() {
+    let result = add(2, 2);
+    assert_eq!(result, 4);
+  }
 }
 ```
 
@@ -143,8 +143,8 @@ The `cargo test` command runs all tests in our project, as shown in Listing
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.57s
-     Running unittests src/lib.rs (target/debug/deps/adder-01ad14159ff659ab)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.57s
+   Running unittests src/lib.rs (target/debug/deps/adder-01ad14159ff659ab)
 
 running 1 test
 test tests::it_works ... ok
@@ -193,18 +193,18 @@ Filename: src/lib.rs
 
 ```
 pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+  left + right
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn exploration() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn exploration() {
+    let result = add(2, 2);
+    assert_eq!(result, 4);
+  }
 }
 ```
 
@@ -214,8 +214,8 @@ Then, run `cargo test` again. The output now shows `exploration` instead of
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::exploration ... ok
@@ -241,23 +241,23 @@ src/lib.rs
 
 ```
 pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+  left + right
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn exploration() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn exploration() {
+    let result = add(2, 2);
+    assert_eq!(result, 4);
+  }
 
-    #[test]
-    fn another() {
-        panic!("Make this test fail");
-    }
+  #[test]
+  fn another() {
+    panic!("Make this test fail");
+  }
 }
 ```
 
@@ -270,8 +270,8 @@ Run the tests again using `cargo test`. The output should look like Listing
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.72s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.72s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 2 tests
 test tests::another ... FAILED
@@ -287,7 +287,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::another
+  tests::another
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -339,14 +339,14 @@ src/lib.rs
 ```
 #[derive(Debug)]
 struct Rectangle {
-    width: u32,
-    height: u32,
+  width: u32,
+  height: u32,
 }
 
 impl Rectangle {
-    fn can_hold(&self, other: &Rectangle) -> bool {
-        self.width > other.width && self.height > other.height
-    }
+  fn can_hold(&self, other: &Rectangle) -> bool {
+    self.width > other.width && self.height > other.height
+  }
 }
 ```
 
@@ -363,21 +363,21 @@ src/lib.rs
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn larger_can_hold_smaller() {
-        let larger = Rectangle {
-            width: 8,
-            height: 7,
-        };
-        let smaller = Rectangle {
-            width: 5,
-            height: 1,
-        };
+  #[test]
+  fn larger_can_hold_smaller() {
+    let larger = Rectangle {
+      width: 8,
+      height: 7,
+    };
+    let smaller = Rectangle {
+      width: 5,
+      height: 1,
+    };
 
-        assert!(larger.can_hold(&smaller));
-    }
+    assert!(larger.can_hold(&smaller));
+  }
 }
 ```
 
@@ -400,8 +400,8 @@ supposed to return `true`, so our test should pass. Let’s find out!
 ```
 $ cargo test
    Compiling rectangle v0.1.0 (file:///projects/rectangle)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
-     Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
+   Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
 
 running 1 test
 test tests::larger_can_hold_smaller ... ok
@@ -424,26 +424,26 @@ Filename: src/lib.rs
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn larger_can_hold_smaller() {
-        // --snip--
-    }
+  #[test]
+  fn larger_can_hold_smaller() {
+    // --snip--
+  }
 
-    #[test]
-    fn smaller_cannot_hold_larger() {
-        let larger = Rectangle {
-            width: 8,
-            height: 7,
-        };
-        let smaller = Rectangle {
-            width: 5,
-            height: 1,
-        };
+  #[test]
+  fn smaller_cannot_hold_larger() {
+    let larger = Rectangle {
+      width: 8,
+      height: 7,
+    };
+    let smaller = Rectangle {
+      width: 5,
+      height: 1,
+    };
 
-        assert!(!smaller.can_hold(&larger));
-    }
+    assert!(!smaller.can_hold(&larger));
+  }
 }
 ```
 
@@ -454,8 +454,8 @@ result, our test will pass if `can_hold` returns `false`:
 ```
 $ cargo test
    Compiling rectangle v0.1.0 (file:///projects/rectangle)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
-     Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
+   Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
 
 running 2 tests
 test tests::larger_can_hold_smaller ... ok
@@ -479,9 +479,9 @@ when it compares the widths:
 ```
 // --snip--
 impl Rectangle {
-    fn can_hold(&self, other: &Rectangle) -> bool {
-        self.width < other.width && self.height > other.height
-    }
+  fn can_hold(&self, other: &Rectangle) -> bool {
+    self.width < other.width && self.height > other.height
+  }
 }
 ```
 
@@ -490,8 +490,8 @@ Running the tests now produces the following:
 ```
 $ cargo test
    Compiling rectangle v0.1.0 (file:///projects/rectangle)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
-     Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
+   Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
 
 running 2 tests
 test tests::larger_can_hold_smaller ... FAILED
@@ -507,7 +507,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::larger_can_hold_smaller
+  tests::larger_can_hold_smaller
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -542,18 +542,18 @@ src/lib.rs
 
 ```
 pub fn add_two(a: u64) -> u64 {
-    a + 2
+  a + 2
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn it_adds_two() {
-        let result = add_two(2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn it_adds_two() {
+    let result = add_two(2);
+    assert_eq!(result, 4);
+  }
 }
 ```
 
@@ -564,8 +564,8 @@ Let’s check that it passes!
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::it_adds_two ... ok
@@ -589,7 +589,7 @@ fails. Change the implementation of the `add_two` function to instead add `3`:
 
 ```
 pub fn add_two(a: u64) -> u64 {
-    a + 3
+  a + 3
 }
 ```
 
@@ -598,8 +598,8 @@ Run the tests again:
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::it_adds_two ... FAILED
@@ -616,7 +616,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::it_adds_two
+  tests::it_adds_two
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -677,18 +677,18 @@ Filename: src/lib.rs
 
 ```
 pub fn greeting(name: &str) -> String {
-    format!("Hello {name}!")
+  format!("Hello {name}!")
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn greeting_contains_name() {
-        let result = greeting("Carol");
-        assert!(result.contains("Carol"));
-    }
+  #[test]
+  fn greeting_contains_name() {
+    let result = greeting("Carol");
+    assert!(result.contains("Carol"));
+  }
 }
 ```
 
@@ -704,7 +704,7 @@ Now let’s introduce a bug into this code by changing `greeting` to exclude
 
 ```
 pub fn greeting(name: &str) -> String {
-    String::from("Hello!")
+  String::from("Hello!")
 }
 ```
 
@@ -713,8 +713,8 @@ Running this test produces the following:
 ```
 $ cargo test
    Compiling greeter v0.1.0 (file:///projects/greeter)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.91s
-     Running unittests src/lib.rs (target/debug/deps/greeter-170b942eb5bf5e3a)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.91s
+   Running unittests src/lib.rs (target/debug/deps/greeter-170b942eb5bf5e3a)
 
 running 1 test
 test tests::greeting_contains_name ... FAILED
@@ -729,7 +729,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::greeting_contains_name
+  tests::greeting_contains_name
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -743,14 +743,14 @@ string with a placeholder filled in with the actual value we got from the
 `greeting` function:
 
 ```
-    #[test]
-    fn greeting_contains_name() {
-        let result = greeting("Carol");
-        assert!(
-            result.contains("Carol"),
-            "Greeting did not contain name, value was `{result}`"
-        );
-    }
+#[test]
+fn greeting_contains_name() {
+  let result = greeting("Carol");
+  assert!(
+    result.contains("Carol"),
+    "Greeting did not contain name, value was `{result}`"
+  );
+}
 ```
 
 Now when we run the test, we’ll get a more informative error message:
@@ -758,8 +758,8 @@ Now when we run the test, we’ll get a more informative error message:
 ```
 $ cargo test
    Compiling greeter v0.1.0 (file:///projects/greeter)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.93s
-     Running unittests src/lib.rs (target/debug/deps/greeter-170b942eb5bf5e3a)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.93s
+   Running unittests src/lib.rs (target/debug/deps/greeter-170b942eb5bf5e3a)
 
 running 1 test
 test tests::greeting_contains_name ... FAILED
@@ -774,7 +774,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::greeting_contains_name
+  tests::greeting_contains_name
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -804,28 +804,28 @@ src/lib.rs
 
 ```
 pub struct Guess {
-    value: i32,
+  value: i32,
 }
 
 impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if value < 1 || value > 100 {
-            panic!("Guess value must be between 1 and 100, got {value}.");
-        }
-
-        Guess { value }
+  pub fn new(value: i32) -> Guess {
+    if value < 1 || value > 100 {
+      panic!("Guess value must be between 1 and 100, got {value}.");
     }
+
+    Guess { value }
+  }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    #[should_panic]
-    fn greater_than_100() {
-        Guess::new(200);
-    }
+  #[test]
+  #[should_panic]
+  fn greater_than_100() {
+    Guess::new(200);
+  }
 }
 ```
 
@@ -838,8 +838,8 @@ passes:
 ```
 $ cargo test
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
-     Running unittests src/lib.rs (target/debug/deps/guessing_game-57d70c3acb738f4d)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
+   Running unittests src/lib.rs (target/debug/deps/guessing_game-57d70c3acb738f4d)
 
 running 1 test
 test tests::greater_than_100 - should panic ... ok
@@ -860,13 +860,13 @@ that the `new` function will panic if the value is greater than 100:
 ```
 // --snip--
 impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if value < 1 {
-            panic!("Guess value must be between 1 and 100, got {value}.");
-        }
-
-        Guess { value }
+  pub fn new(value: i32) -> Guess {
+    if value < 1 {
+      panic!("Guess value must be between 1 and 100, got {value}.");
     }
+
+    Guess { value }
+  }
 }
 ```
 
@@ -875,8 +875,8 @@ When we run the test in Listing 11-8, it will fail:
 ```
 $ cargo test
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s
-     Running unittests src/lib.rs (target/debug/deps/guessing_game-57d70c3acb738f4d)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s
+   Running unittests src/lib.rs (target/debug/deps/guessing_game-57d70c3acb738f4d)
 
 running 1 test
 test tests::greater_than_100 - should panic ... FAILED
@@ -884,10 +884,10 @@ test tests::greater_than_100 - should panic ... FAILED
 failures:
 
 ---- tests::greater_than_100 stdout ----
-note: test did not panic as expected
+note: test did not panic as expected at src/lib.rs:21:8
 
 failures:
-    tests::greater_than_100
+  tests::greater_than_100
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -913,30 +913,30 @@ src/lib.rs
 // --snip--
 
 impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if value < 1 {
-            panic!(
-                "Guess value must be greater than or equal to 1, got {value}."
-            );
-        } else if value > 100 {
-            panic!(
-                "Guess value must be less than or equal to 100, got {value}."
-            );
-        }
-
-        Guess { value }
+  pub fn new(value: i32) -> Guess {
+    if value < 1 {
+      panic!(
+        "Guess value must be greater than or equal to 1, got {value}."
+      );
+    } else if value > 100 {
+      panic!(
+        "Guess value must be less than or equal to 100, got {value}."
+      );
     }
+
+    Guess { value }
+  }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    #[should_panic(expected = "less than or equal to 100")]
-    fn greater_than_100() {
-        Guess::new(200);
-    }
+  #[test]
+  #[should_panic(expected = "less than or equal to 100")]
+  fn greater_than_100() {
+    Guess::new(200);
+  }
 }
 ```
 
@@ -955,15 +955,15 @@ fails, let’s again introduce a bug into our code by swapping the bodies of the
 `if value < 1` and the `else if value > 100` blocks:
 
 ```
-        if value < 1 {
-            panic!(
-                "Guess value must be less than or equal to 100, got {value}."
-            );
-        } else if value > 100 {
-            panic!(
-                "Guess value must be greater than or equal to 1, got {value}."
-            );
-        }
+if value < 1 {
+  panic!(
+    "Guess value must be less than or equal to 100, got {value}."
+  );
+} else if value > 100 {
+  panic!(
+    "Guess value must be greater than or equal to 1, got {value}."
+  );
+}
 ```
 
 This time when we run the `should_panic` test, it will fail:
@@ -971,8 +971,8 @@ This time when we run the `should_panic` test, it will fail:
 ```
 $ cargo test
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
-     Running unittests src/lib.rs (target/debug/deps/guessing_game-57d70c3acb738f4d)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
+   Running unittests src/lib.rs (target/debug/deps/guessing_game-57d70c3acb738f4d)
 
 running 1 test
 test tests::greater_than_100 - should panic ... FAILED
@@ -985,11 +985,11 @@ thread 'tests::greater_than_100' panicked at src/lib.rs:12:13:
 Guess value must be greater than or equal to 1, got 200.
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 note: panic did not contain expected string
-      panic message: `"Guess value must be greater than or equal to 1, got 200."`,
- expected substring: `"less than or equal to 100"`
+    panic message: "Guess value must be greater than or equal to 1, got 200."
+ expected substring: "less than or equal to 100"
 
 failures:
-    tests::greater_than_100
+  tests::greater_than_100
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -1008,18 +1008,18 @@ All of our tests so far panic when they fail. We can also write tests that use
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn it_works() -> Result<(), String> {
-        let result = add(2, 2);
+  #[test]
+  fn it_works() -> Result<(), String> {
+    let result = add(2, 2);
 
-        if result == 4 {
-            Ok(())
-        } else {
-            Err(String::from("two plus two does not equal four"))
-        }
+    if result == 4 {
+      Ok(())
+    } else {
+      Err(String::from("two plus two does not equal four"))
     }
+  }
 }
 ```
 
@@ -1105,25 +1105,25 @@ src/lib.rs
 
 ```
 fn prints_and_returns_10(a: i32) -> i32 {
-    println!("I got the value {a}");
-    10
+  println!("I got the value {a}");
+  10
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn this_test_will_pass() {
-        let value = prints_and_returns_10(4);
-        assert_eq!(value, 10);
-    }
+  #[test]
+  fn this_test_will_pass() {
+    let value = prints_and_returns_10(4);
+    assert_eq!(value, 10);
+  }
 
-    #[test]
-    fn this_test_will_fail() {
-        let value = prints_and_returns_10(8);
-        assert_eq!(value, 5);
-    }
+  #[test]
+  fn this_test_will_fail() {
+    let value = prints_and_returns_10(8);
+    assert_eq!(value, 5);
+  }
 }
 ```
 
@@ -1134,8 +1134,8 @@ When we run these tests with `cargo test`, we’ll see the following output:
 ```
 $ cargo test
    Compiling silly-function v0.1.0 (file:///projects/silly-function)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
-     Running unittests src/lib.rs (target/debug/deps/silly_function-160869f38cff9166)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
+   Running unittests src/lib.rs (target/debug/deps/silly_function-160869f38cff9166)
 
 running 2 tests
 test tests::this_test_will_fail ... FAILED
@@ -1154,7 +1154,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::this_test_will_fail
+  tests::this_test_will_fail
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -1179,8 +1179,8 @@ see the following output:
 ```
 $ cargo test -- --show-output
    Compiling silly-function v0.1.0 (file:///projects/silly-function)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.60s
-     Running unittests src/lib.rs (target/debug/deps/silly_function-160869f38cff9166)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.60s
+   Running unittests src/lib.rs (target/debug/deps/silly_function-160869f38cff9166)
 
 running 2 tests
 test tests::this_test_will_fail ... FAILED
@@ -1193,7 +1193,7 @@ I got the value 4
 
 
 successes:
-    tests::this_test_will_pass
+  tests::this_test_will_pass
 
 failures:
 
@@ -1208,7 +1208,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 failures:
-    tests::this_test_will_fail
+  tests::this_test_will_fail
 
 test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -1229,30 +1229,30 @@ src/lib.rs
 
 ```
 pub fn add_two(a: u64) -> u64 {
-    a + 2
+  a + 2
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn add_two_and_two() {
-        let result = add_two(2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn add_two_and_two() {
+    let result = add_two(2);
+    assert_eq!(result, 4);
+  }
 
-    #[test]
-    fn add_three_and_two() {
-        let result = add_two(3);
-        assert_eq!(result, 5);
-    }
+  #[test]
+  fn add_three_and_two() {
+    let result = add_two(3);
+    assert_eq!(result, 5);
+  }
 
-    #[test]
-    fn one_hundred() {
-        let result = add_two(100);
-        assert_eq!(result, 102);
-    }
+  #[test]
+  fn one_hundred() {
+    let result = add_two(100);
+    assert_eq!(result, 102);
+  }
 }
 ```
 
@@ -1264,8 +1264,8 @@ tests will run in parallel:
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 3 tests
 test tests::add_three_and_two ... ok
@@ -1289,8 +1289,8 @@ We can pass the name of any test function to `cargo test` to run only that test:
 ```
 $ cargo test one_hundred
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.69s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.69s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::one_hundred ... ok
@@ -1315,8 +1315,8 @@ run those two by running `cargo test add`:
 ```
 $ cargo test add
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 2 tests
 test tests::add_three_and_two ... ok
@@ -1348,19 +1348,19 @@ Filename: src/lib.rs
 ```
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn it_works() {
+    let result = add(2, 2);
+    assert_eq!(result, 4);
+  }
 
-    #[test]
-    #[ignore]
-    fn expensive_test() {
-        // code that takes an hour to run
-    }
+  #[test]
+  #[ignore]
+  fn expensive_test() {
+    // code that takes an hour to run
+  }
 }
 ```
 
@@ -1370,8 +1370,8 @@ Now when we run our tests, `it_works` runs, but `expensive_test` doesn’t:
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.60s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.60s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 2 tests
 test tests::expensive_test ... ignored
@@ -1393,8 +1393,8 @@ the ignored tests, we can use `cargo test -- --ignored`:
 ```
 $ cargo test -- --ignored
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::expensive_test ... ok
@@ -1455,18 +1455,18 @@ Filename: src/lib.rs
 
 ```
 pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+  left + right
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn it_works() {
+    let result = add(2, 2);
+    assert_eq!(result, 4);
+  }
 }
 ```
 
@@ -1494,22 +1494,22 @@ src/lib.rs
 
 ```
 pub fn add_two(a: u64) -> u64 {
-    internal_adder(a, 2)
+  internal_adder(a, 2)
 }
 
 fn internal_adder(left: u64, right: u64) -> u64 {
-    left + right
+  left + right
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn internal() {
-        let result = internal_adder(2, 2);
-        assert_eq!(result, 4);
-    }
+  #[test]
+  fn internal() {
+    let result = internal_adder(2, 2);
+    assert_eq!(result, 4);
+  }
 }
 ```
 
@@ -1552,7 +1552,7 @@ adder
 ├── src
 │   └── lib.rs
 └── tests
-    └── integration_test.rs
+  └── integration_test.rs
 ```
 
 Enter the code in Listing 11-13 into the *tests/integration_test.rs* file.
@@ -1564,8 +1564,8 @@ use adder::add_two;
 
 #[test]
 fn it_adds_two() {
-    let result = add_two(2);
-    assert_eq!(result, 4);
+  let result = add_two(2);
+  assert_eq!(result, 4);
 }
 ```
 
@@ -1581,15 +1581,15 @@ in this directory only when we run `cargo test`. Run `cargo test` now:
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.31s
-     Running unittests src/lib.rs (target/debug/deps/adder-1082c4b063a8fbe6)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 1.31s
+   Running unittests src/lib.rs (target/debug/deps/adder-1082c4b063a8fbe6)
 
 running 1 test
 test tests::internal ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running tests/integration_test.rs (target/debug/deps/integration_test-1082c4b063a8fbe6)
+   Running tests/integration_test.rs (target/debug/deps/integration_test-1082c4b063a8fbe6)
 
 running 1 test
 test it_adds_two ... ok
@@ -1629,8 +1629,8 @@ followed by the name of the file:
 ```
 $ cargo test --test integration_test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.64s
-     Running tests/integration_test.rs (target/debug/deps/integration_test-82e7799c1bc62298)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.64s
+   Running tests/integration_test.rs (target/debug/deps/integration_test-82e7799c1bc62298)
 
 running 1 test
 test it_adds_two ... ok
@@ -1664,7 +1664,7 @@ Filename: tests/common.rs
 
 ```
 pub fn setup() {
-    // setup code specific to your library's tests would go here
+  // setup code specific to your library's tests would go here
 }
 ```
 
@@ -1675,21 +1675,21 @@ did we call the `setup` function from anywhere:
 ```
 $ cargo test
    Compiling adder v0.1.0 (file:///projects/adder)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.89s
-     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+  Finished `test` profile [unoptimized + debuginfo] target(s) in 0.89s
+   Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
 
 running 1 test
 test tests::internal ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running tests/common.rs (target/debug/deps/common-92948b65e88960b4)
+   Running tests/common.rs (target/debug/deps/common-92948b65e88960b4)
 
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running tests/integration_test.rs (target/debug/deps/integration_test-92948b65e88960b4)
+   Running tests/integration_test.rs (target/debug/deps/integration_test-92948b65e88960b4)
 
 running 1 test
 test it_adds_two ... ok
@@ -1716,9 +1716,9 @@ project directory now looks like this:
 ├── src
 │   └── lib.rs
 └── tests
-    ├── common
-    │   └── mod.rs
-    └── integration_test.rs
+  ├── common
+  │   └── mod.rs
+  └── integration_test.rs
 ```
 
 This is the older naming convention that Rust also understands that we mentioned
@@ -1742,10 +1742,10 @@ mod common;
 
 #[test]
 fn it_adds_two() {
-    common::setup();
+  common::setup();
 
-    let result = add_two(2);
-    assert_eq!(result, 4);
+  let result = add_two(2);
+  assert_eq!(result, 4);
 }
 ```
 

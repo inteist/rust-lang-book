@@ -49,10 +49,10 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = 5;
-    println!("The value of x is: {x}");
-    x = 6;
-    println!("The value of x is: {x}");
+  let x = 5;
+  println!("The value of x is: {x}");
+  x = 6;
+  println!("The value of x is: {x}");
 }
 ```
 
@@ -111,10 +111,10 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let mut x = 5;
-    println!("The value of x is: {x}");
-    x = 6;
-    println!("The value of x is: {x}");
+  let mut x = 5;
+  println!("The value of x is: {x}");
+  x = 6;
+  println!("The value of x is: {x}");
 }
 ```
 
@@ -123,8 +123,8 @@ When we run the program now, we get this:
 ```
 $ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
-     Running `target/debug/variables`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
+   Running `target/debug/variables`
 The value of x is: 5
 The value of x is: 6
 ```
@@ -200,16 +200,16 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = 5;
+  let x = 5;
 
-    let x = x + 1;
+  let x = x + 1;
 
-    {
-        let x = x * 2;
-        println!("The value of x in the inner scope is: {x}");
-    }
+  {
+    let x = x * 2;
+    println!("The value of x in the inner scope is: {x}");
+  }
 
-    println!("The value of x is: {x}");
+  println!("The value of x is: {x}");
 }
 ```
 
@@ -224,8 +224,8 @@ When we run this program, it will output the following:
 ```
 $ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
-     Running `target/debug/variables`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+   Running `target/debug/variables`
 The value of x in the inner scope is: 12
 The value of x is: 6
 ```
@@ -243,8 +243,8 @@ program asks a user to show how many spaces they want between some text by
 inputting space characters, and then we want to store that input as a number:
 
 ```
-    let spaces = "   ";
-    let spaces = spaces.len();
+let spaces = "   ";
+let spaces = spaces.len();
 ```
 
 The first `spaces` variable is a string type, and the second `spaces` variable
@@ -254,8 +254,8 @@ the simpler `spaces` name. However, if we try to use `mut` for this, as shown
 here, we’ll get a compile-time error:
 
 ```
-    let mut spaces = "   ";
-    spaces = spaces.len();
+let mut spaces = "   ";
+spaces = spaces.len();
 ```
 
 The error says we’re not allowed to mutate a variable’s type:
@@ -432,9 +432,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = 2.0; // f64
+  // f64
+  let x = 2.0;
 
-    let y: f32 = 3.0; // f32
+  // f32
+  let y: f32 = 3.0;
 }
 ```
 
@@ -451,21 +453,22 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    // addition
-    let sum = 5 + 10;
+  // addition
+  let sum = 5 + 10;
 
-    // subtraction
-    let difference = 95.5 - 4.3;
+  // subtraction
+  let difference = 95.5 - 4.3;
 
-    // multiplication
-    let product = 4 * 30;
+  // multiplication
+  let product = 4 * 30;
 
-    // division
-    let quotient = 56.7 / 32.2;
-    let truncated = -5 / 3; // Results in -1
+  // division
+  let quotient = 56.7 / 32.2;
+  // Results in -1
+  let truncated = -5 / 3;
 
-    // remainder
-    let remainder = 43 % 5;
+  // remainder
+  let remainder = 43 % 5;
 }
 ```
 
@@ -484,9 +487,10 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let t = true;
+  let t = true;
 
-    let f: bool = false; // with explicit type annotation
+  // with explicit type annotation
+  let f: bool = false;
 }
 ```
 
@@ -503,9 +507,10 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let c = 'z';
-    let z: char = 'ℤ'; // with explicit type annotation
-    let heart_eyed_cat = '😻';
+  let c = 'z';
+  // with explicit type annotation
+  let z: char = 'ℤ';
+  let heart_eyed_cat = '😻';
 }
 ```
 
@@ -540,7 +545,7 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let tup: (i32, f64, u8) = (500, 6.4, 1);
+  let tup: (i32, f64, u8) = (500, 6.4, 1);
 }
 ```
 
@@ -552,11 +557,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let tup = (500, 6.4, 1);
+  let tup = (500, 6.4, 1);
 
-    let (x, y, z) = tup;
+  let (x, y, z) = tup;
 
-    println!("The value of y is: {y}");
+  println!("The value of y is: {y}");
 }
 ```
 
@@ -573,13 +578,13 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x: (i32, f64, u8) = (500, 6.4, 1);
+  let x: (i32, f64, u8) = (500, 6.4, 1);
 
-    let five_hundred = x.0;
+  let five_hundred = x.0;
 
-    let six_point_four = x.1;
+  let six_point_four = x.1;
 
-    let one = x.2;
+  let one = x.2;
 }
 ```
 
@@ -605,7 +610,7 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let a = [1, 2, 3, 4, 5];
+  let a = [1, 2, 3, 4, 5];
 }
 ```
 
@@ -626,7 +631,7 @@ it will always contain 12 elements:
 
 ```
 let months = ["January", "February", "March", "April", "May", "June", "July",
-              "August", "September", "October", "November", "December"];
+        "August", "September", "October", "November", "December"];
 ```
 
 You write an array’s type using square brackets with the type of each element,
@@ -665,10 +670,10 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let a = [1, 2, 3, 4, 5];
+  let a = [1, 2, 3, 4, 5];
 
-    let first = a[0];
-    let second = a[1];
+  let first = a[0];
+  let second = a[1];
 }
 ```
 
@@ -688,24 +693,24 @@ Filename: src/main.rs
 use std::io;
 
 fn main() {
-    let a = [1, 2, 3, 4, 5];
+  let a = [1, 2, 3, 4, 5];
 
-    println!("Please enter an array index.");
+  println!("Please enter an array index.");
 
-    let mut index = String::new();
+  let mut index = String::new();
 
-    io::stdin()
-        .read_line(&mut index)
-        .expect("Failed to read line");
+  io::stdin()
+    .read_line(&mut index)
+    .expect("Failed to read line");
 
-    let index: usize = index
-        .trim()
-        .parse()
-        .expect("Index entered was not a number");
+  let index: usize = index
+    .trim()
+    .parse()
+    .expect("Index entered was not a number");
 
-    let element = a[index];
+  let element = a[index];
 
-    println!("The value of the element at index {index} is: {element}");
+  println!("The value of the element at index {index} is: {element}");
 }
 ```
 
@@ -757,13 +762,13 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    println!("Hello, world!");
+  println!("Hello, world!");
 
-    another_function();
+  another_function();
 }
 
 fn another_function() {
-    println!("Another function.");
+  println!("Another function.");
 }
 ```
 
@@ -785,8 +790,8 @@ should see the following output:
 ```
 $ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.28s
-     Running `target/debug/functions`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.28s
+   Running `target/debug/functions`
 Hello, world!
 Another function.
 ```
@@ -811,11 +816,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    another_function(5);
+  another_function(5);
 }
 
 fn another_function(x: i32) {
-    println!("The value of x is: {x}");
+  println!("The value of x is: {x}");
 }
 ```
 
@@ -824,8 +829,8 @@ Try running this program; you should get the following output:
 ```
 $ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.21s
-     Running `target/debug/functions`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.21s
+   Running `target/debug/functions`
 The value of x is: 5
 ```
 
@@ -847,11 +852,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    print_labeled_measurement(5, 'h');
+  print_labeled_measurement(5, 'h');
 }
 
 fn print_labeled_measurement(value: i32, unit_label: char) {
-    println!("The measurement is: {value}{unit_label}");
+  println!("The measurement is: {value}{unit_label}");
 }
 ```
 
@@ -866,8 +871,8 @@ project’s *src/main.rs* file with the preceding example and run it using `carg
 ```
 $ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
-     Running `target/debug/functions`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+   Running `target/debug/functions`
 The measurement is: 5h
 ```
 
@@ -898,7 +903,7 @@ src/main.rs
 
 ```
 fn main() {
-    let y = 6;
+  let y = 6;
 }
 ```
 
@@ -915,7 +920,7 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = (let y = 6);
+  let x = (let y = 6);
 }
 ```
 
@@ -967,12 +972,12 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let y = {
-        let x = 3;
-        x + 1
-    };
+  let y = {
+    let x = 3;
+    x + 1
+  };
 
-    println!("The value of y is: {y}");
+  println!("The value of y is: {y}");
 }
 ```
 
@@ -980,8 +985,8 @@ This expression:
 
 ```
 {
-    let x = 3;
-    x + 1
+  let x = 3;
+  x + 1
 }
 ```
 
@@ -1006,13 +1011,13 @@ Filename: src/main.rs
 
 ```
 fn five() -> i32 {
-    5
+  5
 }
 
 fn main() {
-    let x = five();
+  let x = five();
 
-    println!("The value of x is: {x}");
+  println!("The value of x is: {x}");
 }
 ```
 
@@ -1024,8 +1029,8 @@ running this code; the output should look like this:
 ```
 $ cargo run
    Compiling functions v0.1.0 (file:///projects/functions)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
-     Running `target/debug/functions`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
+   Running `target/debug/functions`
 The value of x is: 5
 ```
 
@@ -1049,13 +1054,13 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = plus_one(5);
+  let x = plus_one(5);
 
-    println!("The value of x is: {x}");
+  println!("The value of x is: {x}");
 }
 
 fn plus_one(x: i32) -> i32 {
-    x + 1
+  x + 1
 }
 ```
 
@@ -1067,13 +1072,13 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let x = plus_one(5);
+  let x = plus_one(5);
 
-    println!("The value of x is: {x}");
+  println!("The value of x is: {x}");
 }
 
 fn plus_one(x: i32) -> i32 {
-    x + 1;
+  x + 1;
 }
 ```
 
@@ -1133,7 +1138,8 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let lucky_number = 7; // I'm feeling lucky today
+  // I'm feeling lucky today
+  let lucky_number = 7;
 }
 ```
 
@@ -1144,8 +1150,8 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    // I'm feeling lucky today
-    let lucky_number = 7;
+  // I'm feeling lucky today
+  let lucky_number = 7;
 }
 ```
 
@@ -1174,13 +1180,13 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let number = 3;
+  let number = 3;
 
-    if number < 5 {
-        println!("condition was true");
-    } else {
-        println!("condition was false");
-    }
+  if number < 5 {
+    println!("condition was true");
+  } else {
+    println!("condition was false");
+  }
 }
 ```
 
@@ -1203,8 +1209,8 @@ Try running this code; you should see the following output:
 ```
 $ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
-     Running `target/debug/branches`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+   Running `target/debug/branches`
 condition was true
 ```
 
@@ -1212,7 +1218,7 @@ Let’s try changing the value of `number` to a value that makes the condition
 `false` to see what happens:
 
 ```
-    let number = 7;
+let number = 7;
 ```
 
 Run the program again, and look at the output:
@@ -1220,8 +1226,8 @@ Run the program again, and look at the output:
 ```
 $ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
-     Running `target/debug/branches`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+   Running `target/debug/branches`
 condition was false
 ```
 
@@ -1233,11 +1239,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let number = 3;
+  let number = 3;
 
-    if number {
-        println!("number was three");
-    }
+  if number {
+    println!("number was three");
+  }
 }
 ```
 
@@ -1268,11 +1274,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let number = 3;
+  let number = 3;
 
-    if number != 0 {
-        println!("number was something other than zero");
-    }
+  if number != 0 {
+    println!("number was something other than zero");
+  }
 }
 ```
 
@@ -1287,17 +1293,17 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let number = 6;
+  let number = 6;
 
-    if number % 4 == 0 {
-        println!("number is divisible by 4");
-    } else if number % 3 == 0 {
-        println!("number is divisible by 3");
-    } else if number % 2 == 0 {
-        println!("number is divisible by 2");
-    } else {
-        println!("number is not divisible by 4, 3, or 2");
-    }
+  if number % 4 == 0 {
+    println!("number is divisible by 4");
+  } else if number % 3 == 0 {
+    println!("number is divisible by 3");
+  } else if number % 2 == 0 {
+    println!("number is divisible by 2");
+  } else {
+    println!("number is not divisible by 4, 3, or 2");
+  }
 }
 ```
 
@@ -1307,8 +1313,8 @@ see the following output:
 ```
 $ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
-     Running `target/debug/branches`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+   Running `target/debug/branches`
 number is divisible by 3
 ```
 
@@ -1332,10 +1338,10 @@ src/main.rs
 
 ```
 fn main() {
-    let condition = true;
-    let number = if condition { 5 } else { 6 };
+  let condition = true;
+  let number = if condition { 5 } else { 6 };
 
-    println!("The value of number is: {number}");
+  println!("The value of number is: {number}");
 }
 ```
 
@@ -1347,8 +1353,8 @@ expression. Run this code to see what happens:
 ```
 $ cargo run
    Compiling branches v0.1.0 (file:///projects/branches)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
-     Running `target/debug/branches`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
+   Running `target/debug/branches`
 The value of number is: 5
 ```
 
@@ -1364,11 +1370,11 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    let condition = true;
+  let condition = true;
 
-    let number = if condition { 5 } else { "six" };
+  let number = if condition { 5 } else { "six" };
 
-    println!("The value of number is: {number}");
+  println!("The value of number is: {number}");
 }
 ```
 
@@ -1421,9 +1427,9 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    loop {
-        println!("again!");
-    }
+  loop {
+    println!("again!");
+  }
 }
 ```
 
@@ -1441,8 +1447,8 @@ CTRL-C
 ```
 $ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
-     Running `target/debug/loops`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+   Running `target/debug/loops`
 again!
 again!
 again!
@@ -1476,17 +1482,17 @@ can use it, as shown here:
 
 ```
 fn main() {
-    let mut counter = 0;
+  let mut counter = 0;
 
-    let result = loop {
-        counter += 1;
+  let result = loop {
+    counter += 1;
 
-        if counter == 10 {
-            break counter * 2;
-        }
-    };
+    if counter == 10 {
+      break counter * 2;
+    }
+  };
 
-    println!("The result is {result}");
+  println!("The result is {result}");
 }
 ```
 
@@ -1515,25 +1521,25 @@ with a single quote. Here’s an example with two nested loops:
 
 ```
 fn main() {
-    let mut count = 0;
-    'counting_up: loop {
-        println!("count = {count}");
-        let mut remaining = 10;
+  let mut count = 0;
+  'counting_up: loop {
+    println!("count = {count}");
+    let mut remaining = 10;
 
-        loop {
-            println!("remaining = {remaining}");
-            if remaining == 9 {
-                break;
-            }
-            if count == 2 {
-                break 'counting_up;
-            }
-            remaining -= 1;
-        }
-
-        count += 1;
+    loop {
+      println!("remaining = {remaining}");
+      if remaining == 9 {
+        break;
+      }
+      if count == 2 {
+        break 'counting_up;
+      }
+      remaining -= 1;
     }
-    println!("End count = {count}");
+
+    count += 1;
+  }
+  println!("End count = {count}");
 }
 ```
 
@@ -1544,8 +1550,8 @@ doesn’t specify a label will exit the inner loop only. The `break 'counting_up
 ```
 $ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.58s
-     Running `target/debug/loops`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.58s
+   Running `target/debug/loops`
 count = 0
 remaining = 10
 remaining = 9
@@ -1576,15 +1582,15 @@ src/main.rs
 
 ```
 fn main() {
-    let mut number = 3;
+  let mut number = 3;
 
-    while number != 0 {
-        println!("{number}!");
+  while number != 0 {
+    println!("{number}!");
 
-        number -= 1;
-    }
+    number -= 1;
+  }
 
-    println!("LIFTOFF!!!");
+  println!("LIFTOFF!!!");
 }
 ```
 
@@ -1604,14 +1610,14 @@ src/main.rs
 
 ```
 fn main() {
-    let a = [10, 20, 30, 40, 50];
-    let mut index = 0;
+  let a = [10, 20, 30, 40, 50];
+  let mut index = 0;
 
-    while index < 5 {
-        println!("the value is: {}", a[index]);
+  while index < 5 {
+    println!("the value is: {}", a[index]);
 
-        index += 1;
-    }
+    index += 1;
+  }
 }
 ```
 
@@ -1625,8 +1631,8 @@ element in the array:
 ```
 $ cargo run
    Compiling loops v0.1.0 (file:///projects/loops)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.32s
-     Running `target/debug/loops`
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.32s
+   Running `target/debug/loops`
 the value is: 10
 the value is: 20
 the value is: 30
@@ -1652,11 +1658,11 @@ src/main.rs
 
 ```
 fn main() {
-    let a = [10, 20, 30, 40, 50];
+  let a = [10, 20, 30, 40, 50];
 
-    for element in a {
-        println!("the value is: {element}");
-    }
+  for element in a {
+    println!("the value is: {element}");
+  }
 }
 ```
 
@@ -1688,10 +1694,10 @@ Filename: src/main.rs
 
 ```
 fn main() {
-    for number in (1..4).rev() {
-        println!("{number}!");
-    }
-    println!("LIFTOFF!!!");
+  for number in (1..4).rev() {
+    println!("{number}!");
+  }
+  println!("LIFTOFF!!!");
 }
 ```
 

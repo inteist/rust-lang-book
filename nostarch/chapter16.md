@@ -105,17 +105,17 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {i} from the spawned thread!");
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..5 {
-        println!("hi number {i} from the main thread!");
-        thread::sleep(Duration::from_millis(1));
+  thread::spawn(|| {
+    for i in 1..10 {
+      println!("hi number {i} from the spawned thread!");
+      thread::sleep(Duration::from_millis(1));
     }
+  });
+
+  for i in 1..5 {
+    println!("hi number {i} from the main thread!");
+    thread::sleep(Duration::from_millis(1));
+  }
 }
 ```
 
@@ -180,19 +180,19 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {i} from the spawned thread!");
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..5 {
-        println!("hi number {i} from the main thread!");
-        thread::sleep(Duration::from_millis(1));
+  let handle = thread::spawn(|| {
+    for i in 1..10 {
+      println!("hi number {i} from the spawned thread!");
+      thread::sleep(Duration::from_millis(1));
     }
+  });
 
-    handle.join().unwrap();
+  for i in 1..5 {
+    println!("hi number {i} from the main thread!");
+    thread::sleep(Duration::from_millis(1));
+  }
+
+  handle.join().unwrap();
 }
 ```
 
@@ -237,19 +237,19 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {i} from the spawned thread!");
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    handle.join().unwrap();
-
-    for i in 1..5 {
-        println!("hi number {i} from the main thread!");
-        thread::sleep(Duration::from_millis(1));
+  let handle = thread::spawn(|| {
+    for i in 1..10 {
+      println!("hi number {i} from the spawned thread!");
+      thread::sleep(Duration::from_millis(1));
     }
+  });
+
+  handle.join().unwrap();
+
+  for i in 1..5 {
+    println!("hi number {i} from the main thread!");
+    thread::sleep(Duration::from_millis(1));
+  }
 }
 ```
 
@@ -302,13 +302,13 @@ src/main.rs
 use std::thread;
 
 fn main() {
-    let v = vec![1, 2, 3];
+  let v = vec![1, 2, 3];
 
-    let handle = thread::spawn(|| {
-        println!("Here's a vector: {v:?}");
-    });
+  let handle = thread::spawn(|| {
+    println!("Here's a vector: {v:?}");
+  });
 
-    handle.join().unwrap();
+  handle.join().unwrap();
 }
 ```
 
@@ -361,15 +361,16 @@ src/main.rs
 use std::thread;
 
 fn main() {
-    let v = vec![1, 2, 3];
+  let v = vec![1, 2, 3];
 
-    let handle = thread::spawn(|| {
-        println!("Here's a vector: {v:?}");
-    });
+  let handle = thread::spawn(|| {
+    println!("Here's a vector: {v:?}");
+  });
 
-    drop(v); // oh no!
+  // oh no!
+  drop(v);
 
-    handle.join().unwrap();
+  handle.join().unwrap();
 }
 ```
 
@@ -407,13 +408,13 @@ src/main.rs
 use std::thread;
 
 fn main() {
-    let v = vec![1, 2, 3];
+  let v = vec![1, 2, 3];
 
-    let handle = thread::spawn(move || {
-        println!("Here's a vector: {v:?}");
-    });
+  let handle = thread::spawn(move || {
+    println!("Here's a vector: {v:?}");
+  });
 
-    handle.join().unwrap();
+  handle.join().unwrap();
 }
 ```
 
@@ -432,16 +433,23 @@ $ cargo run
 error[E0382]: use of moved value: `v`
   --> src/main.rs:10:10
    |
-4  |     let v = vec![1, 2, 3];
+ 4 |     let v = vec![1, 2, 3];
    |         - move occurs because `v` has type `Vec<i32>`, which does not implement the `Copy` trait
-5  |
-6  |     let handle = thread::spawn(move || {
+ 5 |
+ 6 |     let handle = thread::spawn(move || {
    |                                ------- value moved into closure here
-7  |         println!("Here's a vector: {v:?}");
+ 7 |         println!("Here's a vector: {v:?}");
    |                                     - variable moved due to use in closure
 ...
 10 |     drop(v); // oh no!
    |          ^ value used here after move
+   |
+help: consider cloning the value before moving it into the closure
+   |
+ 6 ~     let value = v.clone();
+ 7 ~     let handle = thread::spawn(move || {
+ 8 ~         println!("Here's a vector: {value:?}");
+   |
 
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `threads` (bin "threads") due to 1 previous error
@@ -504,7 +512,7 @@ src/main.rs
 use std::sync::mpsc;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+  let (tx, rx) = mpsc::channel();
 }
 ```
 
@@ -541,12 +549,12 @@ use std::sync::mpsc;
 use std::thread;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+  let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-    });
+  thread::spawn(move || {
+    let val = String::from("hi");
+    tx.send(val).unwrap();
+  });
 }
 ```
 
@@ -575,15 +583,15 @@ use std::sync::mpsc;
 use std::thread;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+  let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-    });
+  thread::spawn(move || {
+    let val = String::from("hi");
+    tx.send(val).unwrap();
+  });
 
-    let received = rx.recv().unwrap();
-    println!("Got: {received}");
+  let received = rx.recv().unwrap();
+  println!("Got: {received}");
 }
 ```
 
@@ -641,16 +649,16 @@ use std::sync::mpsc;
 use std::thread;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+  let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-        println!("val is {val}");
-    });
+  thread::spawn(move || {
+    let val = String::from("hi");
+    tx.send(val).unwrap();
+    println!("val is {val}");
+  });
 
-    let received = rx.recv().unwrap();
-    println!("Got: {received}");
+  let received = rx.recv().unwrap();
+  println!("Got: {received}");
 }
 ```
 
@@ -667,14 +675,14 @@ us an error if we try to compile the code in Listing 16-9:
 $ cargo run
    Compiling message-passing v0.1.0 (file:///projects/message-passing)
 error[E0382]: borrow of moved value: `val`
-  --> src/main.rs:10:26
+  --> src/main.rs:10:27
    |
-8  |         let val = String::from("hi");
+ 8 |         let val = String::from("hi");
    |             --- move occurs because `val` has type `String`, which does not implement the `Copy` trait
-9  |         tx.send(val).unwrap();
+ 9 |         tx.send(val).unwrap();
    |                 --- value moved here
 10 |         println!("val is {val}");
-   |                          ^^^^^ value borrowed here after move
+   |                           ^^^ value borrowed here after move
    |
    = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
 
@@ -708,25 +716,25 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+  let (tx, rx) = mpsc::channel();
 
-    thread::spawn(move || {
-        let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("thread"),
-        ];
+  thread::spawn(move || {
+    let vals = vec![
+      String::from("hi"),
+      String::from("from"),
+      String::from("the"),
+      String::from("thread"),
+    ];
 
-        for val in vals {
-            tx.send(val).unwrap();
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
-
-    for received in rx {
-        println!("Got: {received}");
+    for val in vals {
+      tx.send(val).unwrap();
+      thread::sleep(Duration::from_secs(1));
     }
+  });
+
+  for received in rx {
+    println!("Got: {received}");
+  }
 }
 ```
 
@@ -773,44 +781,44 @@ by cloning the transmitter, as shown in Listing 16-11.
 src/main.rs
 
 ```
-    // --snip--
+// --snip--
 
-    let (tx, rx) = mpsc::channel();
+let (tx, rx) = mpsc::channel();
 
-    let tx1 = tx.clone();
-    thread::spawn(move || {
-        let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("thread"),
-        ];
+let tx1 = tx.clone();
+thread::spawn(move || {
+  let vals = vec![
+    String::from("hi"),
+    String::from("from"),
+    String::from("the"),
+    String::from("thread"),
+  ];
 
-        for val in vals {
-            tx1.send(val).unwrap();
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
+  for val in vals {
+    tx1.send(val).unwrap();
+    thread::sleep(Duration::from_secs(1));
+  }
+});
 
-    thread::spawn(move || {
-        let vals = vec![
-            String::from("more"),
-            String::from("messages"),
-            String::from("for"),
-            String::from("you"),
-        ];
+thread::spawn(move || {
+  let vals = vec![
+    String::from("more"),
+    String::from("messages"),
+    String::from("for"),
+    String::from("you"),
+  ];
 
-        for val in vals {
-            tx.send(val).unwrap();
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
+  for val in vals {
+    tx.send(val).unwrap();
+    thread::sleep(Duration::from_secs(1));
+  }
+});
 
-    for received in rx {
-        println!("Got: {received}");
-    }
+for received in rx {
+  println!("Got: {received}");
+}
 
-    // --snip--
+// --snip--
 ```
 
 Listing 16-11: Sending multiple messages from multiple producers
@@ -909,14 +917,14 @@ src/main.rs
 use std::sync::Mutex;
 
 fn main() {
-    let m = Mutex::new(5);
+  let m = Mutex::new(5);
 
-    {
-        let mut num = m.lock().unwrap();
-        *num = 6;
-    }
+  {
+    let mut num = m.lock().unwrap();
+    *num = 6;
+  }
 
-    println!("m = {m:?}");
+  println!("m = {m:?}");
 }
 ```
 
@@ -968,23 +976,23 @@ use std::sync::Mutex;
 use std::thread;
 
 fn main() {
-    let counter = Mutex::new(0);
-    let mut handles = vec![];
+  let counter = Mutex::new(0);
+  let mut handles = vec![];
 
-    for _ in 0..10 {
-        let handle = thread::spawn(move || {
-            let mut num = counter.lock().unwrap();
+  for _ in 0..10 {
+    let handle = thread::spawn(move || {
+      let mut num = counter.lock().unwrap();
 
-            *num += 1;
-        });
-        handles.push(handle);
-    }
+      *num += 1;
+    });
+    handles.push(handle);
+  }
 
-    for handle in handles {
-        handle.join().unwrap();
-    }
+  for handle in handles {
+    handle.join().unwrap();
+  }
 
-    println!("Result: {}", *counter.lock().unwrap());
+  println!("Result: {}", *counter.lock().unwrap());
 }
 ```
 
@@ -1011,12 +1019,12 @@ $ cargo run
 error[E0382]: borrow of moved value: `counter`
   --> src/main.rs:21:29
    |
-5  |     let counter = Mutex::new(0);
-   |         ------- move occurs because `counter` has type `Mutex<i32>`, which does not implement the `Copy` trait
+ 5 |     let counter = Mutex::new(0);
+   |         ------- move occurs because `counter` has type `std::sync::Mutex<i32>`, which does not implement the `Copy` trait
 ...
-8  |     for _ in 0..10 {
+ 8 |     for _ in 0..10 {
    |     -------------- inside of this loop
-9  |         let handle = thread::spawn(move || {
+ 9 |         let handle = thread::spawn(move || {
    |                                    ------- value moved into closure here, in previous iteration of loop
 ...
 21 |     println!("Result: {}", *counter.lock().unwrap());
@@ -1024,8 +1032,8 @@ error[E0382]: borrow of moved value: `counter`
    |
 help: consider moving the expression out of the loop so it is only moved once
    |
-8  ~     let mut value = counter.lock();
-9  ~     for _ in 0..10 {
+ 8 ~     let mut value = counter.lock();
+ 9 ~     for _ in 0..10 {
 10 |         let handle = thread::spawn(move || {
 11 ~             let mut num = value.unwrap();
    |
@@ -1054,24 +1062,24 @@ use std::sync::Mutex;
 use std::thread;
 
 fn main() {
-    let counter = Rc::new(Mutex::new(0));
-    let mut handles = vec![];
+  let counter = Rc::new(Mutex::new(0));
+  let mut handles = vec![];
 
-    for _ in 0..10 {
-        let counter = Rc::clone(&counter);
-        let handle = thread::spawn(move || {
-            let mut num = counter.lock().unwrap();
+  for _ in 0..10 {
+    let counter = Rc::clone(&counter);
+    let handle = thread::spawn(move || {
+      let mut num = counter.lock().unwrap();
 
-            *num += 1;
-        });
-        handles.push(handle);
-    }
+      *num += 1;
+    });
+    handles.push(handle);
+  }
 
-    for handle in handles {
-        handle.join().unwrap();
-    }
+  for handle in handles {
+    handle.join().unwrap();
+  }
 
-    println!("Result: {}", *counter.lock().unwrap());
+  println!("Result: {}", *counter.lock().unwrap());
 }
 ```
 
@@ -1083,7 +1091,7 @@ a lot:
 ```
 $ cargo run
    Compiling shared-state v0.1.0 (file:///projects/shared-state)
-error[E0277]: `Rc<Mutex<i32>>` cannot be sent between threads safely
+error[E0277]: `Rc<std::sync::Mutex<i32>>` cannot be sent between threads safely
   --> src/main.rs:11:36
    |
 11 |           let handle = thread::spawn(move || {
@@ -1096,16 +1104,16 @@ error[E0277]: `Rc<Mutex<i32>>` cannot be sent between threads safely
 13 | |
 14 | |             *num += 1;
 15 | |         });
-   | |_________^ `Rc<Mutex<i32>>` cannot be sent between threads safely
+   | |_________^ `Rc<std::sync::Mutex<i32>>` cannot be sent between threads safely
    |
-   = help: within `{closure@src/main.rs:11:36: 11:43}`, the trait `Send` is not implemented for `Rc<Mutex<i32>>`
+   = help: within `{closure@src/main.rs:11:36: 11:43}`, the trait `Send` is not implemented for `Rc<std::sync::Mutex<i32>>`
 note: required because it's used within this closure
   --> src/main.rs:11:36
    |
 11 |         let handle = thread::spawn(move || {
    |                                    ^^^^^^^
 note: required by a bound in `spawn`
-  --> /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/std/src/thread/mod.rs:728:1
+  --> /rustc/1159e78c4747b02ef996e55082b704c09b970588/library/std/src/thread/mod.rs:723:1
 
 For more information about this error, try `rustc --explain E0277`.
 error: could not compile `shared-state` (bin "shared-state") due to 1 previous error
@@ -1154,24 +1162,24 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 
 fn main() {
-    let counter = Arc::new(Mutex::new(0));
-    let mut handles = vec![];
+  let counter = Arc::new(Mutex::new(0));
+  let mut handles = vec![];
 
-    for _ in 0..10 {
-        let counter = Arc::clone(&counter);
-        let handle = thread::spawn(move || {
-            let mut num = counter.lock().unwrap();
+  for _ in 0..10 {
+    let counter = Arc::clone(&counter);
+    let handle = thread::spawn(move || {
+      let mut num = counter.lock().unwrap();
 
-            *num += 1;
-        });
-        handles.push(handle);
-    }
+      *num += 1;
+    });
+    handles.push(handle);
+  }
 
-    for handle in handles {
-        handle.join().unwrap();
-    }
+  for handle in handles {
+    handle.join().unwrap();
+  }
 
-    println!("Result: {}", *counter.lock().unwrap());
+  println!("Result: {}", *counter.lock().unwrap());
 }
 ```
 

@@ -101,7 +101,7 @@ command `cargo new my-project`:
 
 ```
 $ cargo new my-project
-     Created binary (application) `my-project` package
+   Created binary (application) `my-project` package
 $ ls my-project
 Cargo.toml
 src
@@ -184,10 +184,10 @@ backyard
 ├── Cargo.lock
 ├── Cargo.toml
 └── src
-    ├── garden
-    │   └── vegetables.rs
-    ├── garden.rs
-    └── main.rs
+  ├── garden
+  │   └── vegetables.rs
+  ├── garden.rs
+  └── main.rs
 ```
 
 The crate root file in this case is *src/main.rs*, and it contains:
@@ -200,8 +200,8 @@ use crate::garden::vegetables::Asparagus;
 pub mod garden;
 
 fn main() {
-    let plant = Asparagus {};
-    println!("I'm growing {plant:?}!");
+  let plant = Asparagus {};
+  println!("I'm growing {plant:?}!");
 }
 ```
 
@@ -258,19 +258,19 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    mod hosting {
-        fn add_to_waitlist() {}
+  mod hosting {
+    fn add_to_waitlist() {}
 
-        fn seat_at_table() {}
-    }
+    fn seat_at_table() {}
+  }
 
-    mod serving {
-        fn take_order() {}
+  mod serving {
+    fn take_order() {}
 
-        fn serve_order() {}
+    fn serve_order() {}
 
-        fn take_payment() {}
-    }
+    fn take_payment() {}
+  }
 }
 ```
 
@@ -290,7 +290,7 @@ to find the definitions relevant to them. Programmers adding new functionality
 to this code would know where to place the code to keep the program organized.
 
 Earlier, we mentioned that *src/main.rs* and *src/lib.rs* are called *crate
-roots*\_. The reason for their name is that the contents of either of these two
+roots*. The reason for their name is that the contents of either of these two
 files form a module named `crate` at the root of the crate’s module structure,
 known as the *module tree*.
 
@@ -300,13 +300,13 @@ Listing 7-2 shows the module tree for the structure in Listing 7-1.
 ```
 crate
  └── front_of_house
-     ├── hosting
-     │   ├── add_to_waitlist
-     │   └── seat_at_table
-     └── serving
-         ├── take_order
-         ├── serve_order
-         └── take_payment
+   ├── hosting
+   │   ├── add_to_waitlist
+   │   └── seat_at_table
+   └── serving
+     ├── take_order
+     ├── serve_order
+     └── take_payment
 ```
 
 Listing 7-2: The module tree for the code in Listing 7-1
@@ -358,17 +358,17 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    mod hosting {
-        fn add_to_waitlist() {}
-    }
+  mod hosting {
+    fn add_to_waitlist() {}
+  }
 }
 
 pub fn eat_at_restaurant() {
-    // Absolute path
-    crate::front_of_house::hosting::add_to_waitlist();
+  // Absolute path
+  crate::front_of_house::hosting::add_to_waitlist();
 
-    // Relative path
-    front_of_house::hosting::add_to_waitlist();
+  // Relative path
+  front_of_house::hosting::add_to_waitlist();
 }
 ```
 
@@ -435,7 +435,7 @@ error[E0603]: module `hosting` is private
 note: the module `hosting` is defined here
   --> src/lib.rs:2:5
    |
-2  |     mod hosting {
+ 2 |     mod hosting {
    |     ^^^^^^^^^^^
 
 For more information about this error, try `rustc --explain E0603`.
@@ -476,9 +476,9 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    pub mod hosting {
-        fn add_to_waitlist() {}
-    }
+  pub mod hosting {
+    fn add_to_waitlist() {}
+  }
 }
 
 // -- snip --
@@ -502,7 +502,7 @@ error[E0603]: function `add_to_waitlist` is private
 note: the function `add_to_waitlist` is defined here
   --> src/lib.rs:3:9
    |
-3  |         fn add_to_waitlist() {}
+ 3 |         fn add_to_waitlist() {}
    |         ^^^^^^^^^^^^^^^^^^^^
 
 error[E0603]: function `add_to_waitlist` is private
@@ -514,7 +514,7 @@ error[E0603]: function `add_to_waitlist` is private
 note: the function `add_to_waitlist` is defined here
   --> src/lib.rs:3:9
    |
-3  |         fn add_to_waitlist() {}
+ 3 |         fn add_to_waitlist() {}
    |         ^^^^^^^^^^^^^^^^^^^^
 
 For more information about this error, try `rustc --explain E0603`.
@@ -543,9 +543,9 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
+  pub mod hosting {
+    pub fn add_to_waitlist() {}
+  }
 }
 
 // -- snip --
@@ -625,12 +625,12 @@ src/lib.rs
 fn deliver_order() {}
 
 mod back_of_house {
-    fn fix_incorrect_order() {
-        cook_order();
-        super::deliver_order();
-    }
+  fn fix_incorrect_order() {
+    cook_order();
+    super::deliver_order();
+  }
 
-    fn cook_order() {}
+  fn cook_order() {}
 }
 ```
 
@@ -662,31 +662,31 @@ src/lib.rs
 
 ```
 mod back_of_house {
-    pub struct Breakfast {
-        pub toast: String,
-        seasonal_fruit: String,
-    }
+  pub struct Breakfast {
+    pub toast: String,
+    seasonal_fruit: String,
+  }
 
-    impl Breakfast {
-        pub fn summer(toast: &str) -> Breakfast {
-            Breakfast {
-                toast: String::from(toast),
-                seasonal_fruit: String::from("peaches"),
-            }
-        }
+  impl Breakfast {
+    pub fn summer(toast: &str) -> Breakfast {
+      Breakfast {
+        toast: String::from(toast),
+        seasonal_fruit: String::from("peaches"),
+      }
     }
+  }
 }
 
 pub fn eat_at_restaurant() {
-    // Order a breakfast in the summer with Rye toast.
-    let mut meal = back_of_house::Breakfast::summer("Rye");
-    // Change our mind about what bread we'd like.
-    meal.toast = String::from("Wheat");
-    println!("I'd like {} toast please", meal.toast);
+  // Order a breakfast in the summer with Rye toast.
+  let mut meal = back_of_house::Breakfast::summer("Rye");
+  // Change our mind about what bread we'd like.
+  meal.toast = String::from("Wheat");
+  println!("I'd like {} toast please", meal.toast);
 
-    // The next line won't compile if we uncomment it; we're not allowed
-    // to see or modify the seasonal fruit that comes with the meal.
-    // meal.seasonal_fruit = String::from("blueberries");
+  // The next line won't compile if we uncomment it; we're not allowed
+  // to see or modify the seasonal fruit that comes with the meal.
+  // meal.seasonal_fruit = String::from("blueberries");
 }
 ```
 
@@ -712,15 +712,15 @@ src/lib.rs
 
 ```
 mod back_of_house {
-    pub enum Appetizer {
-        Soup,
-        Salad,
-    }
+  pub enum Appetizer {
+    Soup,
+    Salad,
+  }
 }
 
 pub fn eat_at_restaurant() {
-    let order1 = back_of_house::Appetizer::Soup;
-    let order2 = back_of_house::Appetizer::Salad;
+  let order1 = back_of_house::Appetizer::Soup;
+  let order2 = back_of_house::Appetizer::Salad;
 }
 ```
 
@@ -757,15 +757,15 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
+  pub mod hosting {
+    pub fn add_to_waitlist() {}
+  }
 }
 
 use crate::front_of_house::hosting;
 
 pub fn eat_at_restaurant() {
-    hosting::add_to_waitlist();
+  hosting::add_to_waitlist();
 }
 ```
 
@@ -786,17 +786,17 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
+  pub mod hosting {
+    pub fn add_to_waitlist() {}
+  }
 }
 
 use crate::front_of_house::hosting;
 
 mod customer {
-    pub fn eat_at_restaurant() {
-        hosting::add_to_waitlist();
-    }
+  pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+  }
 }
 ```
 
@@ -808,12 +808,13 @@ The compiler error shows that the shortcut no longer applies within the
 ```
 $ cargo build
    Compiling restaurant v0.1.0 (file:///projects/restaurant)
-error[E0433]: failed to resolve: use of undeclared crate or module `hosting`
+error[E0433]: failed to resolve: use of unresolved module or unlinked crate `hosting`
   --> src/lib.rs:11:9
    |
 11 |         hosting::add_to_waitlist();
-   |         ^^^^^^^ use of undeclared crate or module `hosting`
+   |         ^^^^^^^ use of unresolved module or unlinked crate `hosting`
    |
+   = help: if you wanted to use a crate named `hosting`, use `cargo add hosting` to add it to your `Cargo.toml`
 help: consider importing this module through its public re-export
    |
 10 +     use crate::hosting;
@@ -847,15 +848,15 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
+  pub mod hosting {
+    pub fn add_to_waitlist() {}
+  }
 }
 
 use crate::front_of_house::hosting::add_to_waitlist;
 
 pub fn eat_at_restaurant() {
-    add_to_waitlist();
+  add_to_waitlist();
 }
 ```
 
@@ -880,8 +881,8 @@ src/main.rs
 use std::collections::HashMap;
 
 fn main() {
-    let mut map = HashMap::new();
-    map.insert(1, 2);
+  let mut map = HashMap::new();
+  map.insert(1, 2);
 }
 ```
 
@@ -902,11 +903,11 @@ use std::fmt;
 use std::io;
 
 fn function1() -> fmt::Result {
-    // --snip--
+  // --snip--
 }
 
 fn function2() -> io::Result<()> {
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -931,11 +932,11 @@ use std::fmt::Result;
 use std::io::Result as IoResult;
 
 fn function1() -> Result {
-    // --snip--
+  // --snip--
 }
 
 fn function2() -> IoResult<()> {
-    // --snip--
+  // --snip--
 }
 ```
 
@@ -962,15 +963,15 @@ src/lib.rs
 
 ```
 mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
+  pub mod hosting {
+    pub fn add_to_waitlist() {}
+  }
 }
 
 pub use crate::front_of_house::hosting;
 
 pub fn eat_at_restaurant() {
-    hosting::add_to_waitlist();
+  hosting::add_to_waitlist();
 }
 ```
 
@@ -1026,7 +1027,7 @@ scope and called the `rand::thread_rng` function:
 use rand::Rng;
 
 fn main() {
-    let secret_number = rand::thread_rng().gen_range(1..=100);
+  let secret_number = rand::thread_rng().gen_range(1..=100);
 }
 ```
 
@@ -1171,7 +1172,7 @@ mod front_of_house;
 pub use crate::front_of_house::hosting;
 
 pub fn eat_at_restaurant() {
-    hosting::add_to_waitlist();
+  hosting::add_to_waitlist();
 }
 ```
 
@@ -1186,7 +1187,7 @@ src/front_of_house.rs
 
 ```
 pub mod hosting {
-    pub fn add_to_waitlist() {}
+  pub fn add_to_waitlist() {}
 }
 ```
 
