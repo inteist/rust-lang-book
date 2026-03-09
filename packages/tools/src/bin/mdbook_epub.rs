@@ -986,12 +986,18 @@ fn highlight_source(
     syntax_set: &SyntaxSet,
     theme: &Theme,
 ) -> Result<String, String> {
-    // 1. Remove <span class="boring">...</span> blocks entirely (content included).
-    //    These contain mdbook scaffolding like #![allow(unused)], fn main() {, }
-    //    that should not appear in the EPUB output.
-    let boring_re = Regex::new(r#"(?s)<span class="boring">.*?</span>"#)
+    // 1. Convert <span class="boring">...</span> blocks into mdbook hidden
+    //    line markers (`# ...`) so the normalization pass can drop wrappers
+    //    while still dedenting visible code correctly.
+    let boring_re = Regex::new(
+        r#"(?s)<span[^>]*class="[^"]*\bboring\b[^"]*"[^>]*>(?P<inner>.*?)</span>"#,
+    )
         .map_err(|e| format!("Bad boring regex: {e}"))?;
-    let without_boring = boring_re.replace_all(raw_code_html, "");
+    let without_boring =
+        boring_re.replace_all(raw_code_html, |caps: &Captures<'_>| {
+            let inner = caps.name("inner").map(|m| m.as_str()).unwrap_or("");
+            hide_lines(inner)
+        });
 
     // 2. Strip remaining HTML tags (syntax highlight spans, etc.)
     let html_tag_re = Regex::new(r#"(?s)<[^>]+>"#)
@@ -999,10 +1005,9 @@ fn highlight_source(
     let unwrapped = html_tag_re.replace_all(&without_boring, "");
     let decoded = decode_html_entities(&unwrapped).to_string();
 
-    // 3. Convert 4-space indentation to 2-space for horizontal compactness
-    //    on e-readers. We process each line and replace leading groups of
-    //    4 spaces with 2 spaces.
-    let compact = reindent_code(&decoded, 4, 2);
+    // 3. Remove mdbook hidden wrapper lines and normalize indentation for
+    //    compact, correctly de-indented EPUB code blocks.
+    let compact = normalize_code_for_epub(&decoded);
 
     let syntax = syntax_set
         .find_syntax_by_token(language)
@@ -1026,28 +1031,91 @@ fn highlight_source(
     Ok(out)
 }
 
-/// Reindent code by replacing every `from_width` leading spaces with
-/// `to_width` spaces. Only touches the leading whitespace of each line.
-fn reindent_code(code: &str, from_width: usize, to_width: usize) -> String {
-    if from_width == to_width || from_width == 0 {
-        return code.to_string();
-    }
+/// Normalize decoded code text for EPUB output by removing mdbook hidden lines
+/// and converting indentation from 4 spaces to 2 spaces.
+fn normalize_code_for_epub(code: &str) -> String {
     let mut out = String::with_capacity(code.len());
-    for line in code.split('\n') {
-        let leading_spaces = line.len() - line.trim_start_matches(' ').len();
-        let indent_levels = leading_spaces / from_width;
-        let remainder = leading_spaces % from_width;
-        let new_indent = indent_levels * to_width + remainder;
-        for _ in 0..new_indent {
-            out.push(' ');
+    let mut dedent: usize = 0;
+    let mut need_newline = false;
+
+    for line in code.lines() {
+        let is_hidden = line.starts_with("# ") || line == "#";
+        if is_hidden {
+            let content = if line == "#" { "" } else { &line[2..] };
+            let trimmed = content.trim();
+
+            if trimmed.ends_with('{') {
+                dedent += 4;
+            } else if trimmed == "}" || trimmed == "};" || trimmed == "}," {
+                dedent = dedent.saturating_sub(4);
+            }
+            continue;
         }
-        out.push_str(&line[leading_spaces..]);
+
+        let after_dedent = if dedent > 0 {
+            let leading = line.len() - line.trim_start_matches(' ').len();
+            let strip = dedent.min(leading);
+            &line[strip..]
+        } else {
+            line
+        };
+
+        let reindented = reindent_line(after_dedent, 4, 2);
+        if need_newline {
+            out.push('\n');
+        }
+        out.push_str(&reindented);
+        need_newline = true;
+    }
+
+    if code.ends_with('\n') {
         out.push('\n');
     }
-    // Remove the trailing \n we added after the last split segment
-    if !code.ends_with('\n') && out.ends_with('\n') {
-        out.pop();
+
+    out
+}
+
+fn hide_lines(input: &str) -> String {
+    let mut out = String::with_capacity(input.len() + 16);
+
+    for seg in input.split_inclusive('\n') {
+        let has_newline = seg.ends_with('\n');
+        let line = if has_newline {
+            &seg[..seg.len() - 1]
+        } else {
+            seg
+        };
+
+        if line.is_empty() {
+            out.push('#');
+        } else {
+            out.push_str("# ");
+            out.push_str(line);
+        }
+
+        if has_newline {
+            out.push('\n');
+        }
     }
+
+    out
+}
+
+fn reindent_line(line: &str, from_width: usize, to_width: usize) -> String {
+    if from_width == to_width || from_width == 0 {
+        return line.to_string();
+    }
+    let leading_spaces = line.len() - line.trim_start_matches(' ').len();
+    let indent_levels = leading_spaces / from_width;
+    let remainder = leading_spaces % from_width;
+    let new_indent = indent_levels * to_width + remainder;
+
+    let mut out =
+        String::with_capacity(new_indent + line.len() - leading_spaces);
+    for _ in 0..new_indent {
+        out.push(' ');
+    }
+    out.push_str(&line[leading_spaces..]);
     out
 }
 
@@ -1235,9 +1303,9 @@ mod tests {
     use super::{
         DEFAULT_CODEBLOCK_FONT_SIZE, build_chapter_path_map, default_epub_css,
         extract_main_content, highlight_code_blocks, language_from_code_attrs,
-        media_type_for_path, parse_args_from, parse_summary,
-        preferred_highlight_theme, render_svg_to_png, rewrite_content_urls,
-        rewrite_href_url, rewrite_src_url,
+        media_type_for_path, normalize_code_for_epub, parse_args_from,
+        parse_summary, preferred_highlight_theme, render_svg_to_png,
+        rewrite_content_urls, rewrite_href_url, rewrite_src_url,
     };
     use std::collections::BTreeMap;
     use std::fs;
@@ -1367,6 +1435,20 @@ mod tests {
         assert!(out.contains("<pre class=\"playground\"><code>"));
         assert!(out.contains("fn"));
         assert!(!out.contains("class=\"language-rust\""));
+    }
+
+    #[test]
+    fn hidden_wrapper_lines_are_removed_and_body_is_dedented() {
+        let input = "# fn main() {\n    let s = \"hello\";\n# }\n";
+        let out = normalize_code_for_epub(input);
+        assert_eq!(out, "let s = \"hello\";\n");
+    }
+
+    #[test]
+    fn visible_code_is_reindented_for_compactness() {
+        let input = "fn main() {\n    let x = 1;\n}\n";
+        let out = normalize_code_for_epub(input);
+        assert_eq!(out, "fn main() {\n  let x = 1;\n}\n");
     }
 
     #[test]
