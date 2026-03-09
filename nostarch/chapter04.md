@@ -138,8 +138,8 @@ program with comments annotating where the variable `s` would be valid.
   let s = "hello";
 
   // do stuff with s
-// this scope is now over, and s is no longer valid
 }
+// this scope is now over, and s is no longer valid
 ```
 
 Listing 4-1: A variable and the scope in which it is valid
@@ -245,9 +245,8 @@ from Listing 4-1 using a `String` instead of a string literal:
   let s = String::from("hello");
 
   // do stuff with s
-// this scope is now over, and s is no
 }
-                   // longer valid
+// this scope is now over, and s is no longer valid
 ```
 
 There is a natural point at which we can return the memory our `String` needs
@@ -583,33 +582,28 @@ src/main.rs
 
 ```
 fn main() {
-  // gives_ownership moves its return
+  // gives_ownership moves its return value into s1
   let s1 = gives_ownership();
-                     // value into s1
 
   // s2 comes into scope
   let s2 = String::from("hello");
 
-  // s2 is moved into
+  // s2 is moved into takes_and_gives_back, which also
+  // moves its return value into s3
   let s3 = takes_and_gives_back(s2);
-                     // takes_and_gives_back, which also
-                     // moves its return value into s3
-// Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
 }
-  // happens. s1 goes out of scope and is dropped.
+// Here, s3 goes out of scope and is dropped. s2 was moved, so nothing
+// happens. s1 goes out of scope and is dropped.
 
-// gives_ownership will move its
+// gives_ownership will move its return value into the function
+// that calls it
 fn gives_ownership() -> String {
-                     // return value into the function
-                     // that calls it
 
   // some_string comes into scope
   let some_string = String::from("yours");
 
-  // some_string is returned and
+  // some_string is returned and moves out to the calling function
   some_string
-                     // moves out to the calling
-                     // function
 }
 
 // This function takes a String and returns a String.
@@ -731,9 +725,9 @@ the parameter `s` is a reference. Let’s add some explanatory annotations:
 // s is a reference to a String
 fn calculate_length(s: &String) -> usize {
   s.len()
-// Here, s goes out of scope. But because s does not have ownership of what
 }
-  // it refers to, the String is not dropped.
+// Here, s goes out of scope. But because s does not have ownership of what
+// it refers to, the String is not dropped.
 ```
 
 The scope in which the variable `s` is valid is the same as any function
@@ -1041,9 +1035,9 @@ fn dangle() -> &String {
 
   // we return a reference to the String, s
   &s
-// Here, s goes out of scope and is dropped, so its memory goes away.
 }
-  // Danger!
+// Here, s goes out of scope and is dropped, so its memory goes away.
+// Danger!
 ```
 
 
