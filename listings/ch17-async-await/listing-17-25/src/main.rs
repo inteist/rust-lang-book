@@ -1,4 +1,5 @@
-extern crate trpl; // for mdbook test
+// for mdbook test
+extern crate trpl;
 
 // ANCHOR: all
 use std::{thread, time::Duration};

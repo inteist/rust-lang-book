@@ -1,11 +1,14 @@
 // ANCHOR: here
-struct QuitMessage; // unit struct
+// unit struct
+struct QuitMessage;
 struct MoveMessage {
     x: i32,
     y: i32,
 }
-struct WriteMessage(String); // tuple struct
-struct ChangeColorMessage(i32, i32, i32); // tuple struct
+// tuple struct
+struct WriteMessage(String);
+// tuple struct
+struct ChangeColorMessage(i32, i32, i32);
 // ANCHOR_END: here
 
 fn main() {}

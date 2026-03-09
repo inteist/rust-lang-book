@@ -16,7 +16,8 @@ fn main() {
 
     let word = first_word(&s);
 
-    s.clear(); // error!
+    // error!
+    s.clear();
 
     println!("the first word is: {word}");
 }

@@ -1,4 +1,5 @@
-extern crate trpl; // required for mdbook test
+// required for mdbook test
+extern crate trpl;
 
 fn main() {
     trpl::block_on(async {

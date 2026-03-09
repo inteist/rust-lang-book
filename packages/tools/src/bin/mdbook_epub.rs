@@ -836,16 +836,19 @@ li {{
 
 pre,
 code {{
-  font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
-    font-size: {:.4}em;
+        font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+        font-size: {:.4}em;
 }}
 
 pre {{
     white-space: pre;
     overflow-x: auto;
-  padding: 0.75rem;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px;
+        margin: 0.5rem 0;
     border: 1px solid #d7d7d7;
-  border-radius: 0.25rem;
+        border-radius: 0.25rem;
     background: #f8f8f8;
 }}
 
@@ -1405,6 +1408,13 @@ mod tests {
     fn epub_css_contains_configured_codeblock_font_size() {
         let css = default_epub_css(0.92);
         assert!(css.contains("font-size: 0.9200em;"));
+    }
+
+    #[test]
+    fn epub_css_uses_compact_full_width_code_blocks() {
+        let css = default_epub_css(1.0);
+        assert!(css.contains("width: 100%;"));
+        assert!(css.contains("padding: 4px;"));
     }
 
     fn temp_path(label: &str) -> std::path::PathBuf {

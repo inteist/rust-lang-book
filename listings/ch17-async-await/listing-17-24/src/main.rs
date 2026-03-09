@@ -1,4 +1,5 @@
-extern crate trpl; // required for mdbook test
+// required for mdbook test
+extern crate trpl;
 
 // ANCHOR: here
 use std::pin::{Pin, pin};

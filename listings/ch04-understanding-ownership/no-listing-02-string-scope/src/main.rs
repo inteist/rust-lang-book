@@ -1,10 +1,12 @@
 fn main() {
     // ANCHOR: here
     {
-        let s = String::from("hello"); // s is valid from this point forward
+        // s is valid from this point forward
+        let s = String::from("hello");
 
         // do stuff with s
-    }                                  // this scope is now over, and s is no
+    // this scope is now over, and s is no
+    }
                                        // longer valid
     // ANCHOR_END: here
 }
