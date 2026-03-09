@@ -177,8 +177,10 @@ section in Chapter 3. To make a variable mutable, we add `mut` before the
 variable name:
 
 ```
-let apples = 5; // immutable
-let mut bananas = 5; // mutable
+// immutable
+let apples = 5;
+// mutable
+let mut bananas = 5;
 ```
 
 > Note: The `//` syntax starts a comment that continues until the end of the

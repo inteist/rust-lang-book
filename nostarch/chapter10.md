@@ -1435,9 +1435,12 @@ reference to an `i32` that has a lifetime parameter named `'a`, and a mutable
 reference to an `i32` that also has the lifetime `'a`:
 
 ```
-&i32        // a reference
-&'a i32     // a reference with an explicit lifetime
-&'a mut i32 // a mutable reference with an explicit lifetime
+// a reference
+&i32
+// a reference with an explicit lifetime
+&'a i32
+// a mutable reference with an explicit lifetime
+&'a mut i32
 ```
 
 One lifetime annotation by itself doesn’t have much meaning, because the
